@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: TaskRun
 metadata:
-  generateName: sleep-run-
+  generateName: pause-run-
 spec:
   taskRef:
     resolver: git
@@ -9,7 +9,7 @@ spec:
       - name: repo
         value: P-tekton-catalog-org
       - name: pathInRepo
-        value: task/debug-utility/sleep/sleep.yaml
+        value: task/debug-utility/pause/pause.yaml
   params:
     - name: SLEEP_TIME
       value: "15"

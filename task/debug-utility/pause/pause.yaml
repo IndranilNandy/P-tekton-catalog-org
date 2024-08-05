@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: Task
 metadata:
-  name: sleep
+  name: pause
 spec:
   params:
     - name: SLEEP_TIME
@@ -15,7 +15,7 @@ spec:
           value: $(params.SLEEP_TIME)
       script: |
         #!/bin/sh
-        echo "Starting to sleep"
+        set -ex
         echo sleeping for ${ENV_SLEEP_TIME}s
         sleep ${ENV_SLEEP_TIME}
         echo "End of sleep"
