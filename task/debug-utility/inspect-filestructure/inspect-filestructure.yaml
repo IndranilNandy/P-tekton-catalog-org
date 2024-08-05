@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: inspect-filestructure
+spec:
+  # params:
+  steps:
+    - name: check-filestructure
+      image: ubuntu
+      command:
+        - /bin/bash
+      args:
+        - -c
+        - |
+          set -ex
+          find /workspace

@@ -4,4 +4,12 @@ metadata:
   generateName: sleep-run-
 spec:
   taskRef:
-    name: sleep
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/debug-utility/sleep/sleep.yaml
+  params:
+    - name: SLEEP_TIME
+      value: "15"
