@@ -1,0 +1,10 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: example-task
+spec:
+  # params:
+  steps:
+    - name: list
+      ref:
+        name: example

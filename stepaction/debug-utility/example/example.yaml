@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1beta1
+kind: StepAction
+metadata:
+  name: example
+spec:
+  env:
+    - name: HOME
+      value: /home
+  image: ubuntu
+  command: ["ls"]
+  args: ["-lh"]
