@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: sleep
+spec:
+  params:
+    - name: SLEEP_TIME
+      default: "60"
+
+  steps:
+    - name: sleep
+      image: ubuntu
+      env:
+        - name: ENV_SLEEP_TIME
+          value: $(params.SLEEP_TIME)
+      script: |
+        #!/bin/sh
+        echo "Starting to sleep"
+        echo sleeping for ${ENV_SLEEP_TIME}s
+        sleep ${ENV_SLEEP_TIME}
+        echo "End of sleep"
