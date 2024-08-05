@@ -1,0 +1,16 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: inspect-filecontents
+spec:
+  # params:
+  steps:
+    - name: check-filecontents
+      image: ubuntu
+      command:
+        - /bin/bash
+      args:
+        - -c
+        - |
+          set -ex
+          find /workspace | xargs cat
