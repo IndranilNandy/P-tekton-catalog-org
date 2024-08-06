@@ -10,18 +10,3 @@ spec:
         value: P-tekton-catalog-org
       - name: pathInRepo
         value: task/debug-utility/inspect-filecontents/inspect-filecontents.yaml
-      - name: org
-        value: IndranilNandy
-      - name: revision
-        value: master
-      # my-secret-token should be created in the namespace where the
-      # pipelinerun is created and contain a GitHub personal access
-      # token in the token key of the secret.
-      - name: token
-        value: tekton-catalog-secret
-      - name: tokenKey
-        value: tektonCatalogToken
-      - name: scmType
-        value: github
-      # - name: serverURL
-      #   value: https://ghe.mycompany.com
