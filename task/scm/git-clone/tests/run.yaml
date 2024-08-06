@@ -1,0 +1,390 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: git-clone-run-noargs-run-
+spec:
+  workspaces:
+    - name: output
+      emptyDir: {}
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/git-clone/git-clone.yaml
+      - name: org
+        value: IndranilNandy
+      - name: revision
+        value: master
+      # my-secret-token should be created in the namespace where the
+      # pipelinerun is created and contain a GitHub personal access
+      # token in the token key of the secret.
+      - name: token
+        value: tekton-catalog-secret
+      - name: tokenKey
+        value: tektonCatalogToken
+      - name: scmType
+        value: github
+      # - name: serverURL
+      #   value: https://ghe.mycompany.com
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  params:
+    - name: url
+      value: https://github.com/kelseyhightower/nocode
+---
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: git-clone-run-tag-run-
+spec:
+  workspaces:
+    - name: output
+      emptyDir: {}
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/git-clone/git-clone.yaml
+      - name: org
+        value: IndranilNandy
+      - name: revision
+        value: master
+      # my-secret-token should be created in the namespace where the
+      # pipelinerun is created and contain a GitHub personal access
+      # token in the token key of the secret.
+      - name: token
+        value: tekton-catalog-secret
+      - name: tokenKey
+        value: tektonCatalogToken
+      - name: scmType
+        value: github
+      # - name: serverURL
+      #   value: https://ghe.mycompany.com
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  params:
+    - name: url
+      value: https://github.com/kelseyhightower/nocode
+    - name: revision
+      value: 1.0.0
+---
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: git-clone-run-no-submodules-run-
+spec:
+  workspaces:
+    - name: output
+      emptyDir: {}
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/git-clone/git-clone.yaml
+      - name: org
+        value: IndranilNandy
+      - name: revision
+        value: master
+      # my-secret-token should be created in the namespace where the
+      # pipelinerun is created and contain a GitHub personal access
+      # token in the token key of the secret.
+      - name: token
+        value: tekton-catalog-secret
+      - name: tokenKey
+        value: tektonCatalogToken
+      - name: scmType
+        value: github
+      # - name: serverURL
+      #   value: https://ghe.mycompany.com
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  params:
+    - name: url
+      value: https://github.com/githubtraining/example-dependency
+    - name: submodules
+      value: "false"
+---
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: git-clone-run-no-depth-2-run-
+spec:
+  workspaces:
+    - name: output
+      emptyDir: {}
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/git-clone/git-clone.yaml
+      - name: org
+        value: IndranilNandy
+      - name: revision
+        value: master
+      # my-secret-token should be created in the namespace where the
+      # pipelinerun is created and contain a GitHub personal access
+      # token in the token key of the secret.
+      - name: token
+        value: tekton-catalog-secret
+      - name: tokenKey
+        value: tektonCatalogToken
+      - name: scmType
+        value: github
+      # - name: serverURL
+      #   value: https://ghe.mycompany.com
+  params:
+    - name: url
+      value: https://github.com/kelseyhightower/nocode
+    - name: depth
+      value: "2"
+---
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: git-clone-run-sslverify-none-run-
+spec:
+  workspaces:
+    - name: output
+      emptyDir: {}
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/git-clone/git-clone.yaml
+      - name: org
+        value: IndranilNandy
+      - name: revision
+        value: master
+      # my-secret-token should be created in the namespace where the
+      # pipelinerun is created and contain a GitHub personal access
+      # token in the token key of the secret.
+      - name: token
+        value: tekton-catalog-secret
+      - name: tokenKey
+        value: tektonCatalogToken
+      - name: scmType
+        value: github
+      # - name: serverURL
+      #   value: https://ghe.mycompany.com
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  params:
+    - name: url
+      value: https://github.com/kelseyhightower/nocode
+    - name: sslVerify
+      value: "false"
+---
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: git-clone-run-ssl-cadirectory-empty-run-
+spec:
+  workspaces:
+    - name: output
+      emptyDir: {}
+    - name: ssl-ca-directory
+      emptyDir: {}
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/git-clone/git-clone.yaml
+      - name: org
+        value: IndranilNandy
+      - name: revision
+        value: master
+      # my-secret-token should be created in the namespace where the
+      # pipelinerun is created and contain a GitHub personal access
+      # token in the token key of the secret.
+      - name: token
+        value: tekton-catalog-secret
+      - name: tokenKey
+        value: tektonCatalogToken
+      - name: scmType
+        value: github
+      # - name: serverURL
+      #   value: https://ghe.mycompany.com
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  params:
+    - name: url
+      value: https://github.com/kelseyhightower/nocode
+    - name: crtFileName
+      value: ""
+---
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: git-clone-run-subdirectory-run-
+spec:
+  workspaces:
+    - name: output
+      emptyDir: {}
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/git-clone/git-clone.yaml
+      - name: org
+        value: IndranilNandy
+      - name: revision
+        value: master
+      # my-secret-token should be created in the namespace where the
+      # pipelinerun is created and contain a GitHub personal access
+      # token in the token key of the secret.
+      - name: token
+        value: tekton-catalog-secret
+      - name: tokenKey
+        value: tektonCatalogToken
+      - name: scmType
+        value: github
+      # - name: serverURL
+      #   value: https://ghe.mycompany.com
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  params:
+    - name: url
+      value: https://github.com/kelseyhightower/nocode
+    - name: subdirectory
+      value: "hellomoto"
+---
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: git-clone-run-delete-existing-run-
+spec:
+  workspaces:
+    - name: output
+      emptyDir: {}
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/git-clone/git-clone.yaml
+      - name: org
+        value: IndranilNandy
+      - name: revision
+        value: master
+      # my-secret-token should be created in the namespace where the
+      # pipelinerun is created and contain a GitHub personal access
+      # token in the token key of the secret.
+      - name: token
+        value: tekton-catalog-secret
+      - name: tokenKey
+        value: tektonCatalogToken
+      - name: scmType
+        value: github
+      # - name: serverURL
+      #   value: https://ghe.mycompany.com
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  params:
+    - name: url
+      value: https://github.com/kelseyhightower/nocode
+    - name: deleteExisting
+      value: "true"
+---
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: git-clone-run-without-verbose-run-
+spec:
+  workspaces:
+  - name: output
+    emptyDir: {}
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/git-clone/git-clone.yaml
+      - name: org
+        value: IndranilNandy
+      - name: revision
+        value: master
+      # my-secret-token should be created in the namespace where the
+      # pipelinerun is created and contain a GitHub personal access
+      # token in the token key of the secret.
+      - name: token
+        value: tekton-catalog-secret
+      - name: tokenKey
+        value: tektonCatalogToken
+      - name: scmType
+        value: github
+      # - name: serverURL
+      #   value: https://ghe.mycompany.com
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  params:
+    - name: url
+      value: https://github.com/kelseyhightower/nocode
+    - name: verbose
+      value: "false"
+---
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: git-clone-sparse-run-
+spec:
+  workspaces:
+  - name: output
+    emptyDir: {}
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/git-clone/git-clone.yaml
+      - name: org
+        value: IndranilNandy
+      - name: revision
+        value: master
+      # my-secret-token should be created in the namespace where the
+      # pipelinerun is created and contain a GitHub personal access
+      # token in the token key of the secret.
+      - name: token
+        value: tekton-catalog-secret
+      - name: tokenKey
+        value: tektonCatalogToken
+      - name: scmType
+        value: github
+      # - name: serverURL
+      #   value: https://ghe.mycompany.com
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  params:
+    - name: url
+      value: https://github.com/kelseyhightower/nocode
+    - name: sparseCheckoutDirectories
+      value: "CONTRIBUTING.md,STYLE.md"
