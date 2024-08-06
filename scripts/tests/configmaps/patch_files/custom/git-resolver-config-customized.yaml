@@ -1,0 +1,10 @@
+data:
+  api-token-secret-key: "tektonCatalogToken"
+  api-token-secret-name: "tekton-catalog-secret"
+  api-token-secret-namespace: default
+  default-org: "IndranilNandy"
+  default-revision: master
+  default-url: https://github.com/IndranilNandy/P-tekton-catalog-org.git
+  fetch-timeout: 1m
+  scm-type: github
+  server-url: ""
