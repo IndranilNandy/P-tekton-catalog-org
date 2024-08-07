@@ -39,15 +39,16 @@ spec:
       type: string
       default: "/home/git"
 
-    # # For gradle task
-    # - name: gradle-image
-    #   default: gradle:8.7.0-jdk17
-    # - name: project-dir
-    #   default: .
-    # - name: tasks
-    #   type: array
-    #   default:
-    #     - build
+    # For gradle task
+    - name: gradle-image
+      default: gradle:8.7.0-jdk17
+    - name: project-dir
+      default: .
+    - name: tasks
+      type: array
+      default:
+        - build
+    - name: gradle-cache-pvc
 
     # # For kaniko task
     # - name: app-image
@@ -85,24 +86,33 @@ spec:
         - name: output
           workspace: codebase
 
-    # - name: build-test-publish-artifacts
-    #   taskRef:
-    #     name: gradle-mytask
+    - name: build-test-publish-artifacts
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/build-tool/gradle/gradle.yaml
+        # name: gradle-mytask
 
-    #   params:
-    #     - name: GRADLE_IMAGE
-    #       value: "$(params.gradle-image)"
-    #     - name: PROJECT_DIR
-    #       value: "$(params.project-dir)"
-    #     - name: TASKS
-    #       value: ["$(params.tasks)"]
+      params:
+        - name: GRADLE_IMAGE
+          value: "$(params.gradle-image)"
+        - name: PROJECT_DIR
+          value: "$(params.project-dir)"
+        - name: TASKS
+          value: ["$(params.tasks)"]
+        - name: E_GRADLE_CACHE_PVC_NAME
+          value: "$(params.gradle-cache-pvc)"
 
-    #   workspaces:
-    #     - name: source
-    #       workspace: codebase
 
-    #   runAfter:
-    #     - "clone-source-repo"
+      workspaces:
+        - name: source
+          workspace: codebase
+
+      runAfter:
+        - "clone-source-repo"
     # - name: kaniko-warmer
     #   taskRef:
     #     name: kaniko-warmer-mytask
