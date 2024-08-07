@@ -34,8 +34,8 @@ spec:
       type: array
       default:
         - build
-      # NOTE: Fields prefixed with ADDITIONAL_ are added on top of original catalog tasks for more customization
-    - name: ADDITIONAL_GRADLE_CACHE_PVC_NAME
+      # NOTE: Fields prefixed with E_ (for Extras) are added on top of original catalog tasks for more customization
+    - name: E_GRADLE_CACHE_PVC_NAME
       description: 'Name of the pvc used for caching gradle dependency'
   steps:
     - name: gradle-tasks
@@ -74,4 +74,4 @@ spec:
     - name: gradlecache
       persistentVolumeClaim:
         # claimName: gradlecache-pvc
-        claimName: $(params.ADDITIONAL_GRADLE_CACHE_PVC_NAME)
+        claimName: $(params.E_GRADLE_CACHE_PVC_NAME)

@@ -1,7 +1,5 @@
 # Tekton Catalog [org]
 
-A 'central' catalog (at organizational level) as a collection of tekton tasks and pipelines which can be used across all groups and teams.
-
 Follow the instructions below to run tests, find samples etc.
 
 ## How to run tests
@@ -17,4 +15,3 @@ Many tasks/pipelines are directly taken from Tekton Official Catalog - https://g
 Corresponding README.md clearly specifies the 'source'.
 
 We may have added 'additional/extra' parameters to some of those tasks. These parameters are prefixed with 'E_' for easy identification. Follow this guideline whenever you want to add 'additional' parameters to the existing tasks taken from Tekton Official Catalog.
-
