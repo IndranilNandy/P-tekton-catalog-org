@@ -28,7 +28,7 @@ spec:
         # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
         # - --no-daemon
     - name: gradle-cache-pvc
-      value: gradle-cache-pvc
+      value: test-catalog-task-kaniko-gradle-cache-pvc
 
     # For kaniko task
     - name: app-image
@@ -55,14 +55,16 @@ spec:
     - name: kaniko-cachedir
       value: /cache
     - name: kaniko-cache-pvc
-      value: kaniko-cache-pvc
+      value: test-catalog-task-kaniko-cache-pvc
     - name: kaniko-gradle-cache-pvc
-      value: gradle-cache-pvc
+      value: test-catalog-task-kaniko-gradle-cache-pvc
+    - name: kaniko-build-cache-pvc
+      value: test-catalog-task-kaniko-build-cache-pvc
 
   workspaces:
     - name: codebase
       persistentVolumeClaim:
-        claimName: source-pvc
+        claimName: test-catalog-task-kaniko-source-pvc
 
     # - name: ssh-directory
     #   secret:

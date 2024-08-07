@@ -37,6 +37,8 @@ spec:
       description: 'Name of the pvc used for caching kaniko image cache-layers'
     - name: E_KANIKO_GRADLE_CACHE_PVC_NAME
       description: 'Name of the pvc used for caching gradle dependency'
+    - name: E_KANIKO_BUILD_CACHE_PVC_NAME
+      description: 'Name of the pvc caching builds'
   workspaces:
     - name: source
       description: Holds the context and Dockerfile
@@ -87,4 +89,4 @@ spec:
     #     claimName: gradlecache-pvc
     - name: buildcache
       persistentVolumeClaim:
-        claimName: build-pvc
+        claimName: $(params.E_KANIKO_BUILD_CACHE_PVC_NAME)

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: source-pvc
+  name: test-catalog-task-kaniko-source-pvc
 spec:
   storageClassName: k8-default-sc-with-clustered-nfs-server
   resources:
@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: gradle-cache-pvc
+  name: test-catalog-task-kaniko-gradle-cache-pvc
 spec:
   storageClassName: k8-default-sc-with-clustered-nfs-server
   resources:
@@ -26,7 +26,19 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: kaniko-cache-pvc
+  name: test-catalog-task-kaniko-cache-pvc
+spec:
+  storageClassName: k8-default-sc-with-clustered-nfs-server
+  resources:
+    requests:
+      storage: 500Mi
+  accessModes:
+    - ReadWriteOnce
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-catalog-task-kaniko-build-cache-pvc
 spec:
   storageClassName: k8-default-sc-with-clustered-nfs-server
   resources:

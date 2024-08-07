@@ -60,6 +60,7 @@ spec:
     - name: kaniko-cachedir
     - name: kaniko-cache-pvc
     - name: kaniko-gradle-cache-pvc
+    - name: kaniko-build-cache-pvc
 
   workspaces:
     - name: codebase
@@ -158,6 +159,8 @@ spec:
           value: "$(params.kaniko-cache-pvc)"
         - name: E_KANIKO_GRADLE_CACHE_PVC_NAME
           value: "$(params.kaniko-gradle-cache-pvc)"
+        - name: E_KANIKO_BUILD_CACHE_PVC_NAME
+          value: "$(params.kaniko-build-cache-pvc)"
       workspaces:
         - name: source
           workspace: codebase
