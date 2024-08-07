@@ -22,3 +22,15 @@ spec:
       storage: 500Mi
   accessModes:
     - ReadWriteOnce
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kaniko-cache-pvc
+spec:
+  storageClassName: k8-default-sc-with-clustered-nfs-server
+  resources:
+    requests:
+      storage: 500Mi
+  accessModes:
+    - ReadWriteOnce

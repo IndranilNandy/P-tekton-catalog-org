@@ -30,30 +30,34 @@ spec:
     - name: gradle-cache-pvc
       value: gradle-cache-pvc
 
-    # # For kaniko task
-    # - name: app-image
-    #   value: devbox6:8097/indranilnandy/appdemo2
-    # - name: builder-image
-    #   value: gcr.io/kaniko-project/executor:v1.23.1@sha256:7914350eda14b43f3dcc6925afca88d6b7ba5dff13d221bb70ef44d4da73a1e8
-    # - name: dockerfile
-    #   value: ./docker/copy_build_binary_from_ws.Dockerfile
-    # - name: context
-    #   value: .
-    # - name: extra-args
-    #   value:
-    #     - --build-arg
-    #     - APPLICATION_NAME=com.example.demo.DemoApplication
-    #     - --build-arg
-    #     - JAR_FILE=*-SNAPSHOT.jar
-    #     - --build-arg
-    #     - APP_SERVICE=app-service
-    #     - --cache=true
-    #     - --insecure
-    #     - --cache-copy-layers
-    #     # --cache-run-layers: default=true
-    #     - --cache-run-layers
-    # - name: kaniko-cachedir
-    #   value: /cache
+    # For kaniko task
+    - name: app-image
+      value: devbox6:8097/indranilnandy/appdemo2
+    - name: builder-image
+      value: gcr.io/kaniko-project/executor:v1.23.1@sha256:7914350eda14b43f3dcc6925afca88d6b7ba5dff13d221bb70ef44d4da73a1e8
+    - name: dockerfile
+      value: ./docker/copy_build_binary_from_ws.Dockerfile
+    - name: context
+      value: .
+    - name: extra-args
+      value:
+        - --build-arg
+        - APPLICATION_NAME=com.example.demo.DemoApplication
+        - --build-arg
+        - JAR_FILE=*-SNAPSHOT.jar
+        - --build-arg
+        - APP_SERVICE=app-service
+        - --cache=true
+        - --insecure
+        - --cache-copy-layers
+        # --cache-run-layers: default=true
+        - --cache-run-layers
+    - name: kaniko-cachedir
+      value: /cache
+    - name: kaniko-cache-pvc
+      value: kaniko-cache-pvc
+    - name: kaniko-gradle-cache-pvc
+      value: gradle-cache-pvc
 
   workspaces:
     - name: codebase
@@ -69,4 +73,4 @@ spec:
         secretName: test-docker-credentials
 
   pipelineRef:
-    name: ci-pipeline-kaniko
+    name: test-kaniko-pipeline
