@@ -1,0 +1,21 @@
+---
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: gradle-test-pipeline-run-
+spec:
+  pipelineRef:
+    name: gradle-test-pipeline
+
+  taskRunTemplate:
+    podTemplate:
+      securityContext:
+        fsGroup: 65532
+
+  workspaces:
+    - name: shared-workspace
+      persistentVolumeClaim:
+        claimName: gradle-source-pvc
+    - name: gradle-config
+      configMap:
+        name: gradle-config

@@ -42,7 +42,7 @@ spec:
         - name: TASKS
           value:
             - build
-        - name: E_GRADLE_CACHE_PVC_NAME
+        - name: ADDITIONAL_GRADLE_CACHE_PVC_NAME
           value: gradle-cache-pvc
       workspaces:
         - name: source
@@ -89,7 +89,7 @@ spec:
           value: "wrapper-test"
         - name: GRADLE_IMAGE
           value: docker.io/library/eclipse-temurin:17-ubi9-minimal@sha256:19c66566a0a802df5674301b223683ffbcf56cf18488a37a21d53e3d09df57d1
-        - name: E_GRADLE_CACHE_PVC_NAME
+        - name: ADDITIONAL_GRADLE_CACHE_PVC_NAME
           value: gradle-cache-pvc
       workspaces:
         - name: source
