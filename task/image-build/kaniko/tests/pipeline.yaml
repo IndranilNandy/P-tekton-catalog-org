@@ -72,7 +72,8 @@ spec:
       default: "false"
 
   workspaces:
-    - name: codebase
+    - name: shared-workspace-kaniko
+    # - name: codebase
     # - name: git-ssh-credentials
     - name: docker-credentials
     # - name: kaniko-warmer-cache
@@ -104,7 +105,8 @@ spec:
           value: "$(params.depth)"
       workspaces:
         - name: output
-          workspace: codebase
+          workspace: shared-workspace-kaniko
+          subPath: source-code/
 
     - name: build-test-publish-artifacts
       when:
@@ -133,7 +135,12 @@ spec:
 
       workspaces:
         - name: source
-          workspace: codebase
+          workspace: shared-workspace-kaniko
+          subPath: source-code/
+        - name: e-gradle-cache-pvc
+          workspace: shared-workspace-kaniko
+          subPath: gradle-cache/
+
 
       runAfter:
         - "clone-source-repo"

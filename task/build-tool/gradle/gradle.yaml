@@ -20,7 +20,7 @@ spec:
     - name: gradle-config
       description: The workspace consisting of the custom gradle properties provided by the user.
       optional: true
-    - name: e-gradle-cache-pvc
+    - name: e-gradle-cache
       mountPath: $(params.E_GRADLE_CACHE_DIR)
   params:
     - name: GRADLE_IMAGE

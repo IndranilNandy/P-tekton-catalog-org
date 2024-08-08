@@ -5,7 +5,7 @@ metadata:
   name: gradle-test-pipeline
 spec:
   workspaces:
-    - name: shared-workspace
+    - name: shared-workspace-gradle
     - name: gradle-config
     # - name: gradle-cache
   tasks:
@@ -20,7 +20,7 @@ spec:
         # name: git-clone
       workspaces:
         - name: output
-          workspace: shared-workspace
+          workspace: shared-workspace-gradle
           subPath: source-code/
       params:
         - name: url
@@ -48,12 +48,12 @@ spec:
         #   value: gradle-cache-pvc
       workspaces:
         - name: source
-          workspace: shared-workspace
+          workspace: shared-workspace-gradle
           subPath: source-code/
         - name: gradle-config
           workspace: gradle-config
-        - name: e-gradle-cache-pvc
-          workspace: shared-workspace
+        - name: e-gradle-cache
+          workspace: shared-workspace-gradle
           subPath: gradle-cache/
     - name: fetch-wrapper-code
       taskRef:
@@ -68,7 +68,7 @@ spec:
         - gradle-run
       workspaces:
         - name: output
-          workspace: shared-workspace
+          workspace: shared-workspace-gradle
           subPath: source-code/
       params:
         - name: url
@@ -100,10 +100,10 @@ spec:
         #   value: gradle-cache-pvc
       workspaces:
         - name: source
-          workspace: shared-workspace
+          workspace: shared-workspace-gradle
           subPath: source-code/
-        - name: e-gradle-cache-pvc
-          workspace: shared-workspace
+        - name: e-gradle-cache
+          workspace: shared-workspace-gradle
           subPath: gradle-cache/
         - name: gradle-config
           workspace: gradle-config

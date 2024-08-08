@@ -83,10 +83,14 @@ spec:
     #   persistentVolumeClaim:
     #     claimName: test-catalog-task-kaniko-build-cache-pvc
 
-    - name: codebase
+    # - name: codebase
+    #   persistentVolumeClaim:
+    #     claimName: test-catalog-task-kaniko-pvc
+    #   subPath: source/
+
+    - name: shared-workspace-kaniko
       persistentVolumeClaim:
         claimName: test-catalog-task-kaniko-pvc
-      subPath: source/
 
     # - name: ssh-directory
     #   secret:

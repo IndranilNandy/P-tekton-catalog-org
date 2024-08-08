@@ -13,9 +13,9 @@ spec:
         fsGroup: 65532
 
   workspaces:
-    - name: shared-workspace
+    - name: shared-workspace-gradle
       persistentVolumeClaim:
-        claimName: test-task-gradle-pvc
+        claimName: test-catalog-task-gradle-pvc
     - name: gradle-config
       configMap:
         name: gradle-config

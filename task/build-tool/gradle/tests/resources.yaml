@@ -10,7 +10,7 @@ data:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: test-task-gradle-pvc
+  name: test-catalog-task-gradle-pvc
 spec:
   storageClassName: k8-default-sc-with-clustered-nfs-server
   resources:
