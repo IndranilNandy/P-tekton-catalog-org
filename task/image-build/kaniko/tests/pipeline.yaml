@@ -201,12 +201,12 @@ spec:
         - name: e_kaniko_cache
           workspace: shared-workspace-kaniko
           subPath: kaniko-cache/
-        - name: e_kaniko_build_cache
-          workspace: shared-workspace-kaniko
-          subPath: kaniko-build-cache/
-        # - name: e_kaniko_gradle_cache
+        # - name: e_kaniko_build_cache
         #   workspace: shared-workspace-kaniko
-        #   subPath: gradle-cache/
+        #   subPath: kaniko-build-cache/
+        - name: e_kaniko_gradle_cache
+          workspace: shared-workspace-kaniko
+          subPath: gradle-cache/
         - name: dockerconfig
           workspace: docker-credentials
 

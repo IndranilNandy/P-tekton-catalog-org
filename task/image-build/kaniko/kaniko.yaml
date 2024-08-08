@@ -47,11 +47,11 @@ spec:
       mountPath: /kaniko/.docker
     - name: e_kaniko_cache
       mountPath: "$(params.E_KANIKO_CACHE_DIR)"
-    - name: e_kaniko_build_cache
-      mountPath: "$(params.E_BINARY_CACHE_LOCATION)"
+    # - name: e_kaniko_build_cache
+    #   mountPath: "$(params.E_BINARY_CACHE_LOCATION)"
       # The following is needed to cache gradle dependency if we are building in a separate stage, since we are using gradle task now for this we aren't using it
-    # - name: e_kaniko_gradle_cache
-    #   mountPath: "$(params.E_GRADLE_CACHE_DIR)"
+    - name: e_kaniko_gradle_cache
+      mountPath: "$(params.E_GRADLE_CACHE_DIR)"
   results:
     - name: IMAGE_DIGEST
       description: Digest of the image just built.
