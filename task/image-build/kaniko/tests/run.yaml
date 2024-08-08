@@ -27,8 +27,8 @@ spec:
         # - --status
         # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
         # - --no-daemon
-    - name: gradle-cache-pvc
-      value: test-catalog-task-kaniko-gradle-cache-pvc
+    - name: gradle-cache-pvc-name
+      value: test-catalog-task-kaniko-gradle-cache-pvc-1
 
     # For kaniko task
     - name: app-image
@@ -54,11 +54,11 @@ spec:
         - --cache-run-layers
     - name: kaniko-cachedir
       value: /cache
-    - name: kaniko-cache-pvc
+    - name: kaniko-cache-pvc-name
       value: test-catalog-task-kaniko-cache-pvc
-    - name: kaniko-gradle-cache-pvc
-      value: test-catalog-task-kaniko-gradle-cache-pvc
-    - name: kaniko-build-cache-pvc
+    - name: kaniko-gradle-cache-pvc-name
+      value: test-catalog-task-kaniko-gradle-cache-pvc-2
+    - name: kaniko-build-cache-pvc-name
       value: test-catalog-task-kaniko-build-cache-pvc
 
   workspaces:

@@ -1,0 +1,41 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: kaniko-warmer-sample
+spec:
+  params:
+    - name: CACHE_DIR
+      default: /cache
+      description: Location of the local cache
+    - name: DOCKERFILE
+      description: dockerfile location relative to the SOURCE workspace
+  workspaces:
+    - name: source
+      description: source of the code repo containing the dockerfile
+  steps:
+    # - name: debug-step
+    #   image: alpine/git
+    #   # workingDir: $(workspaces.source.path)
+    #   script: |
+    #     #!/bin/sh
+    #     echo cache-"$(params.CACHE_DIR)"
+    - name: kaniko-warmer
+      image: gcr.io/kaniko-project/warmer:latest
+      workingDir: $(workspaces.source.path)
+      args:
+        - --cache-dir=$(params.CACHE_DIR)
+        # - --image=docker.io/eclipse-temurin:17-jdk-alpine
+        # - --image=docker.io/eclipse-temurin:17-jre-alpine
+        - --dockerfile=$(params.DOCKERFILE)
+
+      # resources:
+      #   limits:
+      #     memory: 2048
+      #     cpu: 500m
+      volumeMounts:
+        - name: kanikocache
+          mountPath: "$(params.CACHE_DIR)"
+  volumes:
+    - name: kanikocache
+      persistentVolumeClaim:
+        claimName: test-catalog-task-kaniko-cache-pvc

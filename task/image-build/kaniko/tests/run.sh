@@ -17,6 +17,7 @@ kubectl apply -f resources.yaml
 )
 
 kubectl apply -f serviceaccount.yaml
+kubectl apply -f kaniko-warmer-sample.yaml
 
 kubectl apply -f pipeline.yaml
 kubectl create -f run.yaml

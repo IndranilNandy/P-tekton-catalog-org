@@ -48,7 +48,7 @@ spec:
       type: array
       default:
         - build
-    - name: gradle-cache-pvc
+    - name: gradle-cache-pvc-name
 
     # For kaniko task
     - name: app-image
@@ -58,9 +58,9 @@ spec:
     - name: extra-args
       type: array
     - name: kaniko-cachedir
-    - name: kaniko-cache-pvc
-    - name: kaniko-gradle-cache-pvc
-    - name: kaniko-build-cache-pvc
+    - name: kaniko-cache-pvc-name
+    - name: kaniko-gradle-cache-pvc-name
+    - name: kaniko-build-cache-pvc-name
 
   workspaces:
     - name: codebase
@@ -107,7 +107,7 @@ spec:
         - name: TASKS
           value: ["$(params.tasks)"]
         - name: E_GRADLE_CACHE_PVC_NAME
-          value: "$(params.gradle-cache-pvc)"
+          value: "$(params.gradle-cache-pvc-name)"
 
 
       workspaces:
@@ -118,7 +118,7 @@ spec:
         - "clone-source-repo"
     - name: kaniko-warmer
       taskRef:
-        name: kaniko-warmer-mytask
+        name: kaniko-warmer-sample
 
       params:
         - name: CACHE_DIR
@@ -156,11 +156,11 @@ spec:
         - name: E_KANIKO_CACHE_DIR
           value: "$(params.kaniko-cachedir)"
         - name: E_KANIKO_CACHE_PVC_NAME
-          value: "$(params.kaniko-cache-pvc)"
+          value: "$(params.kaniko-cache-pvc-name)"
         - name: E_KANIKO_GRADLE_CACHE_PVC_NAME
-          value: "$(params.kaniko-gradle-cache-pvc)"
+          value: "$(params.kaniko-gradle-cache-pvc-name)"
         - name: E_KANIKO_BUILD_CACHE_PVC_NAME
-          value: "$(params.kaniko-build-cache-pvc)"
+          value: "$(params.kaniko-build-cache-pvc-name)"
       workspaces:
         - name: source
           workspace: codebase
