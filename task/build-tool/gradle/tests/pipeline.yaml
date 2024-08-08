@@ -102,8 +102,8 @@ spec:
         - name: source
           workspace: shared-workspace
           subPath: source-code/
-        - name: gradle-config
-          workspace: gradle-config
         - name: e-gradle-cache-pvc
           workspace: shared-workspace
           subPath: gradle-cache/
+        - name: gradle-config
+          workspace: gradle-config

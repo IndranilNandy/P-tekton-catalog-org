@@ -37,9 +37,8 @@ spec:
       default:
         - build
       # NOTE: Fields prefixed with E_ (for Extras) are added on top of original catalog tasks for more customization
-    # - name: E_GRADLE_CACHE_PVC_NAME
-    #   description: 'Name of the pvc used for caching gradle dependency'
     - name: E_GRADLE_CACHE_DIR
+      description: Location of gradle dependency cache
       default: /home/gradle
   steps:
     - name: gradle-tasks
@@ -70,12 +69,3 @@ spec:
         echo "Running gradle task with command below"
         echo "$cmd"
         eval "$cmd"
-  #     volumeMounts:
-  #     # Used to cache gradle dependency
-  #       - name: gradlecache
-  #         mountPath: /home/gradle
-  # volumes:
-  #   - name: gradlecache
-  #     persistentVolumeClaim:
-  #       # claimName: gradlecache-pvc
-  #       claimName: $(params.E_GRADLE_CACHE_PVC_NAME)
