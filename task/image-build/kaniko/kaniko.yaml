@@ -31,12 +31,13 @@ spec:
       description: The image on which builds will run (default is v1.5.1)
       default: gcr.io/kaniko-project/executor:v1.5.1@sha256:c6166717f7fe0b7da44908c986137ecfeab21f31ec3992f6e128fff8a94be8a5
     - name: E_KANIKO_CACHE_DIR
-      default: /cache
       description: Location of the local cache
+      default: /cache
     - name: E_KANIKO_CACHE_PVC_NAME
       description: 'Name of the pvc used for caching kaniko image cache-layers'
     - name: E_KANIKO_GRADLE_CACHE_PVC_NAME
       description: 'Name of the pvc used for caching gradle dependency'
+      default: no-pvc-supplied
     - name: E_KANIKO_BUILD_CACHE_PVC_NAME
       description: 'Name of the pvc caching builds'
   workspaces:
