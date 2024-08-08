@@ -109,11 +109,11 @@ spec:
           subPath: source-code/
 
     - name: build-test-publish-artifacts
-      when:
-        - input: "$(params.build-test-publish-artifacts-debug-enabled)"
-          operator: in
-          values:
-            - "true"
+      # when:
+      #   - input: "$(params.build-test-publish-artifacts-debug-enabled)"
+      #     operator: in
+      #     values:
+      #       - "true"
       taskRef:
         resolver: git
         params:
@@ -130,14 +130,14 @@ spec:
           value: "$(params.project-dir)"
         - name: TASKS
           value: ["$(params.tasks)"]
-        - name: E_GRADLE_CACHE_PVC_NAME
-          value: "$(params.gradle-cache-pvc-name)"
+        # - name: E_GRADLE_CACHE_PVC_NAME
+        #   value: "$(params.gradle-cache-pvc-name)"
 
       workspaces:
         - name: source
           workspace: shared-workspace-kaniko
           subPath: source-code/
-        - name: e-gradle-cache-pvc
+        - name: e-gradle-cache
           workspace: shared-workspace-kaniko
           subPath: gradle-cache/
 
