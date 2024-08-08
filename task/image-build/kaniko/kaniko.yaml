@@ -70,8 +70,8 @@ spec:
         - name: kanikocache
           mountPath: "$(params.E_KANIKO_CACHE_DIR)"
           # The following is needed to cache gradle dependency if we are building in a separate stage, since we are using gradle task now for this we aren't using it
-        # - name: gradlecache
-        #   mountPath: /root/.gradle
+        - name: gradlecache
+          mountPath: /root/.gradle
         - name: buildcache
           mountPath: /workspace/binary
     - name: write-url
@@ -84,9 +84,9 @@ spec:
     - name: kanikocache
       persistentVolumeClaim:
         claimName: $(params.E_KANIKO_CACHE_PVC_NAME)
-    # - name: gradlecache
-    #   persistentVolumeClaim:
-    #     claimName: gradlecache-pvc
+    - name: gradlecache
+      persistentVolumeClaim:
+        claimName: $(params.E_KANIKO_GRADLE_CACHE_PVC_NAME)
     - name: buildcache
       persistentVolumeClaim:
         claimName: $(params.E_KANIKO_BUILD_CACHE_PVC_NAME)
