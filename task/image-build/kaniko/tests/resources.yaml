@@ -62,7 +62,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: dummy-NOT-USED-pvc
+  name: dummy-not-used-pvc
 spec:
   storageClassName: k8-default-sc-with-clustered-nfs-server
   resources:
