@@ -1,15 +1,15 @@
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: gradle-source-pvc
-spec:
-  storageClassName: k8-default-sc-with-clustered-nfs-server
-  resources:
-    requests:
-      storage: 500Mi
-  accessModes:
-    - ReadWriteOnce
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: gradle-source-pvc
+# spec:
+#   storageClassName: k8-default-sc-with-clustered-nfs-server
+#   resources:
+#     requests:
+#       storage: 500Mi
+#   accessModes:
+#     - ReadWriteOnce
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -18,11 +18,23 @@ metadata:
 data:
   gradle.properties: |-
     artifactory_contextUrl=https://jfrog.com/artifactory
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: gradle-cache-pvc
+# spec:
+#   storageClassName: k8-default-sc-with-clustered-nfs-server
+#   resources:
+#     requests:
+#       storage: 500Mi
+#   accessModes:
+#     - ReadWriteOnce
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: gradle-cache-pvc
+  name: test-task-gradle-pvc
 spec:
   storageClassName: k8-default-sc-with-clustered-nfs-server
   resources:
