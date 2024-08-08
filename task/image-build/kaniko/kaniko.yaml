@@ -36,6 +36,8 @@ spec:
     - name: E_GRADLE_CACHE_DIR
       description: Location of gradle dependency cache
       default: /root/.gradle
+    - name: E_BINARY_CACHE_LOCATION
+      default: /workspace/binary
   workspaces:
     - name: source
       description: Holds the context and Dockerfile
@@ -46,8 +48,7 @@ spec:
     - name: e_kaniko_cache
       mountPath: "$(params.E_KANIKO_CACHE_DIR)"
     - name: e_kaniko_build_cache
-      mountPath:
-        /workspace/binary
+      mountPath: "$(params.E_BINARY_CACHE_LOCATION)"
       # The following is needed to cache gradle dependency if we are building in a separate stage, since we are using gradle task now for this we aren't using it
     - name: e_kaniko_gradle_cache
       mountPath: "$(params.E_GRADLE_CACHE_DIR)"
