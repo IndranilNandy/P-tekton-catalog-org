@@ -14,6 +14,8 @@ spec:
   workspaces:
     - name: source
       description: source of the code repo containing the dockerfile
+    - name: e_kaniko_warmer_cache
+      mountPath: "$(params.CACHE_DIR)"
   steps:
     # - name: debug-step
     #   image: alpine/git
@@ -34,10 +36,10 @@ spec:
       #   limits:
       #     memory: 2048
       #     cpu: 500m
-      volumeMounts:
-        - name: kanikocache
-          mountPath: "$(params.CACHE_DIR)"
-  volumes:
-    - name: kanikocache
-      persistentVolumeClaim:
-        claimName: $(params.E_KANIKO_WARMER_CACHE_PVC_NAME)
+      # volumeMounts:
+      #   - name: kanikocache
+      #     mountPath: "$(params.CACHE_DIR)"
+  # volumes:
+  #   - name: kanikocache
+  #     persistentVolumeClaim:
+  #       claimName: $(params.E_KANIKO_WARMER_CACHE_PVC_NAME)

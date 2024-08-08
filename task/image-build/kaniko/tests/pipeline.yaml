@@ -66,6 +66,9 @@ spec:
     - name: codebase
     # - name: git-ssh-credentials
     - name: docker-credentials
+    - name: kaniko-warmer-cache
+    - name: kaniko-cache
+    - name: kaniko-build-cache
 
   tasks:
     - name: clone-source-repo
@@ -109,7 +112,6 @@ spec:
         - name: E_GRADLE_CACHE_PVC_NAME
           value: "$(params.gradle-cache-pvc-name)"
 
-
       workspaces:
         - name: source
           workspace: codebase
@@ -133,9 +135,12 @@ spec:
           value: "$(params.dockerfile)"
         - name: E_KANIKO_WARMER_CACHE_PVC_NAME
           value: "$(params.kaniko-cache-pvc-name)"
+
       workspaces:
         - name: source
           workspace: codebase
+        - name: e_kaniko_warmer_cache
+          workspace: kaniko-warmer-cache
 
       runAfter:
         - "build-test-publish-artifacts"
@@ -169,11 +174,16 @@ spec:
         #   value: "$(params.kaniko-gradle-cache-pvc-name)"
         - name: E_KANIKO_BUILD_CACHE_PVC_NAME
           value: "$(params.kaniko-build-cache-pvc-name)"
+
       workspaces:
         - name: source
           workspace: codebase
         - name: dockerconfig
           workspace: docker-credentials
+        - name: e_kaniko_cache
+          workspace: kaniko-cache
+        - name: e_kaniko_build_cache
+          workspace: kaniko-build-cache
 
       runAfter:
         - "kaniko-warmer"
