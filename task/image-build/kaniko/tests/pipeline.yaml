@@ -79,6 +79,7 @@ spec:
     # - name: kaniko-warmer-cache
     # - name: kaniko-cache
     # - name: kaniko-build-cache
+    # - name: test-workspace
 
   tasks:
     - name: clone-source-repo

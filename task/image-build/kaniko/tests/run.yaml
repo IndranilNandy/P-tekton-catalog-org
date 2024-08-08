@@ -91,6 +91,7 @@ spec:
     - name: shared-workspace-kaniko
       persistentVolumeClaim:
         claimName: test-catalog-task-kaniko-pvc
+      subPath: kaniko-pipeline/
 
     # - name: ssh-directory
     #   secret:
@@ -110,6 +111,11 @@ spec:
     #   persistentVolumeClaim:
     #     claimName: test-catalog-task-kaniko-pvc
     #   subPath: kaniko-build-cache/
+
+    # - name: test-workspace
+    #   persistentVolumeClaim:
+    #     claimName: testabc-pvc
+    #   # subPath: test/
 
   pipelineRef:
     name: test-kaniko-pipeline
