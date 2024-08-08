@@ -7,6 +7,7 @@ spec:
   workspaces:
     - name: shared-workspace
     - name: gradle-config
+    - name: gradle-cache
   tasks:
     - name: fetch-code
       taskRef:
@@ -42,13 +43,15 @@ spec:
         - name: TASKS
           value:
             - build
-        - name: E_GRADLE_CACHE_PVC_NAME
-          value: gradle-cache-pvc
+        # - name: E_GRADLE_CACHE_PVC_NAME
+        #   value: gradle-cache-pvc
       workspaces:
         - name: source
           workspace: shared-workspace
         - name: gradle-config
           workspace: gradle-config
+        - name: e-gradle-cache-pvc
+          workspace: gradle-cache
     - name: fetch-wrapper-code
       taskRef:
         resolver: git
@@ -89,10 +92,12 @@ spec:
           value: "wrapper-test"
         - name: GRADLE_IMAGE
           value: docker.io/library/eclipse-temurin:17-ubi9-minimal@sha256:19c66566a0a802df5674301b223683ffbcf56cf18488a37a21d53e3d09df57d1
-        - name: E_GRADLE_CACHE_PVC_NAME
-          value: gradle-cache-pvc
+        # - name: E_GRADLE_CACHE_PVC_NAME
+        #   value: gradle-cache-pvc
       workspaces:
         - name: source
           workspace: shared-workspace
         - name: gradle-config
           workspace: gradle-config
+        - name: e-gradle-cache-pvc
+          workspace: gradle-cache

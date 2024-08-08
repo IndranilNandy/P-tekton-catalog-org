@@ -62,9 +62,31 @@ spec:
       value: test-catalog-task-kaniko-build-cache-pvc
 
   workspaces:
+    # - name: codebase
+    #   persistentVolumeClaim:
+    #     claimName: test-catalog-task-kaniko-source-pvc
+
+    # # - name: ssh-directory
+    # #   secret:
+    # #     secretName: git-creds-ssh-secret-3
+
+    # - name: docker-credentials
+    #   secret:
+    #     secretName: test-docker-credentials
+    # # - name: kaniko-warmer-cache
+    # #   persistentVolumeClaim:
+    # #     claimName: test-catalog-task-kaniko-cache-pvc
+    # - name: kaniko-cache
+    #   persistentVolumeClaim:
+    #     claimName: test-catalog-task-kaniko-cache-pvc
+    # - name: kaniko-build-cache
+    #   persistentVolumeClaim:
+    #     claimName: test-catalog-task-kaniko-build-cache-pvc
+
     - name: codebase
       persistentVolumeClaim:
-        claimName: test-catalog-task-kaniko-source-pvc
+        claimName: test-catalog-task-kaniko-pvc
+      subPath: source/
 
     # - name: ssh-directory
     #   secret:
@@ -73,15 +95,17 @@ spec:
     - name: docker-credentials
       secret:
         secretName: test-docker-credentials
-    - name: kaniko-warmer-cache
-      persistentVolumeClaim:
-        claimName: test-catalog-task-kaniko-cache-pvc
-    - name: kaniko-cache
-      persistentVolumeClaim:
-        claimName: test-catalog-task-kaniko-cache-pvc
-    - name: kaniko-build-cache
-      persistentVolumeClaim:
-        claimName: test-catalog-task-kaniko-build-cache-pvc
+    # # - name: kaniko-warmer-cache
+    # #   persistentVolumeClaim:
+    # #     claimName: test-catalog-task-kaniko-cache-pvc
+    # - name: kaniko-cache
+    #   persistentVolumeClaim:
+    #     claimName: test-catalog-task-kaniko-pvc
+    #   subPath: kaniko-cache/
+    # - name: kaniko-build-cache
+    #   persistentVolumeClaim:
+    #     claimName: test-catalog-task-kaniko-pvc
+    #   subPath: kaniko-build-cache/
 
   pipelineRef:
     name: test-kaniko-pipeline

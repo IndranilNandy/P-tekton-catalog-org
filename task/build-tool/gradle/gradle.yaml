@@ -20,6 +20,8 @@ spec:
     - name: gradle-config
       description: The workspace consisting of the custom gradle properties provided by the user.
       optional: true
+    - name: e-gradle-cache-pvc
+      mountPath: $(params.E_GRADLE_CACHE_DIR)
   params:
     - name: GRADLE_IMAGE
       description: Gradle base image.
@@ -35,8 +37,10 @@ spec:
       default:
         - build
       # NOTE: Fields prefixed with E_ (for Extras) are added on top of original catalog tasks for more customization
-    - name: E_GRADLE_CACHE_PVC_NAME
-      description: 'Name of the pvc used for caching gradle dependency'
+    # - name: E_GRADLE_CACHE_PVC_NAME
+    #   description: 'Name of the pvc used for caching gradle dependency'
+    - name: E_GRADLE_CACHE_DIR
+      default: /home/gradle
   steps:
     - name: gradle-tasks
       image: $(params.GRADLE_IMAGE)
@@ -66,12 +70,12 @@ spec:
         echo "Running gradle task with command below"
         echo "$cmd"
         eval "$cmd"
-      volumeMounts:
-      # Used to cache gradle dependency
-        - name: gradlecache
-          mountPath: /home/gradle
-  volumes:
-    - name: gradlecache
-      persistentVolumeClaim:
-        # claimName: gradlecache-pvc
-        claimName: $(params.E_GRADLE_CACHE_PVC_NAME)
+  #     volumeMounts:
+  #     # Used to cache gradle dependency
+  #       - name: gradlecache
+  #         mountPath: /home/gradle
+  # volumes:
+  #   - name: gradlecache
+  #     persistentVolumeClaim:
+  #       # claimName: gradlecache-pvc
+  #       claimName: $(params.E_GRADLE_CACHE_PVC_NAME)

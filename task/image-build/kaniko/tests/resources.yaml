@@ -70,3 +70,15 @@ spec:
       storage: 1Mi
   accessModes:
     - ReadWriteOnce
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-catalog-task-kaniko-pvc
+spec:
+  storageClassName: k8-default-sc-with-clustered-nfs-server
+  resources:
+    requests:
+      storage: 1024Mi
+  accessModes:
+    - ReadWriteOnce

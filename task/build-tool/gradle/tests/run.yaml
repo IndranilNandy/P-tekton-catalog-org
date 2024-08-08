@@ -16,6 +16,11 @@ spec:
     - name: shared-workspace
       persistentVolumeClaim:
         claimName: gradle-source-pvc
+      subPath: source/
     - name: gradle-config
       configMap:
         name: gradle-config
+    - name: shared-workspace
+      persistentVolumeClaim:
+        claimName: gradle-source-pvc
+      subPath: gradle-cache/
