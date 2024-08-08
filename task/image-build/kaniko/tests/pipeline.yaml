@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: test-kaniko-pipeline
+  name: test-catalog-task-kaniko-pipeline
 spec:
   params:
     # For git-clone task

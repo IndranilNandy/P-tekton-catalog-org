@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: gradle-test-pipeline
+  name: test-catalog-task-gradle-pipeline
 spec:
   workspaces:
     - name: shared-workspace-gradle

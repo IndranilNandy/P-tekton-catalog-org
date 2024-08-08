@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  generateName: ci-pipelinerun-kaniko-
+  generateName: catalog-kaniko-pipelinerun-
 spec:
   serviceAccountName: test-service-account
   podTemplate:
@@ -70,4 +70,4 @@ spec:
         secretName: test-docker-credentials
 
   pipelineRef:
-    name: test-kaniko-pipeline
+    name: test-catalog-task-kaniko-pipeline

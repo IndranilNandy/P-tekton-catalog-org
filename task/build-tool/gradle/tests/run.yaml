@@ -2,10 +2,10 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  generateName: gradle-test-pipeline-run-
+  generateName: catalog-gradle-pipeline-run-
 spec:
   pipelineRef:
-    name: gradle-test-pipeline
+    name: test-catalog-task-gradle-pipeline
 
   taskRunTemplate:
     podTemplate:
