@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: kaniko-mytask
+  name: kaniko
   labels:
     app.kubernetes.io/version: "0.6"
   annotations:
@@ -36,8 +36,8 @@ spec:
     - name: E_KANIKO_CACHE_PVC_NAME
       description: 'Name of the pvc used for caching kaniko image cache-layers'
     - name: E_KANIKO_GRADLE_CACHE_PVC_NAME
-      description: 'Name of the pvc used for caching gradle dependency'
-      default: no-pvc-supplied
+      description: '[OPTIONAL] Name of the pvc used for caching gradle dependency'
+      default: dummy-NOT-USED-pvc
     - name: E_KANIKO_BUILD_CACHE_PVC_NAME
       description: 'Name of the pvc caching builds'
   workspaces:
