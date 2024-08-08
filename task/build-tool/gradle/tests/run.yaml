@@ -20,7 +20,7 @@ spec:
     - name: gradle-config
       configMap:
         name: gradle-config
-    - name: gradle-cache
-      persistentVolumeClaim:
-        claimName: gradle-source-pvc
-      subPath: gradle-cache/
+    # - name: gradle-cache
+    #   persistentVolumeClaim:
+    #     claimName: gradle-source-pvc
+    #   subPath: gradle-cache/

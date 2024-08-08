@@ -7,7 +7,7 @@ spec:
   workspaces:
     - name: shared-workspace
     - name: gradle-config
-    - name: gradle-cache
+    # - name: gradle-cache
   tasks:
     - name: fetch-code
       taskRef:
@@ -21,6 +21,7 @@ spec:
       workspaces:
         - name: output
           workspace: shared-workspace
+          subPath: source-code/
       params:
         - name: url
           value: https://github.com/crshnburn/simple-gradle
@@ -48,10 +49,12 @@ spec:
       workspaces:
         - name: source
           workspace: shared-workspace
+          subPath: source-code/
         - name: gradle-config
           workspace: gradle-config
         - name: e-gradle-cache-pvc
-          workspace: gradle-cache
+          workspace: shared-workspace
+          subPath: gradle-cache/
     - name: fetch-wrapper-code
       taskRef:
         resolver: git
@@ -66,6 +69,7 @@ spec:
       workspaces:
         - name: output
           workspace: shared-workspace
+          subPath: source-code/
       params:
         - name: url
           value: https://github.com/BastiaanN/simple-gradle-wrapper
@@ -97,7 +101,9 @@ spec:
       workspaces:
         - name: source
           workspace: shared-workspace
+          subPath: source-code/
         - name: gradle-config
           workspace: gradle-config
         - name: e-gradle-cache-pvc
-          workspace: gradle-cache
+          workspace: shared-workspace
+          subPath: gradle-cache/
