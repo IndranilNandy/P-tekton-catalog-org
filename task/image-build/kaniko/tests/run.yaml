@@ -54,40 +54,14 @@ spec:
         - --cache-run-layers
     - name: kaniko-cachedir
       value: /cache
-    - name: kaniko-cache-pvc-name
-      value: test-catalog-task-kaniko-cache-pvc
-    - name: kaniko-gradle-cache-pvc-name
-      value: test-catalog-task-kaniko-gradle-cache-pvc-2
-    - name: kaniko-build-cache-pvc-name
-      value: test-catalog-task-kaniko-build-cache-pvc
+    # - name: kaniko-cache-pvc-name
+    #   value: test-catalog-task-kaniko-cache-pvc
+    # - name: kaniko-gradle-cache-pvc-name
+    #   value: test-catalog-task-kaniko-gradle-cache-pvc-2
+    # - name: kaniko-build-cache-pvc-name
+    #   value: test-catalog-task-kaniko-build-cache-pvc
 
   workspaces:
-    # - name: codebase
-    #   persistentVolumeClaim:
-    #     claimName: test-catalog-task-kaniko-source-pvc
-
-    # # - name: ssh-directory
-    # #   secret:
-    # #     secretName: git-creds-ssh-secret-3
-
-    # - name: docker-credentials
-    #   secret:
-    #     secretName: test-docker-credentials
-    # # - name: kaniko-warmer-cache
-    # #   persistentVolumeClaim:
-    # #     claimName: test-catalog-task-kaniko-cache-pvc
-    # - name: kaniko-cache
-    #   persistentVolumeClaim:
-    #     claimName: test-catalog-task-kaniko-cache-pvc
-    # - name: kaniko-build-cache
-    #   persistentVolumeClaim:
-    #     claimName: test-catalog-task-kaniko-build-cache-pvc
-
-    # - name: codebase
-    #   persistentVolumeClaim:
-    #     claimName: test-catalog-task-kaniko-pvc
-    #   subPath: source/
-
     - name: shared-workspace-kaniko
       persistentVolumeClaim:
         claimName: test-catalog-task-kaniko-pvc
@@ -100,22 +74,6 @@ spec:
     - name: docker-credentials
       secret:
         secretName: test-docker-credentials
-    # # - name: kaniko-warmer-cache
-    # #   persistentVolumeClaim:
-    # #     claimName: test-catalog-task-kaniko-cache-pvc
-    # - name: kaniko-cache
-    #   persistentVolumeClaim:
-    #     claimName: test-catalog-task-kaniko-pvc
-    #   subPath: kaniko-cache/
-    # - name: kaniko-build-cache
-    #   persistentVolumeClaim:
-    #     claimName: test-catalog-task-kaniko-pvc
-    #   subPath: kaniko-build-cache/
-
-    # - name: test-workspace
-    #   persistentVolumeClaim:
-    #     claimName: testabc-pvc
-    #   # subPath: test/
 
   pipelineRef:
     name: test-kaniko-pipeline

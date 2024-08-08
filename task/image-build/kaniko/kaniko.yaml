@@ -33,11 +33,14 @@ spec:
     - name: E_KANIKO_CACHE_DIR
       description: Location of the local cache
       default: /cache
+    - name: E_GRADLE_CACHE_DIR
+      description: Location of gradle dependency cache
+      default: /root/.gradle
     # - name: E_KANIKO_CACHE_PVC_NAME
     #   description: 'Name of the pvc used for caching kaniko image cache-layers'
-    - name: E_KANIKO_GRADLE_CACHE_PVC_NAME
-      description: '[OPTIONAL] Name of the pvc used for caching gradle dependency'
-      default: dummy-not-used-pvc
+    # - name: E_KANIKO_GRADLE_CACHE_PVC_NAME
+    #   description: '[OPTIONAL] Name of the pvc used for caching gradle dependency'
+    #   default: dummy-not-used-pvc
     # - name: E_KANIKO_BUILD_CACHE_PVC_NAME
     #   description: 'Name of the pvc caching builds'
   workspaces:
@@ -50,7 +53,11 @@ spec:
     - name: e_kaniko_cache
       mountPath: "$(params.E_KANIKO_CACHE_DIR)"
     - name: e_kaniko_build_cache
-      mountPath: /workspace/binary
+      mountPath:
+        /workspace/binary
+      # The following is needed to cache gradle dependency if we are building in a separate stage, since we are using gradle task now for this we aren't using it
+    - name: e_kaniko_gradle_cache
+      mountPath: "$(params.E_GRADLE_CACHE_DIR)"
   results:
     - name: IMAGE_DIGEST
       description: Digest of the image just built.
@@ -71,12 +78,12 @@ spec:
       # makes it explicit that it needs to run as root.
       securityContext:
         runAsUser: 0
-      volumeMounts:
+      # volumeMounts:
         # - name: kanikocache
         #   mountPath: "$(params.E_KANIKO_CACHE_DIR)"
-          # The following is needed to cache gradle dependency if we are building in a separate stage, since we are using gradle task now for this we aren't using it
-        - name: gradlecache
-          mountPath: /root/.gradle
+        # The following is needed to cache gradle dependency if we are building in a separate stage, since we are using gradle task now for this we aren't using it
+        # - name: gradlecache
+        #   mountPath: /root/.gradle
         # - name: buildcache
         #   mountPath: /workspace/binary
     - name: write-url
@@ -85,13 +92,13 @@ spec:
         set -e
         image="$(params.IMAGE)"
         echo -n "${image}" | tee "$(results.IMAGE_URL.path)"
-  volumes:
+  # volumes:
     # - name: kanikocache
     #   persistentVolumeClaim:
     #     claimName: $(params.E_KANIKO_CACHE_PVC_NAME)
-    - name: gradlecache
-      persistentVolumeClaim:
-        claimName: $(params.E_KANIKO_GRADLE_CACHE_PVC_NAME)
+    # - name: gradlecache
+    #   persistentVolumeClaim:
+    #     claimName: $(params.E_KANIKO_GRADLE_CACHE_PVC_NAME)
     # - name: buildcache
     #   persistentVolumeClaim:
     #     claimName: $(params.E_KANIKO_BUILD_CACHE_PVC_NAME)
