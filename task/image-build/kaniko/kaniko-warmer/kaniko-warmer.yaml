@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: kaniko-warmer-sample
+  name: kaniko-warmer
 spec:
   params:
     - name: CACHE_DIR
@@ -9,6 +9,8 @@ spec:
       description: Location of the local cache
     - name: DOCKERFILE
       description: dockerfile location relative to the SOURCE workspace
+    - name: E_KANIKO_WARMER_CACHE_PVC_NAME
+      description: Name of the pvc for warmer cache
   workspaces:
     - name: source
       description: source of the code repo containing the dockerfile
@@ -38,4 +40,4 @@ spec:
   volumes:
     - name: kanikocache
       persistentVolumeClaim:
-        claimName: test-catalog-task-kaniko-cache-pvc
+        claimName: $(params.E_KANIKO_WARMER_CACHE_PVC_NAME)

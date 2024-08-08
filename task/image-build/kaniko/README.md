@@ -1,1 +1,1 @@
-Source: https://github.com/tektoncd/catalog/blob/main/task/gradle/0.4/gradle.yaml
+Source: https://github.com/tektoncd/catalog/blob/main/task/kaniko/0.6/kaniko.yaml

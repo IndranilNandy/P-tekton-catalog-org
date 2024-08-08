@@ -118,13 +118,21 @@ spec:
         - "clone-source-repo"
     - name: kaniko-warmer
       taskRef:
-        name: kaniko-warmer-sample
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/image-build/kaniko/kaniko-warmer/kaniko-warmer.yaml
+        # name: kaniko-warmer-sample
 
       params:
         - name: CACHE_DIR
           value: "$(params.kaniko-cachedir)"
         - name: DOCKERFILE
           value: "$(params.dockerfile)"
+        - name: E_KANIKO_WARMER_CACHE_PVC_NAME
+          value: "$(params.kaniko-cache-pvc-name)"
       workspaces:
         - name: source
           workspace: codebase
