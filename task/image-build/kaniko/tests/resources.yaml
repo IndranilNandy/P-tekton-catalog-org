@@ -1,63 +1,3 @@
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: test-catalog-task-kaniko-source-pvc
-# spec:
-#   storageClassName: k8-default-sc-with-clustered-nfs-server
-#   resources:
-#     requests:
-#       storage: 500Mi
-#   accessModes:
-#     - ReadWriteOnce
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: test-catalog-task-kaniko-gradle-cache-pvc-1
-# spec:
-#   storageClassName: k8-default-sc-with-clustered-nfs-server
-#   resources:
-#     requests:
-#       storage: 500Mi
-#   accessModes:
-#     - ReadWriteOnce
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: test-catalog-task-kaniko-cache-pvc
-# spec:
-#   storageClassName: k8-default-sc-with-clustered-nfs-server
-#   resources:
-#     requests:
-#       storage: 500Mi
-#   accessModes:
-#     - ReadWriteOnce
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: test-catalog-task-kaniko-build-cache-pvc
-# spec:
-#   storageClassName: k8-default-sc-with-clustered-nfs-server
-#   resources:
-#     requests:
-#       storage: 500Mi
-#   accessModes:
-#     - ReadWriteOnce
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: test-catalog-task-kaniko-gradle-cache-pvc-2
-# spec:
-#   storageClassName: k8-default-sc-with-clustered-nfs-server
-#   resources:
-#     requests:
-#       storage: 500Mi
-#   accessModes:
-#     - ReadWriteOnce
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -75,18 +15,6 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: test-catalog-task-kaniko-pvc
-spec:
-  storageClassName: k8-default-sc-with-clustered-nfs-server
-  resources:
-    requests:
-      storage: 1024Mi
-  accessModes:
-    - ReadWriteOnce
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: testabc-pvc
 spec:
   storageClassName: k8-default-sc-with-clustered-nfs-server
   resources:

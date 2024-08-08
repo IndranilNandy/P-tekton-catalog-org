@@ -58,16 +58,14 @@ spec:
     - name: extra-args
       type: array
     - name: kaniko-cachedir
-    # - name: kaniko-cache-pvc-name
-    # - name: kaniko-gradle-cache-pvc-name
-    # - name: kaniko-build-cache-pvc-name
 
+      # Debugging purpose
     - name: clone-source-repo-debug-disabled
       default: "false"
     - name: build-test-publish-artifacts-debug-disabled
       default: "false"
     - name: kaniko-warmer-debug-disabled
-      default: "trfalseue"
+      default: "false"
     - name: kaniko-build-and-push-image
       default: "false"
 
@@ -124,8 +122,6 @@ spec:
           value: "$(params.project-dir)"
         - name: TASKS
           value: ["$(params.tasks)"]
-        # - name: E_GRADLE_CACHE_PVC_NAME
-        #   value: "$(params.gradle-cache-pvc-name)"
 
       workspaces:
         - name: source
@@ -197,8 +193,6 @@ spec:
           value: ["$(params.extra-args)"]
         - name: E_KANIKO_CACHE_DIR
           value: "$(params.kaniko-cachedir)"
-        # - name: E_KANIKO_GRADLE_CACHE_PVC_NAME
-        #   value: "$(params.kaniko-gradle-cache-pvc-name)"
 
       workspaces:
         - name: source

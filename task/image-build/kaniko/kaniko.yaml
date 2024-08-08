@@ -36,13 +36,6 @@ spec:
     - name: E_GRADLE_CACHE_DIR
       description: Location of gradle dependency cache
       default: /root/.gradle
-    # - name: E_KANIKO_CACHE_PVC_NAME
-    #   description: 'Name of the pvc used for caching kaniko image cache-layers'
-    # - name: E_KANIKO_GRADLE_CACHE_PVC_NAME
-    #   description: '[OPTIONAL] Name of the pvc used for caching gradle dependency'
-    #   default: dummy-not-used-pvc
-    # - name: E_KANIKO_BUILD_CACHE_PVC_NAME
-    #   description: 'Name of the pvc caching builds'
   workspaces:
     - name: source
       description: Holds the context and Dockerfile
@@ -78,27 +71,10 @@ spec:
       # makes it explicit that it needs to run as root.
       securityContext:
         runAsUser: 0
-      # volumeMounts:
-        # - name: kanikocache
-        #   mountPath: "$(params.E_KANIKO_CACHE_DIR)"
-        # The following is needed to cache gradle dependency if we are building in a separate stage, since we are using gradle task now for this we aren't using it
-        # - name: gradlecache
-        #   mountPath: /root/.gradle
-        # - name: buildcache
-        #   mountPath: /workspace/binary
+
     - name: write-url
       image: docker.io/library/bash:5.1.4@sha256:c523c636b722339f41b6a431b44588ab2f762c5de5ec3bd7964420ff982fb1d9
       script: |
         set -e
         image="$(params.IMAGE)"
         echo -n "${image}" | tee "$(results.IMAGE_URL.path)"
-  # volumes:
-    # - name: kanikocache
-    #   persistentVolumeClaim:
-    #     claimName: $(params.E_KANIKO_CACHE_PVC_NAME)
-    # - name: gradlecache
-    #   persistentVolumeClaim:
-    #     claimName: $(params.E_KANIKO_GRADLE_CACHE_PVC_NAME)
-    # - name: buildcache
-    #   persistentVolumeClaim:
-    #     claimName: $(params.E_KANIKO_BUILD_CACHE_PVC_NAME)

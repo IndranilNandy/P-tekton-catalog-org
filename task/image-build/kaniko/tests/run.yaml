@@ -54,12 +54,6 @@ spec:
         - --cache-run-layers
     - name: kaniko-cachedir
       value: /cache
-    # - name: kaniko-cache-pvc-name
-    #   value: test-catalog-task-kaniko-cache-pvc
-    # - name: kaniko-gradle-cache-pvc-name
-    #   value: test-catalog-task-kaniko-gradle-cache-pvc-2
-    # - name: kaniko-build-cache-pvc-name
-    #   value: test-catalog-task-kaniko-build-cache-pvc
 
   workspaces:
     - name: shared-workspace-kaniko
