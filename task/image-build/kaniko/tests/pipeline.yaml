@@ -50,24 +50,24 @@ spec:
         - build
     - name: gradle-cache-pvc-name
 
-    # # For kaniko task
-    # - name: app-image
-    # - name: builder-image
-    # - name: dockerfile
-    # - name: context
-    # - name: extra-args
-    #   type: array
-    # - name: kaniko-cachedir
-    # - name: kaniko-cache-pvc-name
-    # - name: kaniko-gradle-cache-pvc-name
-    # - name: kaniko-build-cache-pvc-name
+    # For kaniko task
+    - name: app-image
+    - name: builder-image
+    - name: dockerfile
+    - name: context
+    - name: extra-args
+      type: array
+    - name: kaniko-cachedir
+    - name: kaniko-cache-pvc-name
+    - name: kaniko-gradle-cache-pvc-name
+    - name: kaniko-build-cache-pvc-name
 
     - name: clone-source-repo-debug-enabled
       default: "true"
     - name: build-test-publish-artifacts-debug-enabled
       default: "true"
     - name: kaniko-warmer-debug-enabled
-      default: "false"
+      default: "true"
     - name: kaniko-build-and-push-image
       default: "false"
 
@@ -145,37 +145,39 @@ spec:
       runAfter:
         - "clone-source-repo"
 
-    # - name: kaniko-warmer
-    #   when:
-    #     - input: "$(params.kaniko-warmer-debug-enabled)"
-    #       operator: in
-    #       values:
-    #         - "true"
-    #   taskRef:
-    #     resolver: git
-    #     params:
-    #       - name: repo
-    #         value: P-tekton-catalog-org
-    #       - name: pathInRepo
-    #         value: task/image-build/kaniko/kaniko-warmer/kaniko-warmer.yaml
-    #     # name: kaniko-warmer-sample
+    - name: kaniko-warmer
+      when:
+        - input: "$(params.kaniko-warmer-debug-enabled)"
+          operator: in
+          values:
+            - "true"
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/image-build/kaniko/kaniko-warmer/kaniko-warmer.yaml
+        # name: kaniko-warmer-sample
 
-    #   params:
-    #     - name: CACHE_DIR
-    #       value: "$(params.kaniko-cachedir)"
-    #     - name: DOCKERFILE
-    #       value: "$(params.dockerfile)"
-    #     - name: E_KANIKO_WARMER_CACHE_PVC_NAME
-    #       value: "$(params.kaniko-cache-pvc-name)"
+      params:
+        - name: CACHE_DIR
+          value: "$(params.kaniko-cachedir)"
+        - name: DOCKERFILE
+          value: "$(params.dockerfile)"
+        # - name: E_KANIKO_WARMER_CACHE_PVC_NAME
+        #   value: "$(params.kaniko-cache-pvc-name)"
 
-    #   workspaces:
-    #     - name: source
-    #       workspace: codebase
-    #     - name: e_kaniko_warmer_cache
-    #       workspace: kaniko-cache
+      workspaces:
+        - name: source
+          workspace: shared-workspace-kaniko
+          subPath: source-code/
+        - name: e_kaniko_warmer_cache
+          workspace: shared-workspace-kaniko
+          subPath: kaniko-cache/
 
-    #   runAfter:
-    #     - "build-test-publish-artifacts"
+      runAfter:
+        - "build-test-publish-artifacts"
 
     # - name: kaniko-build-and-push-image
     #   when:

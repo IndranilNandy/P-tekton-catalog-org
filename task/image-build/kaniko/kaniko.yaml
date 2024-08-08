@@ -33,13 +33,13 @@ spec:
     - name: E_KANIKO_CACHE_DIR
       description: Location of the local cache
       default: /cache
-    - name: E_KANIKO_CACHE_PVC_NAME
-      description: 'Name of the pvc used for caching kaniko image cache-layers'
+    # - name: E_KANIKO_CACHE_PVC_NAME
+    #   description: 'Name of the pvc used for caching kaniko image cache-layers'
     - name: E_KANIKO_GRADLE_CACHE_PVC_NAME
       description: '[OPTIONAL] Name of the pvc used for caching gradle dependency'
       default: dummy-not-used-pvc
-    - name: E_KANIKO_BUILD_CACHE_PVC_NAME
-      description: 'Name of the pvc caching builds'
+    # - name: E_KANIKO_BUILD_CACHE_PVC_NAME
+    #   description: 'Name of the pvc caching builds'
   workspaces:
     - name: source
       description: Holds the context and Dockerfile

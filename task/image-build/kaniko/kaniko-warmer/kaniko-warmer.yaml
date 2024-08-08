@@ -9,12 +9,13 @@ spec:
       description: Location of the local cache
     - name: DOCKERFILE
       description: dockerfile location relative to the SOURCE workspace
-    - name: E_KANIKO_WARMER_CACHE_PVC_NAME
-      description: Name of the pvc for warmer cache
+    # - name: E_KANIKO_WARMER_CACHE_PVC_NAME
+    #   description: Name of the pvc for warmer cache
   workspaces:
     - name: source
       description: source of the code repo containing the dockerfile
     - name: e_kaniko_warmer_cache
+      description: kaniko cache source
       mountPath: "$(params.CACHE_DIR)"
   steps:
     # - name: debug-step
