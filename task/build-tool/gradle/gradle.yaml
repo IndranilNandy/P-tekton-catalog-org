@@ -22,6 +22,8 @@ spec:
       optional: true
     - name: e-gradle-cache
       mountPath: $(params.E_GRADLE_CACHE_DIR)
+    - name: e-gradle-build-cache
+      mountPath: $(workspaces.source.path)/$(params.PROJECT_DIR)/build
   params:
     - name: GRADLE_IMAGE
       description: Gradle base image.
