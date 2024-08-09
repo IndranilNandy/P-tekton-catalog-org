@@ -37,7 +37,8 @@ spec:
       value: gcr.io/kaniko-project/executor:v1.23.1@sha256:7914350eda14b43f3dcc6925afca88d6b7ba5dff13d221bb70ef44d4da73a1e8
     - name: dockerfile
       # value: ./docker/copy_build_binary_from_ws.Dockerfile
-      value: ./docker/primary.Dockerfile
+      # value: ./docker/primary.Dockerfile
+      value: ./docker/primary-kaniko-compact.Dockerfile
     - name: context
       value: .
     - name: extra-args
