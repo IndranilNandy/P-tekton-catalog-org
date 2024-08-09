@@ -131,9 +131,9 @@ spec:
         - name: e-gradle-cache
           workspace: shared-workspace-kaniko
           subPath: gradle-cache/
-        - name: e-gradle-build-cache
-          workspace: shared-workspace-kaniko
-          subPath: gradle-build-cache/
+        # - name: e-gradle-build-cache
+        #   workspace: shared-workspace-kaniko
+        #   subPath: gradle-build-cache/
 
 
       runAfter:
