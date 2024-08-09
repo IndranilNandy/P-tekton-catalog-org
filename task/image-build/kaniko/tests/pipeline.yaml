@@ -64,7 +64,7 @@ spec:
     - name: clone-source-repo-debug-disabled
       default: "false"
     - name: build-test-publish-artifacts-debug-disabled
-      default: "true"
+      default: "false"
     - name: kaniko-warmer-debug-disabled
       default: "false"
     - name: kaniko-build-and-push-image
