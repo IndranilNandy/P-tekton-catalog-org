@@ -69,3 +69,4 @@ spec:
         echo "Running gradle task with command below"
         echo "$cmd"
         eval "$cmd"
+        pwd
