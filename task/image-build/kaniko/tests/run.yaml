@@ -38,7 +38,9 @@ spec:
     - name: dockerfile
       # value: ./docker/copy_build_binary_from_ws.Dockerfile
       # value: ./docker/primary.Dockerfile
-      value: ./docker/primary-kaniko-compact.Dockerfile
+      # value: ./docker/primary-kaniko-compact.Dockerfile
+      value: ./docker/primary-kaniko.Dockerfile
+
     - name: context
       value: .
     - name: extra-args
