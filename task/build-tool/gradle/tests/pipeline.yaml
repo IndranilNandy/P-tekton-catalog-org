@@ -55,6 +55,9 @@ spec:
         - name: e-gradle-cache
           workspace: shared-workspace-gradle
           subPath: gradle-cache/
+        - name: e-gradle-build-cache
+          workspace: shared-workspace-gradle
+          subPath: gradle-build-cache/
     - name: fetch-wrapper-code
       taskRef:
         resolver: git
@@ -105,5 +108,8 @@ spec:
         - name: e-gradle-cache
           workspace: shared-workspace-gradle
           subPath: gradle-cache/
+        - name: e-gradle-build-cache
+          workspace: shared-workspace-gradle
+          subPath: gradle-build-cache/
         - name: gradle-config
           workspace: gradle-config
