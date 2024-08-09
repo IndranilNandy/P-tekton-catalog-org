@@ -18,12 +18,15 @@ spec:
       description: kaniko cache source
       mountPath: "$(params.CACHE_DIR)"
   steps:
-    # - name: debug-step
-    #   image: alpine/git
-    #   # workingDir: $(workspaces.source.path)
-    #   script: |
-    #     #!/bin/sh
-    #     echo cache-"$(params.CACHE_DIR)"
+    - name: debug-step
+      image: alpine/git
+      workingDir: $(workspaces.source.path)
+      script: |
+        #!/bin/sh
+        echo cache-"$(params.CACHE_DIR)"
+        ls -alut
+        echo next
+        ls docker -alut
     - name: kaniko-warmer
       image: gcr.io/kaniko-project/warmer:latest
       workingDir: $(workspaces.source.path)
