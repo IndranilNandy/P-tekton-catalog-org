@@ -24,6 +24,7 @@ spec:
       script: |
         #!/bin/sh
         echo cache-"$(params.CACHE_DIR)"
+        pwd
         ls -alut
         echo next
         ls docker -alut
