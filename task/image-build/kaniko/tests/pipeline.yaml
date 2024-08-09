@@ -58,6 +58,7 @@ spec:
     - name: extra-args
       type: array
     - name: kaniko-cachedir
+    - name: binary-cache
 
       # Debugging purpose
     - name: clone-source-repo-debug-disabled
@@ -193,6 +194,8 @@ spec:
           value: ["$(params.extra-args)"]
         - name: E_KANIKO_CACHE_DIR
           value: "$(params.kaniko-cachedir)"
+        - name: E_BINARY_CACHE_LOCATION
+          value: "$(params.binary-cache)"
 
       workspaces:
         - name: source

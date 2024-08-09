@@ -56,6 +56,9 @@ spec:
         - --cache-run-layers
     - name: kaniko-cachedir
       value: /cache
+    - name: binary-cache
+      value: /workspace/binary
+      # value: /workspace/temp/binary
 
   workspaces:
     - name: shared-workspace-kaniko

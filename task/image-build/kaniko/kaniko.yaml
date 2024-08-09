@@ -36,6 +36,7 @@ spec:
     - name: E_GRADLE_CACHE_DIR
       description: Location of gradle dependency cache
       default: /root/.gradle
+      # This is needed for multi-staged building to cache the build binary. Value depends on the dockerfile instructions
     - name: E_BINARY_CACHE_LOCATION
       default: /workspace/binary
   workspaces:
