@@ -45,8 +45,8 @@ spec:
             - build
             # - -PbuildDir=/tmp
             - --console=verbose
-        - name: E_PROJECT_BUILD_DIR
-          value: /tmp
+        # - name: E_PROJECT_BUILD_DIR
+        #   value: /tmp
       workspaces:
         - name: source
           workspace: shared-workspace-gradle
