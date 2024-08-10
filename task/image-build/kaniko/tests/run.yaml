@@ -24,13 +24,13 @@ spec:
       value:
         - build
         - publish
-        - -PbuildDir=/tmp
+        # - -PbuildDir=/tmp
         - --console=verbose
         # - --status
         # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
         # - --no-daemon
-    - name: gradle-cache-pvc-name
-      value: test-catalog-task-kaniko-gradle-cache-pvc-1
+    # - name: gradle-cache-pvc-name
+    #   value: test-catalog-task-kaniko-gradle-cache-pvc-1
 
     # For kaniko task
     - name: app-image

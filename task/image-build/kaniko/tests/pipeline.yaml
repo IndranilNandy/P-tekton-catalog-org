@@ -48,7 +48,7 @@ spec:
       type: array
       default:
         - build
-    - name: gradle-cache-pvc-name
+    # - name: gradle-cache-pvc-name
 
     # For kaniko task
     - name: app-image
@@ -123,20 +123,24 @@ spec:
           value: "$(params.project-dir)"
         - name: TASKS
           value: ["$(params.tasks)"]
-        - name: E_BUILD_DIR
-          value: /tmp
+        - name: E_PROJECT_BUILD_DIR
+          value: /tmp/myproject/build
+        - name: E_FAST_BUILD_SUPPORT
+          value: "true"
 
       workspaces:
         - name: source
           workspace: shared-workspace-kaniko
           subPath: source-code/
-        - name: e-gradle-cache
+        - name: e-gradle-user-home-cache
           workspace: shared-workspace-kaniko
-          subPath: gradle-cache/
-        - name: e-gradle-build-cache
+          subPath: gradle-cache/user-home/
+        - name: e-gradle-project-build-cache
           workspace: shared-workspace-kaniko
-          subPath: gradle-build-cache/
-
+          subPath: gradle-cache/project/build-cache/
+        - name: e-gradle-project-local-cache
+          workspace: shared-workspace-kaniko
+          subPath: gradle-cache/project/local-cache/
 
       runAfter:
         - "clone-source-repo"
@@ -167,7 +171,7 @@ spec:
           subPath: source-code/
         - name: e_kaniko_warmer_cache
           workspace: shared-workspace-kaniko
-          subPath: kaniko-cache/
+          subPath: kaniko/kaniko-cache/
 
       runAfter:
         - "build-test-publish-artifacts"
@@ -199,7 +203,7 @@ spec:
           value: ["$(params.extra-args)"]
         - name: E_KANIKO_CACHE_DIR
           value: "$(params.kaniko-cachedir)"
-        - name: E_BINARY_CACHE_LOCATION
+        - name: E_DOCKERFILE_SPECIFIC_CACHE_LOCATION
           value: "$(params.binary-cache)"
 
       workspaces:
@@ -208,13 +212,13 @@ spec:
           subPath: source-code/
         - name: e_kaniko_cache
           workspace: shared-workspace-kaniko
-          subPath: kaniko-cache/
+          subPath: kaniko/kaniko-cache/
         - name: e_binary_cache
           workspace: shared-workspace-kaniko
-          subPath: kaniko-build-cache/
+          subPath: kaniko/kaniko-build-cache/
         - name: e_gradle_cache
           workspace: shared-workspace-kaniko
-          subPath: gradle-cache/
+          subPath: kaniko/gradle-cache/
         - name: dockerconfig
           workspace: docker-credentials
 
