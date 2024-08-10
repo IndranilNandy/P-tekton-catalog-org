@@ -45,7 +45,7 @@ spec:
             - build
             - -PbuildDir=/tmp
             - --console=verbose
-        - name: E_BUILD_DIR
+        - name: E_PROJECT_BUILD_DIR
           value: /tmp
       workspaces:
         - name: source
@@ -53,15 +53,16 @@ spec:
           subPath: source-code/
         - name: gradle-config
           workspace: gradle-config
-        - name: e-gradle-cache
+        - name: e-gradle-user-home-cache
           workspace: shared-workspace-gradle
-          subPath: gradle-cache/
-        - name: e-gradle-build-cache
+          subPath: gradle-cache/user-home/
+        - name: e-gradle-project-build-cache
           workspace: shared-workspace-gradle
-          subPath: gradle-build-cache/
-        - name: e-gradle-project-cache
+          subPath: gradle-cache/project/build-cache/
+        - name: e-gradle-project-local-cache
           workspace: shared-workspace-gradle
-          subPath: gradle-project-cache/
+          subPath: gradle-cache/project/local-cache/
+          # subPath: gradle-project-cache/
     # - name: fetch-wrapper-code
     #   taskRef:
     #     resolver: git
