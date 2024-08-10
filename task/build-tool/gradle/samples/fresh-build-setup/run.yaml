@@ -14,8 +14,15 @@ spec:
 
   workspaces:
     - name: shared-workspace-gradle
-      persistentVolumeClaim:
-        claimName: sample-catalog-task-gradle-fresh-build-pvc
+      volumeClaimTemplate:
+        spec:
+          storageClassName: k8-default-sc-with-clustered-nfs-server
+          resources:
+            requests:
+              storage: 10Mi
+          volumeMode: Filesystem
+          accessModes:
+            - ReadWriteOnce
     - name: gradle-config
       configMap:
         name: gradle-config

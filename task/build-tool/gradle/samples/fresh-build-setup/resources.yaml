@@ -6,15 +6,15 @@ metadata:
 data:
   gradle.properties: |-
     artifactory_contextUrl=https://jfrog.com/artifactory
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: sample-catalog-task-gradle-fresh-build-pvc
-spec:
-  storageClassName: k8-default-sc-with-clustered-nfs-server
-  resources:
-    requests:
-      storage: 500Mi
-  accessModes:
-    - ReadWriteOnce
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: sample-catalog-task-gradle-fresh-build-pvc
+# spec:
+#   storageClassName: k8-default-sc-with-clustered-nfs-server
+#   resources:
+#     requests:
+#       storage: 500Mi
+#   accessModes:
+#     - ReadWriteOnce

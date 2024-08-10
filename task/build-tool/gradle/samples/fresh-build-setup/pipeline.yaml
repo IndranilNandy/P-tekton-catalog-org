@@ -61,9 +61,3 @@ spec:
         - name: e-gradle-user-home-cache
           workspace: shared-workspace-gradle
           subPath: repo2/gradle-cache/user-home/
-        - name: e-gradle-project-build-cache
-          workspace: shared-workspace-gradle
-          subPath: repo2/gradle-cache/project/build-cache/
-        - name: e-gradle-project-local-cache
-          workspace: shared-workspace-gradle
-          subPath: repo2/gradle-cache/project/local-cache/
