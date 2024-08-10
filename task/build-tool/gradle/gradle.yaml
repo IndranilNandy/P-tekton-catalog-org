@@ -81,6 +81,12 @@ spec:
           cmd="gradle $*"
         fi
 
+        echo "debug start"
+        echo PROJECT_DIR="$(params.PROJECT_DIR)"
+        echo Default project build dir = "$(workspaces.source.path)/$(params.PROJECT_DIR)/build"
+        echo E_PROJECT_BUILD_DIR="$(params.E_PROJECT_BUILD_DIR)"
+        echo "debug end"
+
         # E_: Customized to configure separate build directory location to be able mount on a separate pvc, so that the pvc holding codebase can be cleaned by git-clone task with no issue.
         [[ "$(params.E_PROJECT_BUILD_DIR)" != "$(workspaces.source.path)/$(params.PROJECT_DIR)/build" ]] && cmd="$cmd -PbuildDir=$(params.E_PROJECT_BUILD_DIR)"
 
