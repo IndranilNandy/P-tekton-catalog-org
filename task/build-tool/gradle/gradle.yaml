@@ -53,7 +53,7 @@ spec:
       default: /home/gradle
     - name: E_PROJECT_BUILD_DIR
       description: Project build directory location
-      default: $(workspaces.source.path)/$(params.PROJECT_DIR)/build
+      default: $(workspaces.source.path)/"$(params.PROJECT_DIR)"/build
 
   steps:
     - name: gradle-tasks
