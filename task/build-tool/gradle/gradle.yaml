@@ -101,7 +101,7 @@ spec:
         # [[ -n "$(params.E_PROJECT_BUILD_DIR)" ]] && cmd="$cmd -PbuildDir=$(params.E_PROJECT_BUILD_DIR)"
         # [[ "$(params.E_FAST_BUILD_SUPPORT)" == "true" ]] && mkdir -p "$(params.E_PROJECT_BUILD_DIR)" && cmd="$cmd -PbuildDir=$(params.E_PROJECT_BUILD_DIR)"
         [[ "$(params.E_FAST_BUILD_SUPPORT)" == "true" ]] && cmd="$cmd -PbuildDir=$(params.E_PROJECT_BUILD_DIR)"
-        [[ "$(params.E_FAST_BUILD_SUPPORT)" == "true" ]] && $(workspaces.e-gradle-user-home-cache.bound)="false"
+        [[ "$(params.E_FAST_BUILD_SUPPORT)" == "true" ]] && workspaces.e-gradle-user-home-cache.bound="false"
         echo home-cache="$(workspaces.e-gradle-user-home-cache.bound)"
 
         echo "Running gradle task with command below"
