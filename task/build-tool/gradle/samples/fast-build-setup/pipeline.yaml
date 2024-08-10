@@ -2,68 +2,13 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: test-catalog-task-gradle-pipeline
+  name: sample-catalog-task-gradle-fast-build
 spec:
   workspaces:
     - name: shared-workspace-gradle
     - name: gradle-config
 
   tasks:
-    - name: fetch-code
-      taskRef:
-        resolver: git
-        params:
-          - name: repo
-            value: P-tekton-catalog-org
-          - name: pathInRepo
-            value: task/scm/git-clone/git-clone.yaml
-      workspaces:
-        - name: output
-          workspace: shared-workspace-gradle
-          subPath: repo1/source-code/
-      params:
-        - name: url
-          value: https://github.com/crshnburn/simple-gradle
-        - name: subdirectory
-          value: ""
-        - name: deleteExisting
-          value: "true"
-
-    - name: gradle-run
-      taskRef:
-        resolver: git
-        params:
-          - name: repo
-            value: P-tekton-catalog-org
-          - name: pathInRepo
-            value: task/build-tool/gradle/gradle.yaml
-      runAfter:
-        - fetch-code
-      params:
-        - name: TASKS
-          value:
-            - build
-            - --console=verbose
-        - name: E_PROJECT_BUILD_DIR
-          value: /tmp/myproject/build
-        - name: E_FAST_BUILD_SUPPORT
-          value: "true"
-      workspaces:
-        - name: source
-          workspace: shared-workspace-gradle
-          subPath: repo1/source-code/
-        - name: gradle-config
-          workspace: gradle-config
-        - name: e-gradle-user-home-cache
-          workspace: shared-workspace-gradle
-          subPath: repo1/gradle-cache/user-home/
-        - name: e-gradle-project-build-cache
-          workspace: shared-workspace-gradle
-          subPath: repo1/gradle-cache/project/build-cache/
-        - name: e-gradle-project-local-cache
-          workspace: shared-workspace-gradle
-          subPath: repo1/gradle-cache/project/local-cache/
-
     - name: fetch-wrapper-code
       taskRef:
         resolver: git
@@ -72,8 +17,6 @@ spec:
             value: P-tekton-catalog-org
           - name: pathInRepo
             value: task/scm/git-clone/git-clone.yaml
-      runAfter:
-        - gradle-run
       workspaces:
         - name: output
           workspace: shared-workspace-gradle

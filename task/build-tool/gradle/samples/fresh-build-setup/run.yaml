@@ -1,0 +1,21 @@
+---
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: catalog-gradle-pipeline-run-
+spec:
+  pipelineRef:
+    name: sample-catalog-task-gradle-fresh-build
+
+  taskRunTemplate:
+    podTemplate:
+      securityContext:
+        fsGroup: 65532
+
+  workspaces:
+    - name: shared-workspace-gradle
+      persistentVolumeClaim:
+        claimName: sample-catalog-task-gradle-fresh-build-pvc
+    - name: gradle-config
+      configMap:
+        name: gradle-config
