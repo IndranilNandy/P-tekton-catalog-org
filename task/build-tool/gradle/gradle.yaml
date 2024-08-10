@@ -53,7 +53,8 @@ spec:
       default: /home/gradle
     - name: E_PROJECT_BUILD_DIR
       description: Project build directory location
-      default: $(workspaces.source.path)/"$(params.PROJECT_DIR)"/build
+      # default: $(workspaces.source.path)/"$(params.PROJECT_DIR)"/build
+      default: ""
 
   steps:
     - name: gradle-tasks
@@ -88,7 +89,7 @@ spec:
         echo "debug end"
 
         # E_: Customized to configure separate build directory location to be able mount on a separate pvc, so that the pvc holding codebase can be cleaned by git-clone task with no issue.
-        [[ "$(params.E_PROJECT_BUILD_DIR)" != "$(workspaces.source.path)/$(params.PROJECT_DIR)/build" ]] && cmd="$cmd -PbuildDir=$(params.E_PROJECT_BUILD_DIR)"
+        [[ -n "$(params.E_PROJECT_BUILD_DIR)" ]] && cmd="$cmd -PbuildDir=$(params.E_PROJECT_BUILD_DIR)"
 
         echo "Running gradle task with command below"
         echo "$cmd"
