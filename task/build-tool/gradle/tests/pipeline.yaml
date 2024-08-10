@@ -37,15 +37,16 @@ spec:
             value: P-tekton-catalog-org
           - name: pathInRepo
             value: task/build-tool/gradle/gradle.yaml
-        # name: gradle
       runAfter:
         - fetch-code
       params:
         - name: TASKS
           value:
             - build
-        # - name: E_GRADLE_CACHE_PVC_NAME
-        #   value: gradle-cache-pvc
+            - -PbuildDir=/tmp
+            - --console=verbose
+        - name: E_BUILD_DIR
+          value: /tmp
       workspaces:
         - name: source
           workspace: shared-workspace-gradle
@@ -58,58 +59,61 @@ spec:
         - name: e-gradle-build-cache
           workspace: shared-workspace-gradle
           subPath: gradle-build-cache/
-    - name: fetch-wrapper-code
-      taskRef:
-        resolver: git
-        params:
-          - name: repo
-            value: P-tekton-catalog-org
-          - name: pathInRepo
-            value: task/scm/git-clone/git-clone.yaml
-        # name: git-clone
-      runAfter:
-        - gradle-run
-      workspaces:
-        - name: output
+        - name: e-gradle-project-cache
           workspace: shared-workspace-gradle
-          subPath: source-code/
-      params:
-        - name: url
-          value: https://github.com/BastiaanN/simple-gradle-wrapper
-        - name: subdirectory
-          value: "wrapper-test"
-        - name: deleteExisting
-          value: "true"
-    - name: gradle-wrapper-run
-      taskRef:
-        resolver: git
-        params:
-          - name: repo
-            value: P-tekton-catalog-org
-          - name: pathInRepo
-            value: task/build-tool/gradle/gradle.yaml
-        # name: gradle
-      runAfter:
-        - fetch-wrapper-code
-      params:
-        - name: TASKS
-          value:
-            - build
-        - name: PROJECT_DIR
-          value: "wrapper-test"
-        - name: GRADLE_IMAGE
-          value: docker.io/library/eclipse-temurin:17-ubi9-minimal@sha256:19c66566a0a802df5674301b223683ffbcf56cf18488a37a21d53e3d09df57d1
-        # - name: E_GRADLE_CACHE_PVC_NAME
-        #   value: gradle-cache-pvc
-      workspaces:
-        - name: source
-          workspace: shared-workspace-gradle
-          subPath: source-code/
-        - name: e-gradle-cache
-          workspace: shared-workspace-gradle
-          subPath: gradle-cache/
-        - name: e-gradle-build-cache
-          workspace: shared-workspace-gradle
-          subPath: gradle-build-cache/
-        - name: gradle-config
-          workspace: gradle-config
+          subPath: gradle-project-cache/
+    # - name: fetch-wrapper-code
+    #   taskRef:
+    #     resolver: git
+    #     params:
+    #       - name: repo
+    #         value: P-tekton-catalog-org
+    #       - name: pathInRepo
+    #         value: task/scm/git-clone/git-clone.yaml
+    #     # name: git-clone
+    #   runAfter:
+    #     - gradle-run
+    #   workspaces:
+    #     - name: output
+    #       workspace: shared-workspace-gradle
+    #       subPath: source-code/
+    #   params:
+    #     - name: url
+    #       value: https://github.com/BastiaanN/simple-gradle-wrapper
+    #     - name: subdirectory
+    #       value: "wrapper-test"
+    #     - name: deleteExisting
+    #       value: "true"
+    # - name: gradle-wrapper-run
+    #   taskRef:
+    #     resolver: git
+    #     params:
+    #       - name: repo
+    #         value: P-tekton-catalog-org
+    #       - name: pathInRepo
+    #         value: task/build-tool/gradle/gradle.yaml
+    #     # name: gradle
+    #   runAfter:
+    #     - fetch-wrapper-code
+    #   params:
+    #     - name: TASKS
+    #       value:
+    #         - build
+    #     - name: PROJECT_DIR
+    #       value: "wrapper-test"
+    #     - name: GRADLE_IMAGE
+    #       value: docker.io/library/eclipse-temurin:17-ubi9-minimal@sha256:19c66566a0a802df5674301b223683ffbcf56cf18488a37a21d53e3d09df57d1
+    #     # - name: E_GRADLE_CACHE_PVC_NAME
+    #     #   value: gradle-cache-pvc
+    #   workspaces:
+    #     - name: source
+    #       workspace: shared-workspace-gradle
+    #       subPath: source-code/
+    #     - name: e-gradle-cache
+    #       workspace: shared-workspace-gradle
+    #       subPath: gradle-cache/
+    #     - name: e-gradle-build-cache
+    #       workspace: shared-workspace-gradle
+    #       subPath: gradle-build-cache/
+    #     - name: gradle-config
+    #       workspace: gradle-config
