@@ -82,7 +82,7 @@ spec:
         fi
 
         [[ "$(params.E_PROJECT_BUILD_DIR)" != "$(workspaces.source.path)/$(params.PROJECT_DIR)/build" ]] && cmd="$cmd -PbuildDir=$(params.E_PROJECT_BUILD_DIR)"
-
+        echo "updated"
         echo "Running gradle task with command below"
         echo "$cmd"
         eval "$cmd"
