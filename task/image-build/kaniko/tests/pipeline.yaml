@@ -60,15 +60,17 @@ spec:
     - name: kaniko-cachedir
     - name: binary-cache
 
+    # - name: ci-build-artifacts-root
+
       # Debugging purpose
     - name: clone-source-repo-debug-disabled
       default: "false"
     - name: build-test-publish-artifacts-debug-disabled
       default: "false"
     - name: kaniko-warmer-debug-disabled
-      default: "true"
+      default: "false"
     - name: kaniko-build-and-push-image
-      default: "true"
+      default: "false"
 
   workspaces:
     - name: shared-workspace-kaniko
@@ -124,6 +126,7 @@ spec:
         - name: TASKS
           value: ["$(params.tasks)"]
         - name: E_PROJECT_BUILD_DIR
+          # value: "$(params.ci-build-artifacts-root)/build"
           value: /tmp/myproject/build
           # value: ./build
         - name: E_FAST_BUILD_SUPPORT
@@ -138,7 +141,7 @@ spec:
           subPath: gradle-cache/user-home/
         - name: e-gradle-project-build-cache
           workspace: shared-workspace-kaniko
-          subPath: gradle-cache/project/build-cache/
+          subPath: gradle-cache/project/build-cache/build
         - name: e-gradle-project-local-cache
           workspace: shared-workspace-kaniko
           subPath: gradle-cache/project/local-cache/
@@ -220,6 +223,10 @@ spec:
         - name: e_gradle_cache
           workspace: shared-workspace-kaniko
           subPath: kaniko/gradle-cache/
+        - name: e_project_build_artifact_root_cache
+          workspace: shared-workspace-kaniko
+          subPath: gradle-cache/project/build-cache/
+
         - name: dockerconfig
           workspace: docker-credentials
 

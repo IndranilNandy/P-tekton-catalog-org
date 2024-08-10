@@ -58,6 +58,7 @@ spec:
     - name: e_gradle_cache
       description: Holds gradle dependencies to be cached. Mainly used for a multi-staged dockerfile building the code in a separate stage.
       mountPath: "$(params.E_GRADLE_USER_HOME)"
+    - name: e_project_build_artifact_root_cache
 
   results:
     - name: IMAGE_DIGEST
@@ -72,7 +73,8 @@ spec:
       args:
         - $(params.EXTRA_ARGS)
         - --dockerfile=$(params.DOCKERFILE)
-        - --context=$(workspaces.source.path)/$(params.CONTEXT) # The user does not need to care the workspace and the source.
+        - --context=$(workspaces.e_project_build_artifact_root_cache.path)/$(params.CONTEXT) # The user does not need to care the workspace and the source.
+        # - --context=$(workspaces.source.path)/$(params.CONTEXT) # The user does not need to care the workspace and the source.
         - --destination=$(params.IMAGE)
         - --digest-file=$(results.IMAGE_DIGEST.path)
       # kaniko assumes it is running as root, which means this example fails on platforms

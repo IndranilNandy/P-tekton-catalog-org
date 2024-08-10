@@ -45,6 +45,8 @@ spec:
 
     - name: context
       value: .
+      # value: "$(params.ci-build-artifacts-root)"
+      # value: /tmp/project/build-artifacts
     - name: extra-args
       value:
         - --build-arg
@@ -53,6 +55,8 @@ spec:
         - JAR_FILE=*-SNAPSHOT.jar
         - --build-arg
         - APP_SERVICE=app-service
+        - --build-arg
+        - SOURCE_BUILD_LOCATION=build
         - --cache=true
         - --insecure
         - --cache-copy-layers
@@ -63,6 +67,9 @@ spec:
     - name: binary-cache
       value: /workspace/binary
       # value: /workspace/temp/binary
+
+    # - name: ci-build-artifacts-root
+    #   value: /tmp/project/build-artifacts
 
   workspaces:
     - name: shared-workspace-kaniko
