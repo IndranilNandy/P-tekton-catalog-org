@@ -43,7 +43,7 @@ spec:
         - name: TASKS
           value:
             - build
-            - -PbuildDir=/tmp
+            # - -PbuildDir=/tmp
             - --console=verbose
         - name: E_PROJECT_BUILD_DIR
           value: /tmp
