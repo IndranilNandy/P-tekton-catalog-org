@@ -64,7 +64,7 @@ spec:
     - name: clone-source-repo-debug-disabled
       default: "false"
     - name: build-test-publish-artifacts-debug-disabled
-      default: "true"
+      default: "false"
     - name: kaniko-warmer-debug-disabled
       default: "true"
     - name: kaniko-build-and-push-image
@@ -125,6 +125,7 @@ spec:
           value: ["$(params.tasks)"]
         - name: E_PROJECT_BUILD_DIR
           value: /tmp/myproject/build
+          # value: ./build
         - name: E_FAST_BUILD_SUPPORT
           value: "true"
 
