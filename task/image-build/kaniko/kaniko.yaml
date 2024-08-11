@@ -60,11 +60,11 @@ spec:
     - name: e_gradle_cache
       description: Holds gradle dependencies to be cached. Mainly used for a multi-staged dockerfile building the code in a separate stage.
       mountPath: "$(params.E_GRADLE_USER_HOME)"
-    # - name: e_project_build_artifact_root_cache
-    #   description: |
-    #     - Holds gradle build generated artifacts including build-binary for faster successive builds.
-    #     - REMEMBER this location MUST NOT be a sub-directory of project root. In that case git-clone task will erase it every time, and gradle incremental task will not be effective.
-    #   mountPath: "$(params.E_PROJECT_BUILD_ARTIFACT_ROOT_CACHE_LOCATION)"
+    - name: e_project_build_artifact_root_cache
+      description: |
+        - Holds gradle build generated artifacts including build-binary for faster successive builds.
+        - REMEMBER this location MUST NOT be a sub-directory of project root. In that case git-clone task will erase it every time, and gradle incremental task will not be effective.
+      mountPath: "$(params.E_PROJECT_BUILD_ARTIFACT_ROOT_CACHE_LOCATION)"
 
   results:
     - name: IMAGE_DIGEST
