@@ -65,6 +65,7 @@ spec:
         - Holds gradle build generated artifacts including build-binary for faster successive builds.
         - REMEMBER this location MUST NOT be a sub-directory of project root. In that case git-clone task will erase it every time, and gradle incremental task will not be effective.
       mountPath: "$(params.E_PROJECT_BUILD_ARTIFACT_ROOT_CACHE_LOCATION)"
+      optional: true
 
   results:
     - name: IMAGE_DIGEST
