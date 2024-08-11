@@ -40,6 +40,8 @@ spec:
     - name: E_DOCKERFILE_SPECIFIC_CACHE_LOCATION
       description: This is needed for multi-staged building to cache the build binary. Value depends on the dockerfile instructions.
       default: /workspace/binary
+    - name: E_PROJECT_BUILD_ARTIFACT_ROOT_CACHE_LOCATION
+      default: /tmp/myproject
 
   workspaces:
     - name: source
@@ -62,7 +64,7 @@ spec:
       description: |
         - Holds gradle build generated artifacts including build-binary for faster successive builds.
         - REMEMBER this location MUST NOT be a sub-directory of project root. In that case git-clone task will erase it every time, and gradle incremental task will not be effective.
-      mountPath: /tmp/myproject
+      mountPath: "$(params.E_PROJECT_BUILD_ARTIFACT_ROOT_CACHE_LOCATION)"
 
   results:
     - name: IMAGE_DIGEST

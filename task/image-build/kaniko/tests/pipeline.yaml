@@ -60,7 +60,11 @@ spec:
     - name: kaniko-cachedir
     - name: binary-cache
 
-    # - name: ci-build-artifacts-root
+    # Pipeline specific
+    - name: build-artifacts-root
+      default: /tmp/myproject
+    - name: project-build-dir-name
+      default: build
 
       # Debugging purpose
     - name: clone-source-repo-debug-disabled
@@ -126,8 +130,8 @@ spec:
         - name: TASKS
           value: ["$(params.tasks)"]
         - name: E_PROJECT_BUILD_DIR
-          # value: "$(params.ci-build-artifacts-root)/build"
-          value: /tmp/myproject/build
+          value: "$(params.build-artifacts-root)/$(params.project-build-dir-name)"
+          # value: /tmp/myproject/build
           # value: ./build
         - name: E_FAST_BUILD_SUPPORT
           value: "true"
@@ -141,7 +145,7 @@ spec:
           subPath: gradle-cache/user-home/
         - name: e-gradle-project-build-cache
           workspace: shared-workspace-kaniko
-          subPath: gradle-cache/project/build-cache/build
+          subPath: gradle-cache/project/build-cache/$(params.project-build-dir-name)
         - name: e-gradle-project-local-cache
           workspace: shared-workspace-kaniko
           subPath: gradle-cache/project/local-cache/
@@ -209,6 +213,8 @@ spec:
           value: "$(params.kaniko-cachedir)"
         - name: E_DOCKERFILE_SPECIFIC_CACHE_LOCATION
           value: "$(params.binary-cache)"
+        - name: E_PROJECT_BUILD_ARTIFACT_ROOT_CACHE_LOCATION
+          value: "$(params.build-artifacts-root)"
 
       workspaces:
         - name: source
