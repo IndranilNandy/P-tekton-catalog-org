@@ -24,13 +24,13 @@ spec:
       value:
         - build
         - publish
-        # - -PbuildDir=/tmp
+        - -PbuildDir=$(params.build-artifacts-root)/$(params.project-build-dir-name)
         - --console=verbose
         # - --status
         # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
         # - --no-daemon
-    - name: fast-build-enabled
-      value: "true"
+    # - name: fast-build-enabled
+    #   value: "true"
 
     # For kaniko task
     - name: app-image
