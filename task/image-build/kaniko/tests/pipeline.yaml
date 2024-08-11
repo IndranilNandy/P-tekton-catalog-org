@@ -48,6 +48,8 @@ spec:
       type: array
       default:
         - build
+    - name: fast-build-enabled
+      default: "true"
     # - name: gradle-cache-pvc-name
 
     # For kaniko task
@@ -131,10 +133,8 @@ spec:
           value: ["$(params.tasks)"]
         - name: E_PROJECT_BUILD_DIR
           value: "$(params.build-artifacts-root)/$(params.project-build-dir-name)"
-          # value: /tmp/myproject/build
-          # value: ./build
         - name: E_FAST_BUILD_SUPPORT
-          value: "true"
+          value: "$(params.fast-build-enabled)"
 
       workspaces:
         - name: source

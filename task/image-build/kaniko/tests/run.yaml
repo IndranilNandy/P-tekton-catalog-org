@@ -29,8 +29,8 @@ spec:
         # - --status
         # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
         # - --no-daemon
-    # - name: gradle-cache-pvc-name
-    #   value: test-catalog-task-kaniko-gradle-cache-pvc-1
+    - name: fast-build-enabled
+      value: "true"
 
     # For kaniko task
     - name: app-image
@@ -42,12 +42,9 @@ spec:
       # value: ./docker/primary.Dockerfile
       # value: ./docker/primary-kaniko-compact.Dockerfile
       # value: ./docker/primary-kaniko.Dockerfile
-
     - name: context
       # value: .
       value: "$(params.build-artifacts-root)"
-      # value: /tmp/project/build-artifacts
-      # value: /tmp/myproject
     - name: extra-args
       value:
         - --build-arg
@@ -69,6 +66,7 @@ spec:
       value: /workspace/binary
       # value: /workspace/temp/binary
 
+    # Pipeline specific
     - name: build-artifacts-root
       value: /tmp/myproject/build-artifacts
     - name: project-build-dir-name
