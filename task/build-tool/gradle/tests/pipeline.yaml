@@ -51,8 +51,8 @@ spec:
             - -PbuildDir=$(params.project-build-dir)
         - name: E_PROJECT_BUILD_DIR_CUSTOM
           value: $(params.project-build-dir)
-        - name: E_FAST_BUILD_SUPPORT
-          value: "true"
+        # - name: E_FAST_BUILD_SUPPORT
+        #   value: "true"
       workspaces:
         - name: source
           workspace: shared-workspace-gradle
@@ -113,8 +113,8 @@ spec:
           value: "wrapper-test"
         - name: GRADLE_IMAGE
           value: docker.io/library/eclipse-temurin:17-ubi9-minimal@sha256:19c66566a0a802df5674301b223683ffbcf56cf18488a37a21d53e3d09df57d1
-        - name: E_FAST_BUILD_SUPPORT
-          value: "true"
+        # - name: E_FAST_BUILD_SUPPORT
+        #   value: "true"
       workspaces:
         - name: source
           workspace: shared-workspace-gradle
