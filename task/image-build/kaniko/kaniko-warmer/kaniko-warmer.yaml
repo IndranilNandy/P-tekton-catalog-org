@@ -9,25 +9,15 @@ spec:
       description: Location of the local cache
     - name: DOCKERFILE
       description: dockerfile location relative to the SOURCE workspace
-    # - name: E_KANIKO_WARMER_CACHE_PVC_NAME
-    #   description: Name of the pvc for warmer cache
+
   workspaces:
     - name: source
       description: source of the code repo containing the dockerfile
     - name: e_kaniko_warmer_cache
       description: kaniko cache source
       mountPath: "$(params.CACHE_DIR)"
+
   steps:
-    - name: debug-step
-      image: alpine/git
-      workingDir: $(workspaces.source.path)
-      script: |
-        #!/bin/sh
-        echo cache-"$(params.CACHE_DIR)"
-        pwd
-        ls -alut
-        echo next
-        ls docker -alut
     - name: kaniko-warmer
       image: gcr.io/kaniko-project/warmer:latest
       workingDir: $(workspaces.source.path)
@@ -36,15 +26,3 @@ spec:
         # - --image=docker.io/eclipse-temurin:17-jdk-alpine
         # - --image=docker.io/eclipse-temurin:17-jre-alpine
         - --dockerfile=$(params.DOCKERFILE)
-
-      # resources:
-      #   limits:
-      #     memory: 2048
-      #     cpu: 500m
-      # volumeMounts:
-      #   - name: kanikocache
-      #     mountPath: "$(params.CACHE_DIR)"
-  # volumes:
-  #   - name: kanikocache
-  #     persistentVolumeClaim:
-  #       claimName: $(params.E_KANIKO_WARMER_CACHE_PVC_NAME)
