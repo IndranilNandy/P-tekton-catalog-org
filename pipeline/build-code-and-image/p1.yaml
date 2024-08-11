@@ -1,0 +1,235 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: p1
+spec:
+  params:
+    # For git-clone task
+    - name: repo-url
+      default: git@github.com:IndranilNandy/demo-app-to-test-pipeline
+    - name: branch
+      default: master
+    - name: depth
+      description: Perform a shallow clone, fetching only the most recent N commits.
+      type: string
+      default: "1"
+    - name: sslVerify
+      description: Set the `http.sslVerify` global git config. Setting this to `false` is not advised unless you are sure that you trust your git remote.
+      type: string
+      default: "true"
+    - name: subdirectory
+      description: Subdirectory inside the `output` Workspace to clone the repo into.
+      type: string
+      default: ""
+    - name: deleteExisting
+      description: Clean out the contents of the destination directory if it already exists before cloning.
+      type: string
+      default: "true"
+    - name: verbose
+      description: Log the commands that are executed during `git-clone`'s operation.
+      type: string
+      default: "true"
+    - name: gitInitImage
+      description: The image providing the git-init binary that this Task runs.
+      type: string
+      default: "gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.44.5"
+    - name: userHome
+      description: |
+        Absolute path to the user's home directory.
+      type: string
+      default: "/home/git"
+
+    # For gradle task
+    - name: gradle-image
+      default: gradle:8.7.0-jdk17
+    - name: project-dir
+      default: .
+    - name: tasks
+      type: array
+      default:
+        - build
+
+    # For kaniko task
+    - name: app-image
+    - name: builder-image
+    - name: dockerfile
+    - name: context
+    - name: extra-args
+      type: array
+    - name: kaniko-cachedir
+    - name: binary-cache
+
+    # Pipeline specific
+    - name: build-artifacts-root
+      default: /tmp/myproject/build-artifacts
+    - name: project-build-dir-name
+      default: build
+
+      # Debugging purpose
+    - name: clone-source-repo-debug-disabled
+      default: "false"
+    - name: build-test-publish-artifacts-debug-disabled
+      default: "false"
+    - name: kaniko-warmer-debug-disabled
+      default: "false"
+    - name: kaniko-build-and-push-image
+      default: "false"
+
+  workspaces:
+    - name: shared-workspace
+    # - name: git-ssh-credentials
+    - name: docker-credentials
+
+  tasks:
+    - name: clone-source-repo
+      when:
+        - input: "$(params.clone-source-repo-debug-disabled)"
+          operator: in
+          values:
+            - "false"
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/scm/git-clone/git-clone.yaml
+
+      params:
+        - name: url
+          value: "$(params.repo-url)"
+        - name: revision
+          value: "$(params.branch)"
+        - name: depth
+          value: "$(params.depth)"
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+          subPath: source-code/
+
+    - name: build-test-publish-artifacts
+      when:
+        - input: "$(params.build-test-publish-artifacts-debug-disabled)"
+          operator: in
+          values:
+            - "false"
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/build-tool/gradle/gradle.yaml
+
+      params:
+        - name: GRADLE_IMAGE
+          value: "$(params.gradle-image)"
+        - name: PROJECT_DIR
+          value: "$(params.project-dir)"
+        - name: TASKS
+          value: ["$(params.tasks)"]
+        - name: E_PROJECT_BUILD_DIR_CUSTOM
+          value: "$(params.build-artifacts-root)/$(params.project-build-dir-name)"
+
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+          subPath: source-code/
+        - name: e-gradle-user-home-cache
+          workspace: shared-workspace
+          subPath: gradle-cache/user-home/
+        - name: e-gradle-project-build-cache
+          workspace: shared-workspace
+          subPath: gradle-cache/project/artifacts-cache/$(params.project-build-dir-name)
+        - name: e-gradle-project-local-cache
+          workspace: shared-workspace
+          subPath: gradle-cache/project/local-cache/
+
+      runAfter:
+        - "clone-source-repo"
+
+    - name: kaniko-warmer
+      when:
+        - input: "$(params.kaniko-warmer-debug-disabled)"
+          operator: in
+          values:
+            - "false"
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/image-build/kaniko/kaniko-warmer/kaniko-warmer.yaml
+
+      params:
+        - name: CACHE_DIR
+          value: "$(params.kaniko-cachedir)"
+        - name: DOCKERFILE
+          value: "$(params.dockerfile)"
+
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+          subPath: source-code/
+        - name: e_kaniko_warmer_cache
+          workspace: shared-workspace
+          subPath: kaniko/kaniko-cache/
+
+      runAfter:
+        - "build-test-publish-artifacts"
+
+    - name: kaniko-build-and-push-image
+      when:
+        - input: "$(params.kaniko-build-and-push-image)"
+          operator: in
+          values:
+            - "false"
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/image-build/kaniko/kaniko.yaml
+
+      params:
+        - name: IMAGE
+          value: "$(params.app-image):$(tasks.clone-source-repo.results.commit)"
+        - name: BUILDER_IMAGE
+          value: "$(params.builder-image)"
+        - name: DOCKERFILE
+          value: "$(params.dockerfile)"
+        - name: CONTEXT
+          value: "$(params.context)"
+        - name: EXTRA_ARGS
+          value: ["$(params.extra-args)"]
+        - name: E_KANIKO_CACHE_DIR
+          value: "$(params.kaniko-cachedir)"
+        - name: E_DOCKERFILE_SPECIFIC_CACHE_LOCATION
+          value: "$(params.binary-cache)"
+        - name: E_PROJECT_BUILD_ARTIFACT_ROOT_CACHE_LOCATION
+          value: "$(params.build-artifacts-root)"
+
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+          subPath: source-code/
+        - name: e_kaniko_cache
+          workspace: shared-workspace
+          subPath: kaniko/kaniko-cache/
+        - name: e_docker_internal_cache
+          workspace: shared-workspace
+          subPath: kaniko/docker-internal-cache/
+        - name: e_gradle_cache
+          workspace: shared-workspace
+          subPath: kaniko/gradle-cache/
+        - name: e_project_build_artifact_root_cache
+          workspace: shared-workspace
+          subPath: gradle-cache/project/artifacts-cache/
+
+        - name: dockerconfig
+          workspace: docker-credentials
+
+      runAfter:
+        - "kaniko-warmer"
