@@ -92,4 +92,4 @@ spec:
         value: P-tekton-catalog-org
       - name: pathInRepo
         value: pipeline/build-code-and-image/p1.yaml
-    name: test-catalog-pipeline-p1-pvc
+    # name: test-catalog-pipeline-p1-pvc
