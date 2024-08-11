@@ -1,12 +1,14 @@
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
   generateName: catalog-kaniko-pipelinerun-
 spec:
-  serviceAccountName: test-service-account
-  podTemplate:
-    securityContext:
-      fsGroup: 65532
+
+  taskRunTemplate:
+    serviceAccountName: test-service-account
+    podTemplate:
+      securityContext:
+        fsGroup: 65532
 
   params:
     # For git-clone task
