@@ -57,7 +57,7 @@ spec:
         - --build-arg
         - APP_SERVICE=app-service
         - --build-arg
-        - SOURCE_BUILD_LOCATION=build
+        - SOURCE_BUILD_LOCATION=$(params.project-build-dir-name)
         - --cache=true
         - --insecure
         - --cache-copy-layers
