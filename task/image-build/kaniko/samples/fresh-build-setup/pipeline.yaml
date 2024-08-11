@@ -61,6 +61,7 @@ spec:
 
     # Pipeline specific
     - name: build-artifacts-root
+      description: Container-internal path holding all build artifacts (e.g. build)
       default: /tmp/myproject/build-artifacts
     - name: project-build-dir-name
       default: build
