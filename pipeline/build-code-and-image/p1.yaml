@@ -48,6 +48,8 @@ spec:
       type: array
       default:
         - build
+    - name: gradle-user-home
+      default: /home/gradle
 
     # For kaniko task
     - name: app-image
@@ -130,6 +132,8 @@ spec:
           value: ["$(params.tasks)"]
         - name: E_PROJECT_BUILD_DIR_CUSTOM
           value: "$(params.build-artifacts-root)/$(params.project-build-dir-name)"
+        - name: E_GRADLE_USER_HOME
+          value: "$(params.gradle-user-home)"
 
       workspaces:
         - name: source
