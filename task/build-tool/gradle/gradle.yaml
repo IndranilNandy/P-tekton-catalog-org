@@ -79,7 +79,9 @@ spec:
       description: Location of gradle dependency cache
       default: /home/gradle
     - name: E_PROJECT_BUILD_DIR
-      description: Project build directory location if customized for 'fast build'
+      description: |
+        - Project build directory location if customized for 'fast build'.
+        - REMEMBER this location should NOT be a sub-directory of project root. In that case git-clone task will erase it (build) every time, and gradle incremental task will not be effective.
       default: "/tmp/project/build"
     - name: E_FAST_BUILD_SUPPORT
       description: |

@@ -44,9 +44,10 @@ spec:
       # value: ./docker/primary-kaniko.Dockerfile
 
     - name: context
-      value: .
+      # value: .
       # value: "$(params.ci-build-artifacts-root)"
       # value: /tmp/project/build-artifacts
+      value: /tmp/myproject
     - name: extra-args
       value:
         - --build-arg

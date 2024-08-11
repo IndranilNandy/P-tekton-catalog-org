@@ -217,9 +217,9 @@ spec:
         - name: e_kaniko_cache
           workspace: shared-workspace-kaniko
           subPath: kaniko/kaniko-cache/
-        - name: e_binary_cache
+        - name: e_docker_internal_cache
           workspace: shared-workspace-kaniko
-          subPath: kaniko/kaniko-build-cache/
+          subPath: kaniko/docker-internal-cache/
         - name: e_gradle_cache
           workspace: shared-workspace-kaniko
           subPath: kaniko/gradle-cache/
