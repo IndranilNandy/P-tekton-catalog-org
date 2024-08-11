@@ -8,6 +8,10 @@ spec:
     - name: shared-workspace-gradle
     - name: gradle-config
 
+  params:
+    - name: project-build-dir
+      default: /tmp/myproject/build
+
   tasks:
     - name: fetch-code
       taskRef:
@@ -44,8 +48,9 @@ spec:
           value:
             - build
             - --console=verbose
+            - PbuildDir=$(params.project-build-dir)
         - name: E_PROJECT_BUILD_DIR
-          value: /tmp/myproject/build
+          value: $(params.project-build-dir)
         - name: E_FAST_BUILD_SUPPORT
           value: "true"
       workspaces:
@@ -101,12 +106,13 @@ spec:
           value:
             - build
             - --console=verbose
+            - PbuildDir=$(params.project-build-dir)
+        - name: E_PROJECT_BUILD_DIR
+          value: $(params.project-build-dir)
         - name: PROJECT_DIR
           value: "wrapper-test"
         - name: GRADLE_IMAGE
           value: docker.io/library/eclipse-temurin:17-ubi9-minimal@sha256:19c66566a0a802df5674301b223683ffbcf56cf18488a37a21d53e3d09df57d1
-        - name: E_PROJECT_BUILD_DIR
-          value: /tmp/myproject/build
         - name: E_FAST_BUILD_SUPPORT
           value: "true"
       workspaces:

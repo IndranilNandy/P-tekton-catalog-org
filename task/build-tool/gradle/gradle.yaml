@@ -83,6 +83,8 @@ spec:
         - Project build directory location if customized for 'fast build'.
         - REMEMBER this location should NOT be a sub-directory of project root. In that case git-clone task will erase it (build) every time, and gradle incremental task will not be effective.
       default: "/tmp/project/build"
+      # This can only be for fresh build
+      # default: "build"
     - name: E_FAST_BUILD_SUPPORT
       description: |
         [Tag: FAST BUILD]
@@ -127,7 +129,7 @@ spec:
         fi
 
         # E_: Customized to configure separate build directory location to be able mount on a separate pvc, so that the pvc holding codebase can be cleaned by git-clone task with no issue.
-        [[ "$(params.E_FAST_BUILD_SUPPORT)" == "true" ]] && cmd="$cmd -PbuildDir=$(params.E_PROJECT_BUILD_DIR)"
+        # [[ "$(params.E_FAST_BUILD_SUPPORT)" == "true" ]] && cmd="$cmd -PbuildDir=$(params.E_PROJECT_BUILD_DIR)"
 
         echo "Running gradle task with command below"
         echo "$cmd"
