@@ -48,8 +48,8 @@ spec:
           value: "wrapper-test"
         - name: GRADLE_IMAGE
           value: docker.io/library/eclipse-temurin:17-ubi9-minimal@sha256:19c66566a0a802df5674301b223683ffbcf56cf18488a37a21d53e3d09df57d1
-        - name: E_PROJECT_BUILD_DIR
-          value: /tmp/myproject/build
+        # - name: E_PROJECT_BUILD_DIR_CUSTOM
+        #   value: /tmp/myproject/build
 
       workspaces:
         - name: source

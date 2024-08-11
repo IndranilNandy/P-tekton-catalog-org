@@ -38,12 +38,12 @@ spec:
         - Use this for FAST BUILD setup.
         - Holds project build to speed up successive builds using gradle incremental task.
         - Use this for usecases like caching build binaries to speed up 'gradle build' when you aren't using 'gradle clean build'
-          This has to be done in conjunction with setting E_FAST_BUILD_SUPPORT="true"
+          This has to be done in conjunction with passing -PbuildDir=<custom-build-dir-location> to TASKS parameter of gradle task
         - DO NOT SUPPLY THIS WORKSPACE from TaskRun/PipelineRun if you want to BUILD AFRESH.
-        - Remember that if E_FAST_BUILD_SUPPORT be set as false, and you provide this workspace, it will be mounted on default E_PROJECT_BUILD_DIR.
+        - Remember that if you don't pass -PbuildDir=<custom-build-dir-location>, and you provide this workspace, it will be mounted on default E_PROJECT_BUILD_DIR_CUSTOM.
           But, the gradle build-binary will NOT be stored in this location, rather in PROJECT_DIR/build folder.
           So, effectively this workspace will NOT HOLD the build binary.
-      mountPath: $(params.E_PROJECT_BUILD_DIR)
+      mountPath: $(params.E_PROJECT_BUILD_DIR_CUSTOM)
       # Note: If E_FAST_BUILD_SUPPORT is true, then without providing this workspace, fast build will not be effective
       optional: true
     - name: e-gradle-project-local-cache
@@ -78,7 +78,7 @@ spec:
     - name: E_GRADLE_USER_HOME
       description: Location of gradle dependency cache
       default: /home/gradle
-    - name: E_PROJECT_BUILD_DIR
+    - name: E_PROJECT_BUILD_DIR_CUSTOM
       description: |
         - Project build directory location if customized for 'fast build'.
         - REMEMBER this location should NOT be a sub-directory of project root. In that case git-clone task will erase it (build) every time, and gradle incremental task will not be effective.
@@ -129,7 +129,7 @@ spec:
         fi
 
         # E_: Customized to configure separate build directory location to be able mount on a separate pvc, so that the pvc holding codebase can be cleaned by git-clone task with no issue.
-        # [[ "$(params.E_FAST_BUILD_SUPPORT)" == "true" ]] && cmd="$cmd -PbuildDir=$(params.E_PROJECT_BUILD_DIR)"
+        # [[ "$(params.E_FAST_BUILD_SUPPORT)" == "true" ]] && cmd="$cmd -PbuildDir=$(params.E_PROJECT_BUILD_DIR_CUSTOM)"
 
         echo "Running gradle task with command below"
         echo "$cmd"

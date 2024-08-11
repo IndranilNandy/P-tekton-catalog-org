@@ -48,8 +48,8 @@ spec:
           value:
             - build
             - --console=verbose
-            - PbuildDir=$(params.project-build-dir)
-        - name: E_PROJECT_BUILD_DIR
+            - -PbuildDir=$(params.project-build-dir)
+        - name: E_PROJECT_BUILD_DIR_CUSTOM
           value: $(params.project-build-dir)
         - name: E_FAST_BUILD_SUPPORT
           value: "true"
@@ -106,8 +106,8 @@ spec:
           value:
             - build
             - --console=verbose
-            - PbuildDir=$(params.project-build-dir)
-        - name: E_PROJECT_BUILD_DIR
+            - -PbuildDir=$(params.project-build-dir)
+        - name: E_PROJECT_BUILD_DIR_CUSTOM
           value: $(params.project-build-dir)
         - name: PROJECT_DIR
           value: "wrapper-test"
