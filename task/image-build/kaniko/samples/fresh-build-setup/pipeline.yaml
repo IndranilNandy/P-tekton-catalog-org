@@ -208,8 +208,8 @@ spec:
           value: "$(params.kaniko-cachedir)"
         - name: E_DOCKERFILE_SPECIFIC_CACHE_LOCATION
           value: "$(params.binary-cache)"
-        - name: E_PROJECT_BUILD_ARTIFACT_ROOT_CACHE_LOCATION
-          value: "$(params.build-artifacts-root)"
+        # - name: E_PROJECT_BUILD_ARTIFACT_ROOT_CACHE_LOCATION
+        #   value: $(params.build-artifacts-root)
 
       workspaces:
         - name: source

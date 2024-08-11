@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  generateName: catalog-gradle-pipeline-run-
+  generateName: catalog-gradle-pipeline-fast-run-
 spec:
   pipelineRef:
     name: sample-catalog-task-gradle-fast-build
