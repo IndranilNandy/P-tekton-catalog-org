@@ -79,7 +79,7 @@ For faster build, we need to store the 'built binary' outside of the project roo
 
 ### e-gradle-user-home-cache
 
-        [OPTIONAL]
+        [MANDATORY]
         - Mounts E_GRADLE_USER_HOME
         - Use this for FAST BUILD setup.
         - This is the global .gradle location.
