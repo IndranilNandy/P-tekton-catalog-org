@@ -29,8 +29,6 @@ spec:
         # - --status
         # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
         # - --no-daemon
-    # - name: fast-build-enabled
-    #   value: "true"
 
     # For kaniko task
     - name: app-image
@@ -64,7 +62,6 @@ spec:
       value: /cache
     - name: binary-cache
       value: /workspace/binary
-      # value: /workspace/temp/binary
 
     # Pipeline specific
     - name: build-artifacts-root

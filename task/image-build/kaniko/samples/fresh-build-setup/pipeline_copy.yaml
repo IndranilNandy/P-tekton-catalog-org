@@ -48,6 +48,9 @@ spec:
       type: array
       default:
         - build
+    - name: fast-build-enabled
+      default: "true"
+    # - name: gradle-cache-pvc-name
 
     # For kaniko task
     - name: app-image
@@ -128,8 +131,10 @@ spec:
           value: "$(params.project-dir)"
         - name: TASKS
           value: ["$(params.tasks)"]
-        - name: E_PROJECT_BUILD_DIR_CUSTOM
+        - name: E_PROJECT_BUILD_DIR
           value: "$(params.build-artifacts-root)/$(params.project-build-dir-name)"
+        - name: E_FAST_BUILD_SUPPORT
+          value: "$(params.fast-build-enabled)"
 
       workspaces:
         - name: source
@@ -138,12 +143,12 @@ spec:
         - name: e-gradle-user-home-cache
           workspace: shared-workspace-kaniko
           subPath: gradle-cache/user-home/
-        - name: e-gradle-project-build-cache
-          workspace: shared-workspace-kaniko
-          subPath: gradle-cache/project/artifacts-cache/$(params.project-build-dir-name)
-        - name: e-gradle-project-local-cache
-          workspace: shared-workspace-kaniko
-          subPath: gradle-cache/project/local-cache/
+        # - name: e-gradle-project-build-cache
+        #   workspace: shared-workspace-kaniko
+        #   subPath: gradle-cache/project/artifacts-cache/$(params.project-build-dir-name)
+        # - name: e-gradle-project-local-cache
+        #   workspace: shared-workspace-kaniko
+        #   subPath: gradle-cache/project/local-cache/
 
       runAfter:
         - "clone-source-repo"
@@ -224,9 +229,9 @@ spec:
         - name: e_gradle_cache
           workspace: shared-workspace-kaniko
           subPath: kaniko/gradle-cache/
-        # - name: e_project_build_artifact_root_cache
-        #   workspace: shared-workspace-kaniko
-        #   subPath: gradle-cache/project/artifacts-cache/
+        - name: e_project_build_artifact_root_cache
+          workspace: shared-workspace-kaniko
+          subPath: gradle-cache/project/artifacts-cache/
 
         - name: dockerconfig
           workspace: docker-credentials

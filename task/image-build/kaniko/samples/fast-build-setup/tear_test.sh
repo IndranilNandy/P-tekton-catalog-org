@@ -7,6 +7,6 @@ kubectl delete secret test-docker-credentials
 kubectl delete -f resources.yaml
 
 (
-    cd ../../../../scripts/tests
+    cd ../../../../../scripts/tests
     ./tear_test.sh
 )

@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 (
-    cd ../../../../scripts/tests
+    cd ../../../../../scripts/tests
     ./init_test.sh
 )
 
 kubectl apply -f resources.yaml
 
 (
-    cd ../../../../scripts/tests/secrets/yaml-generator
+    cd ../../../../../scripts/tests/secrets/yaml-generator
 
     echo -e
     echo -e "Creating configs/secrets"

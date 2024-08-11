@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: test-catalog-task-kaniko-pipeline
+  name: sample-catalog-task-kaniko-fast-build
 spec:
   params:
     # For git-clone task
@@ -48,9 +48,6 @@ spec:
       type: array
       default:
         - build
-    - name: fast-build-enabled
-      default: "true"
-    # - name: gradle-cache-pvc-name
 
     # For kaniko task
     - name: app-image
@@ -131,10 +128,8 @@ spec:
           value: "$(params.project-dir)"
         - name: TASKS
           value: ["$(params.tasks)"]
-        - name: E_PROJECT_BUILD_DIR
+        - name: E_PROJECT_BUILD_DIR_CUSTOM
           value: "$(params.build-artifacts-root)/$(params.project-build-dir-name)"
-        - name: E_FAST_BUILD_SUPPORT
-          value: "$(params.fast-build-enabled)"
 
       workspaces:
         - name: source

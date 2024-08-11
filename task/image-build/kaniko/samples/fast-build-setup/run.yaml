@@ -24,13 +24,11 @@ spec:
       value:
         - build
         - publish
-        # - -PbuildDir=/tmp
+        - -PbuildDir=$(params.build-artifacts-root)/$(params.project-build-dir-name)
         - --console=verbose
         # - --status
         # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
         # - --no-daemon
-    - name: fast-build-enabled
-      value: "true"
 
     # For kaniko task
     - name: app-image
@@ -64,7 +62,6 @@ spec:
       value: /cache
     - name: binary-cache
       value: /workspace/binary
-      # value: /workspace/temp/binary
 
     # Pipeline specific
     - name: build-artifacts-root
@@ -87,4 +84,4 @@ spec:
         secretName: test-docker-credentials
 
   pipelineRef:
-    name: test-catalog-task-kaniko-pipeline
+    name: sample-catalog-task-kaniko-fast-build
