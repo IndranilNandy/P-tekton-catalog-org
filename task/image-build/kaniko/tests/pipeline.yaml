@@ -64,7 +64,7 @@ spec:
 
     # Pipeline specific
     - name: build-artifacts-root
-      default: /tmp/myproject
+      default: /tmp/myproject/build-artifacts
     - name: project-build-dir-name
       default: build
 
@@ -145,7 +145,7 @@ spec:
           subPath: gradle-cache/user-home/
         - name: e-gradle-project-build-cache
           workspace: shared-workspace-kaniko
-          subPath: gradle-cache/project/build-cache/$(params.project-build-dir-name)
+          subPath: gradle-cache/project/artifacts-cache/$(params.project-build-dir-name)
         - name: e-gradle-project-local-cache
           workspace: shared-workspace-kaniko
           subPath: gradle-cache/project/local-cache/
@@ -231,7 +231,7 @@ spec:
           subPath: kaniko/gradle-cache/
         - name: e_project_build_artifact_root_cache
           workspace: shared-workspace-kaniko
-          subPath: gradle-cache/project/build-cache/
+          subPath: gradle-cache/project/artifacts-cache/
 
         - name: dockerconfig
           workspace: docker-credentials
