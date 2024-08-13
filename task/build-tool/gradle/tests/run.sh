@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-(
-    cd ../../../../scripts/tests
-    ./init_test.sh
-)
+# (
+#     cd ../../../../scripts/tests
+#     ./init_configmaps.sh
+# )
 
 kubectl apply -f resources.yaml
 kubectl apply -f pipeline.yaml

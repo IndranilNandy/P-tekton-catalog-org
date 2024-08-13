@@ -2,7 +2,7 @@
 
 (
     cd ../../../../../scripts/tests
-    ./init_test.sh
+    ./init_configmaps.sh
 )
 
 kubectl apply -f resources.yaml
@@ -12,7 +12,7 @@ kubectl apply -f resources.yaml
 
     echo -e
     echo -e "Creating configs/secrets"
-    echo "echo -e \"$(cat git-ssh-auth.sh.yaml)\"" | bash | kubectl apply -f -
+    echo "echo -e \"$(cat git-ssh-auth-generic.sh.yaml)\"" | bash | kubectl apply -f -
     echo "echo -e \"$(cat docker-credentials.sh.yaml)\"" | bash | kubectl apply -f -
 )
 

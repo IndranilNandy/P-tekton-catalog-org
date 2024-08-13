@@ -2,7 +2,7 @@
 
 (
     cd ../../../../scripts/tests
-    ./init_test.sh
+    ./init_configmaps.sh
 )
 
 kubectl create -f run.yaml

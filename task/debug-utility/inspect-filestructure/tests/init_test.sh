@@ -2,6 +2,6 @@
 
 (
     cd ../../../../scripts/tests
-    ./init_secrets.sh catalog-token git-ssh docker
+    ./init_secrets.sh catalog-token
     ./init_configmaps.sh
 )
