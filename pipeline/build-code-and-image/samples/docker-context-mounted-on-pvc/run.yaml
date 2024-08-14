@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  generateName: catalog-kaniko-pipelinerun-
+  generateName: catalog-p1-ctx-mounted-pipelinerun-
 spec:
 
   taskRunTemplate:
@@ -75,7 +75,7 @@ spec:
   workspaces:
     - name: shared-workspace
       persistentVolumeClaim:
-        claimName: test-catalog-pipeline-p1-pvc
+        claimName: sample-catalog-pipeline-p1-ctx-mounted-pvc
       subPath: kaniko-pipeline/
 
     # - name: ssh-directory

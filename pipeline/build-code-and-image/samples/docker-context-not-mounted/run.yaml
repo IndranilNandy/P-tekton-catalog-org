@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
-  generateName: catalog-kaniko-pipelinerun-
+  generateName: catalog-p1-ctx-not-mounted-pipelinerun-
 spec:
 
   taskRunTemplate:
@@ -38,13 +38,13 @@ spec:
     - name: builder-image
       value: gcr.io/kaniko-project/executor:v1.23.1@sha256:7914350eda14b43f3dcc6925afca88d6b7ba5dff13d221bb70ef44d4da73a1e8
     - name: dockerfile
-      value: ./docker/copy_build_binary_from_ws.Dockerfile
+      # value: ./docker/copy_build_binary_from_ws.Dockerfile
       # value: ./docker/primary.Dockerfile
-      # value: ./docker/primary-kaniko-compact.Dockerfile
+      value: ./docker/primary-kaniko-compact.Dockerfile
       # value: ./docker/primary-kaniko.Dockerfile
     - name: context
-      # value: .
-      value: "$(params.build-artifacts-root)"
+      value: .
+      # value: "$(params.build-artifacts-root)"
     - name: extra-args
       value:
         - --build-arg
@@ -63,8 +63,8 @@ spec:
     - name: kaniko-cachedir
       value: /cache
     - name: binary-cache
-      value: /workspace/binary
-      # value: /workspace/temp/binary
+      # value: /workspace/binary
+      value: /workspace/temp/binary
 
     # Pipeline specific
     - name: build-artifacts-root
@@ -75,7 +75,7 @@ spec:
   workspaces:
     - name: shared-workspace
       persistentVolumeClaim:
-        claimName: test-catalog-pipeline-p1-pvc
+        claimName: sample-catalog-pipeline-p1-ctx-not-mounted-pvc
       subPath: kaniko-pipeline/
 
     # - name: ssh-directory
