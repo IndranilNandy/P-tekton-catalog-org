@@ -41,7 +41,7 @@ spec:
       description: This is needed for multi-staged building to cache the build binary. Value depends on the dockerfile instructions.
       default: /workspace/binary
     - name: E_PROJECT_BUILD_ARTIFACT_ROOT_CACHE_LOCATION
-      description: Container-internal path holding all build artifacts (e.g. build)
+      description: Docker context path holding all build artifacts (e.g. build), sources etc. This is used as the docker context to copy contents (like build-binaries) from.
       default: /tmp/myproject
 
   workspaces:
