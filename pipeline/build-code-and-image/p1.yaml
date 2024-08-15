@@ -267,7 +267,7 @@ spec:
       runAfter:
         - "kaniko-warmer"
 
-    - name: aggregate-results
+    - name: show-all-results
       taskSpec:
         results:
           - name: repo-details
