@@ -1,0 +1,15 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: task-context-task
+spec:
+  # params:
+  steps:
+    - name: ctx
+      ref:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: stepaction/context/task-context/task-context.yaml
