@@ -9,4 +9,5 @@ spec:
       - name: repo
         value: P-tekton-catalog-org
       - name: pathInRepo
+        # value: stepaction/debug-utility/example/tests/example-task.yaml
         value: stepaction/context/task-context/tests/task-context-task.yaml

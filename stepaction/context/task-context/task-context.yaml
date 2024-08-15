@@ -3,13 +3,12 @@ apiVersion: tekton.dev/v1beta1
 kind: StepAction
 metadata:
   name: task-context
-steps:
-  - name: show-context
-    image: mirror.gcr.io/ubuntu
-    script: |
-      echo "Task name: $(context.task.name)"
-      echo "TaskRun name: $(context.taskRun.name)"
-      # echo "Pipeline uid: $(context.pipelineRun.uid)"
-      # echo "Pipeline name: $(context.pipeline.name)"
-      # echo "PipelineRun name: $(context.pipelineRun.name)"
-      # echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
+spec:
+  image: mirror.gcr.io/ubuntu
+  script: |
+    echo "Task name: $(context.task.name)"
+    echo "TaskRun name: $(context.taskRun.name)"
+    # echo "Pipeline uid: $(context.pipelineRun.uid)"
+    # echo "Pipeline name: $(context.pipeline.name)"
+    # echo "PipelineRun name: $(context.pipelineRun.name)"
+    # echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
