@@ -251,9 +251,14 @@ spec:
         - "kaniko-warmer"
   finally:
     - name: all-tasks-status
+      params:
+        - name: aggregateTasksStatus
+          value: "$(tasks.status)"
       taskSpec:
-          steps:
-            - name: status
-              image: mirror.gcr.io/ubuntu
-              script: |
-                echo "Tasks status: $(tasks.status)"
+        params:
+          - name: aggregateTasksStatus
+        steps:
+          - name: status
+            image: mirror.gcr.io/ubuntu
+            script: |
+              echo "Tasks status: $(params.aggregateTasksStatus)"
