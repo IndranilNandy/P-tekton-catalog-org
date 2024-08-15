@@ -100,6 +100,14 @@ spec:
     #   default: "false"
 
   steps:
+    - name: ctx
+      ref:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: stepaction/context/task-context/task-context.yaml
     - name: gradle-tasks
       image: $(params.GRADLE_IMAGE)
       env:

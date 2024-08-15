@@ -18,6 +18,14 @@ spec:
       mountPath: "$(params.CACHE_DIR)"
 
   steps:
+    - name: ctx
+      ref:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: stepaction/context/task-context/task-context.yaml
     - name: kaniko-warmer
       image: gcr.io/kaniko-project/warmer:latest
       workingDir: $(workspaces.source.path)
