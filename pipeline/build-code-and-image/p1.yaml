@@ -82,6 +82,19 @@ spec:
     # - name: git-ssh-credentials
     - name: docker-credentials
 
+  results:
+    - name: repo-commit
+      description: The precise commit SHA that was fetched by this Task.
+      value: "$(tasks.clone-source-repo.results.commit)"
+    - name: repo-url
+      description: The precise URL that was fetched by this Task.
+      value: "$(tasks.clone-source-repo.results.url)"
+    - name: repo-committer-date
+      description: The epoch timestamp of the commit that was fetched by this Task.
+      value: "$(tasks.clone-source-repo.results.committer-date)"
+    # - name:
+    #   description:
+
   tasks:
     - name: pipeline-ctx
       taskSpec:
