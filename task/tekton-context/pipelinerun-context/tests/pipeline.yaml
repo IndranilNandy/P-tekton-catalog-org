@@ -4,7 +4,7 @@ metadata:
   name: pipelinerun-context-pipeline
 spec:
   tasks:
-    - name: taskName
+    - name: pipelinerun-context
       taskRef:
         resolver: git
         params:
