@@ -5,6 +5,9 @@ metadata:
 spec:
   tasks:
     - name: pipelinerun-context
+      params:
+        - name: pipelinecontext
+          value: "$(context)"
       taskRef:
         resolver: git
         params:

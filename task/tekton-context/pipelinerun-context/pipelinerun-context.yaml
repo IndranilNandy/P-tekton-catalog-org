@@ -1,9 +1,17 @@
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Task
 metadata:
   name: pipelinerun-context
 spec:
   params:
+    # - name: pipelinecontext
+    #   type: object
+    #   Properties:
+    #     Property:
+    #       -
+
+    #       -
+    - name: pipelinecontext
     - name: pipeline-uid
       default: "$(context.pipelineRun.uid)"
     - name: pipeline-name
