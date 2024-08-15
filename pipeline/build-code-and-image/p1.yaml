@@ -83,18 +83,16 @@ spec:
     - name: docker-credentials
 
   tasks:
-    - name: context
+    - name: pipeline-ctx
       taskSpec:
           steps:
-            - name: pipeline
+            - name: ctx
               image: mirror.gcr.io/ubuntu
               script: |
-                echo "Task name: $(context.task.name)"
-                echo "TaskRun name: $(context.taskRun.name)"
+                echo "Pipeline: $(context.pipeline.name)"
+                echo "PipelineRun: $(context.pipelineRun.name)"
                 echo "PipelineRun uid: $(context.pipelineRun.uid)"
-                echo "PipelineRun name: $(context.pipelineRun.name)"
                 echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
-                echo "Pipeline name: $(context.pipeline.name)"
 
     - name: clone-source-repo
       when:
@@ -123,7 +121,7 @@ spec:
           subPath: source-code/
 
       runAfter:
-        - "context"
+        - "pipeline-ctx"
 
     - name: build-test-publish-artifacts
       when:

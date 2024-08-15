@@ -6,8 +6,10 @@ metadata:
 spec:
   image: mirror.gcr.io/ubuntu
   script: |
-    echo "Task name: $(context.task.name)"
-    echo "TaskRun name: $(context.taskRun.name)"
+    echo "Task: $(context.task.name)"
+    echo "TaskRun: $(context.taskRun.name)"
+    echo "TaskRun uid: $(context.taskRun.uid)"
+    echo "TaskRun namespace: $(context.taskRun.namespace)"
     # echo "Pipeline uid: $(context.pipelineRun.uid)"
     # echo "Pipeline name: $(context.pipeline.name)"
     # echo "PipelineRun name: $(context.pipelineRun.name)"
