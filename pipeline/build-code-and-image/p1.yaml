@@ -95,6 +95,7 @@ spec:
                 echo "PipelineRun name: $(context.pipelineRun.name)"
                 echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
                 echo "Pipeline name: $(context.pipeline.name)"
+
     - name: clone-source-repo
       when:
         - input: "$(params.clone-source-repo-debug-disabled)"
@@ -120,6 +121,9 @@ spec:
         - name: output
           workspace: shared-workspace
           subPath: source-code/
+
+      runAfter:
+        - "context"
 
     - name: build-test-publish-artifacts
       when:

@@ -11,15 +11,15 @@ spec:
     #       -
 
     #       -
-    - name: pipelinecontext
-    - name: pipeline-uid
-      default: "$(context.pipelineRun.uid)"
-    - name: pipeline-name
-      default: "$(context.pipeline.name)"
-    - name: pipelineRun-name
-      default: "$(context.pipelineRun.name)"
-    - name: pipelineRun-namespace
-      default: "$(context.pipelineRun.namespace)"
+    # - name: pipelinecontext
+    # - name: pipeline-uid
+    #   default: "$(context.pipelineRun.uid)"
+    # - name: pipeline-name
+    #   default: "$(context.pipeline.name)"
+    # - name: pipelineRun-name
+    #   default: "$(context.pipelineRun.name)"
+    # - name: pipelineRun-namespace
+    #   default: "$(context.pipelineRun.namespace)"
     # - name: pipelineTask-retries
     #   default: "$(context.pipelineTask.retries)"
 
@@ -29,7 +29,7 @@ spec:
       script: |
         echo "Task name: $(context.task.name)"
         echo "TaskRun name: $(context.taskRun.name)"
-        echo "Pipeline uid: $(context.pipelineRun.uid)"
-        echo "Pipeline name: $(context.pipeline.name)"
-        echo "PipelineRun name: $(context.pipelineRun.name)"
-        echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
+        # echo "Pipeline uid: $(context.pipelineRun.uid)"
+        # echo "Pipeline name: $(context.pipeline.name)"
+        # echo "PipelineRun name: $(context.pipelineRun.name)"
+        # echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
