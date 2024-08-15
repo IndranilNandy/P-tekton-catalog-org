@@ -8,7 +8,7 @@ spec:
   script: |
     echo "Task name: $(context.task.name)"
     echo "TaskRun name: $(context.taskRun.name)"
-    echo "Pipeline uid: $(context.pipelineRun.uid)"
-    echo "Pipeline name: $(context.pipeline.name)"
+    # echo "Pipeline uid: $(context.pipelineRun.uid)"
+    # echo "Pipeline name: $(context.pipeline.name)"
     # echo "PipelineRun name: $(context.pipelineRun.name)"
     # echo "PipelineRun namespace: $(context.pipelineRun.namespace)"

@@ -116,6 +116,14 @@ spec:
     - name: committer-date
       description: The epoch timestamp of the commit that was fetched by this Task.
   steps:
+    - name: ctx
+      ref:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: stepaction/context/task-context/task-context.yaml
     - name: clone
       image: "$(params.gitInitImage)"
       env:

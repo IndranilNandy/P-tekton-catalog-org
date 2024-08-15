@@ -3,9 +3,7 @@ kind: TaskRun
 metadata:
   generateName: task-context-run-
 spec:
-  # name: testabc
   taskRef:
-    # name: testabc
     resolver: git
     params:
       - name: repo
