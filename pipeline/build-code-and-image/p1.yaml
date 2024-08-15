@@ -1,4 +1,4 @@
-apiVersion: tekton.dev/v1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: p1
@@ -83,6 +83,18 @@ spec:
     - name: docker-credentials
 
   tasks:
+    - name: context
+      taskSpec:
+          steps:
+            - name: show-context
+              image: mirror.gcr.io/ubuntu
+              script: |
+                echo "Task name: $(context.task.name)"
+                echo "TaskRun name: $(context.taskRun.name)"
+                echo "Pipeline uid: $(context.pipelineRun.uid)"
+                echo "Pipeline name: $(context.pipeline.name)"
+                echo "PipelineRun name: $(context.pipelineRun.name)"
+                echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
     - name: clone-source-repo
       when:
         - input: "$(params.clone-source-repo-debug-disabled)"
