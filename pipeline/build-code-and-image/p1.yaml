@@ -86,15 +86,15 @@ spec:
     - name: context
       taskSpec:
           steps:
-            - name: show-context
+            - name: pipeline
               image: mirror.gcr.io/ubuntu
               script: |
                 echo "Task name: $(context.task.name)"
                 echo "TaskRun name: $(context.taskRun.name)"
-                echo "Pipeline uid: $(context.pipelineRun.uid)"
-                echo "Pipeline name: $(context.pipeline.name)"
+                echo "PipelineRun uid: $(context.pipelineRun.uid)"
                 echo "PipelineRun name: $(context.pipelineRun.name)"
                 echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
+                echo "Pipeline name: $(context.pipeline.name)"
     - name: clone-source-repo
       when:
         - input: "$(params.clone-source-repo-debug-disabled)"
@@ -249,3 +249,11 @@ spec:
 
       runAfter:
         - "kaniko-warmer"
+  finally:
+    - name: all-tasks-status
+      taskSpec:
+          steps:
+            - name: status
+              image: mirror.gcr.io/ubuntu
+              script: |
+                echo "Tasks status: $(tasks.status)"
