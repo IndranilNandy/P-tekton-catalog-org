@@ -3,7 +3,7 @@ kind: Task
 metadata:
   name: pipelinerun-context
 spec:
-  params:
+  # params:
     # - name: pipelinecontext
     #   type: object
     #   Properties:
@@ -23,13 +23,23 @@ spec:
     # - name: pipelineTask-retries
     #   default: "$(context.pipelineTask.retries)"
 
+  # steps:
+  #   - name: show-context
+  #     image: mirror.gcr.io/ubuntu
+  #     script: |
+  #       echo "Task name: $(context.task.name)"
+  #       echo "TaskRun name: $(context.taskRun.name)"
+  #       # echo "Pipeline uid: $(context.pipelineRun.uid)"
+  #       # echo "Pipeline name: $(context.pipeline.name)"
+  #       # echo "PipelineRun name: $(context.pipelineRun.name)"
+  #       # echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
+  # params:
   steps:
-    - name: show-context
-      image: mirror.gcr.io/ubuntu
-      script: |
-        echo "Task name: $(context.task.name)"
-        echo "TaskRun name: $(context.taskRun.name)"
-        # echo "Pipeline uid: $(context.pipelineRun.uid)"
-        # echo "Pipeline name: $(context.pipeline.name)"
-        # echo "PipelineRun name: $(context.pipelineRun.name)"
-        # echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
+    - name: ctx
+      ref:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: stepaction/context/task-context/task-context.yaml
