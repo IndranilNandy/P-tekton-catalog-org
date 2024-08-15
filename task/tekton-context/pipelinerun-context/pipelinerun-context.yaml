@@ -21,7 +21,7 @@ spec:
       script: |
         echo "Task name: $(context.task.name)"
         echo "TaskRun name: $(context.taskRun.name)"
-        echo "Pipeline uid: $(params.pipeline-uid)"
+        echo "Pipeline uid: $(context.pipelineRun.uid)"
         echo "Pipeline name: $(params.pipeline-name)"
         echo "PipelineRun name: $(params.pipelineRun-name)"
         echo "PipelineRun namespace: $(params.pipelineRun-namespace)"
