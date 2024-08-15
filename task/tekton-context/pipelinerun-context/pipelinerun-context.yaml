@@ -1,0 +1,27 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: pipelinerun-context
+spec:
+  params:
+    - name: pipeline-uid
+      default: "$(context.pipelineRun.uid)"
+    - name: pipeline-name
+      default: "$(context.pipeline.name)"
+    - name: pipelineRun-name
+      default: "$(context.pipelineRun.name)"
+    - name: pipelineRun-namespace
+      default: "$(context.pipelineRun.namespace)"
+    # - name: pipelineTask-retries
+    #   default: "$(context.pipelineTask.retries)"
+
+  steps:
+    - name: show-context
+      image: mirror.gcr.io/ubuntu
+      script: |
+        # echo "Task name: $(context.task.name)"
+        # echo "TaskRun name: $(context.taskRun.name)"
+        echo "Pipeline uid: $(params.pipeline-uid)"
+        echo "Pipeline name: $(params.pipeline-name)"
+        echo "PipelineRun name: $(params.pipelineRun-name)"
+        echo "PipelineRun namespace: $(params.pipelineRun-namespace)"
