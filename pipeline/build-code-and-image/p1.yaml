@@ -378,9 +378,9 @@ spec:
                 type: string
               digest:
                 type: string
-            default:
-              url: "error"
-              digest: "error"
+            # default:
+            #   url: "error"
+            #   digest: "error"
         steps:
           - name: write-result
             image: bash:latest
