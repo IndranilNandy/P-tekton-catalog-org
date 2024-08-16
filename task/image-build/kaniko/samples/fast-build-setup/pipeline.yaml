@@ -129,7 +129,7 @@ spec:
         - name: TASKS
           value: ["$(params.tasks)"]
         - name: E_PROJECT_BUILD_DIR_CUSTOM
-          value: "$(params.build-artifacts-root)/$(params.project-build-dir-name)"
+          value: "$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)"
 
       workspaces:
         - name: source
@@ -140,7 +140,7 @@ spec:
           subPath: gradle-cache/user-home/
         - name: e-gradle-project-build-cache
           workspace: shared-workspace-kaniko
-          subPath: gradle-cache/project/artifacts-cache/$(params.project-build-dir-name)
+          subPath: gradle-cache/project/artifacts-cache/$(params.common.project-build-dir-name)
         - name: e-gradle-project-local-cache
           workspace: shared-workspace-kaniko
           subPath: gradle-cache/project/local-cache/
@@ -209,7 +209,7 @@ spec:
         - name: E_DOCKER_INTERNAL_CACHE_LOCATION
           value: "$(params.binary-cache)"
         - name: E_DOCKER_CONTEXT_CACHE_LOCATION
-          value: "$(params.build-artifacts-root)"
+          value: "$(params.common.build-artifacts-root)"
 
       workspaces:
         - name: source

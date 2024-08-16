@@ -81,7 +81,7 @@ spec:
         # tasks:
         #   - "build"
         gradle-user-home: "/home/gradle"
-        project-build-dir: "$(params.build-artifacts-root)/$(params.project-build-dir-name)"
+        project-build-dir: "$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)"
     - name: gradle-params-tasks
       type: array
       default:
@@ -126,7 +126,7 @@ spec:
         context: "."
         gradle-user-home: "/root/.gradle"
         docker-internal-cache-location: "/workspace/binary"
-        docker-context-cache-location: "$(params.build-artifacts-root)"
+        docker-context-cache-location: "$(params.common.build-artifacts-root)"
     # - name: app-image
     # - name: builder-image
     # - name: dockerfile
@@ -137,20 +137,48 @@ spec:
     # - name: binary-cache
 
     # Pipeline specific
-    - name: build-artifacts-root
-      default: /tmp/myproject/build-artifacts
-    - name: project-build-dir-name
-      default: build
+    - name: common
+      type: object
+      properties:
+        build-artifacts-root:
+          type: string
+        project-build-dir-name:
+          type: string
+      default:
+        build-artifacts-root: "/tmp/myproject/build-artifacts"
+        project-build-dir-name: "build"
+    # - name: build-artifacts-root
+    #   default: /tmp/myproject/build-artifacts
+    # - name: project-build-dir-name
+    #   default: build
 
       # Debugging purpose
-    - name: clone-source-repo-debug-disabled
-      default: "false"
-    - name: build-test-publish-artifacts-debug-disabled
-      default: "false"
-    - name: kaniko-warmer-debug-disabled
-      default: "false"
-    - name: kaniko-build-and-push-image
-      default: "false"
+    - name: debug
+      type: object
+      description: all debug switches and properties
+      properties:
+        clone-source-repo-disabled:
+          type: string
+        build-test-publish-artifacts-disabled:
+          type: string
+        kaniko-warmer-disabled:
+          type: string
+        kaniko-build-and-push-image-disabled:
+          type: string
+      default:
+        clone-source-repo-disabled: "false"
+        build-test-publish-artifacts-disabled: "false"
+        kaniko-warmer-disabled: "false"
+        kaniko-build-and-push-image-disabled: "false"
+
+    # - name: clone-source-repo-debug-disabled
+    #   default: "false"
+    # - name: build-test-publish-artifacts-debug-disabled
+    #   default: "false"
+    # - name: kaniko-warmer-debug-disabled
+    #   default: "false"
+    # - name: kaniko-build-and-push-image
+    #   default: "false"
 
   workspaces:
     - name: shared-workspace
@@ -162,6 +190,10 @@ spec:
       type: object
       description: "repo details of source codebase"
       value: "$(finally.aggregate-results.results.repo-details)"
+    - name: image-details
+      type: object
+      description: "details of image generated from dockerfile"
+      value: "$(finally.aggregate-results.results.image-details)"
 
   tasks:
     - name: pipeline-ctx
@@ -177,7 +209,7 @@ spec:
 
     - name: clone-source-repo
       when:
-        - input: "$(params.clone-source-repo-debug-disabled)"
+        - input: "$(params.debug.clone-source-repo-disabled)"
           operator: in
           values:
             - "false"
@@ -206,7 +238,7 @@ spec:
 
     - name: build-test-publish-artifacts
       when:
-        - input: "$(params.build-test-publish-artifacts-debug-disabled)"
+        - input: "$(params.debug.build-test-publish-artifacts-disabled)"
           operator: in
           values:
             - "false"
@@ -227,7 +259,7 @@ spec:
           value: ["$(params.gradle-params-tasks)"]
         - name: E_PROJECT_BUILD_DIR_CUSTOM
           value: "$(params.gradle.project-build-dir)"
-          # value: "$(params.build-artifacts-root)/$(params.project-build-dir-name)"
+          # value: "$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)"
         - name: E_GRADLE_USER_HOME
           value: "$(params.gradle.gradle-user-home)"
 
@@ -240,7 +272,7 @@ spec:
           subPath: gradle-cache/user-home/
         - name: e-gradle-project-build-cache
           workspace: shared-workspace
-          subPath: gradle-cache/project/artifacts-cache/$(params.project-build-dir-name)
+          subPath: gradle-cache/project/artifacts-cache/$(params.common.project-build-dir-name)
         - name: e-gradle-project-local-cache
           workspace: shared-workspace
           subPath: gradle-cache/project/local-cache/
@@ -250,7 +282,7 @@ spec:
 
     - name: kaniko-warmer
       when:
-        - input: "$(params.kaniko-warmer-debug-disabled)"
+        - input: "$(params.debug.kaniko-warmer-disabled)"
           operator: in
           values:
             - "false"
@@ -281,7 +313,7 @@ spec:
 
     - name: kaniko-build-and-push-image
       when:
-        - input: "$(params.kaniko-build-and-push-image)"
+        - input: "$(params.debug.kaniko-build-and-push-image-disabled)"
           operator: in
           values:
             - "false"
@@ -382,12 +414,20 @@ spec:
                 type: string
               committer-date:
                 type: string
+          - name: image-details
+            type: object
+            properties:
+              url:
+                type: string
+              digest:
+                type: string
         steps:
           - name: write-result
             image: bash:latest
             script: |
               #!/usr/bin/env bash
               echo -n "{\"url\":\"$(tasks.clone-source-repo.results.url)\",\"commit\":\"$(tasks.clone-source-repo.results.commit)\",\"committer-date\":\"$(tasks.clone-source-repo.results.committer-date)\"}" | tee $(results.repo-details.path)
+              echo -n "{\"url\":\"$(tasks.kaniko-build-and-push-image.results.IMAGE_URL)\",\"digest\":\"$(tasks.kaniko-build-and-push-image.results.IMAGE_DIGEST)\"}" | tee $(results.image-details.path)
               echo -e revision="$(params.git-clone.revision)"
               echo -e build-dir="$(params.gradle.project-build-dir)"
 

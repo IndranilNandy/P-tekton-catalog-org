@@ -26,7 +26,7 @@ spec:
       value:
         - build
         - publish
-        # - -PbuildDir=$(params.build-artifacts-root)/$(params.project-build-dir-name)
+        # - -PbuildDir=$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)
         - --console=verbose
         # - --status
         # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
@@ -44,7 +44,7 @@ spec:
       # value: ./docker/primary-kaniko.Dockerfile
     - name: context
       # value: .
-      value: "$(params.build-artifacts-root)"
+      value: "$(params.common.build-artifacts-root)"
     - name: extra-args
       value:
         - --build-arg
@@ -54,7 +54,7 @@ spec:
         - --build-arg
         - APP_SERVICE=app-service
         - --build-arg
-        - SOURCE_BUILD_LOCATION=$(params.project-build-dir-name)
+        - SOURCE_BUILD_LOCATION=$(params.common.project-build-dir-name)
         - --cache=true
         - --insecure
         - --cache-copy-layers
