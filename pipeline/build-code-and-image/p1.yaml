@@ -156,9 +156,9 @@ spec:
           type: string
       default:
         clone-source-repo-disabled: "false"
-        build-test-publish-artifacts-disabled: "false"
-        kaniko-warmer-disabled: "false"
-        kaniko-build-and-push-image-disabled: "false"
+        build-test-publish-artifacts-disabled: "true"
+        kaniko-warmer-disabled: "true"
+        kaniko-build-and-push-image-disabled: "true"
 
   workspaces:
     - name: shared-workspace
@@ -355,6 +355,15 @@ spec:
         params:
           - name: aggregateTasksStatus
         steps:
+
+          - name: ctx-f
+            ref:
+              resolver: git
+              params:
+                - name: repo
+                  value: P-tekton-catalog-org
+                - name: pathInRepo
+                  value: stepaction/context/task-context/task-context.yaml
           - name: status
             image: mirror.gcr.io/ubuntu
             script: |
