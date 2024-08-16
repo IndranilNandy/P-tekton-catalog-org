@@ -348,6 +348,7 @@ spec:
 
   finally:
     - name: all-tasks-status
+      displayName: "Status"
       params:
         - name: aggregateTasksStatus
           value: "$(tasks.status)"
