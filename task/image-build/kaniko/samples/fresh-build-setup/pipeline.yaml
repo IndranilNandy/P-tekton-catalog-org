@@ -207,9 +207,9 @@ spec:
           value: ["$(params.extra-args)"]
         - name: E_KANIKO_CACHE_DIR
           value: "$(params.kaniko-cachedir)"
-        - name: E_DOCKERFILE_SPECIFIC_CACHE_LOCATION
+        - name: E_DOCKER_INTERNAL_CACHE_LOCATION
           value: "$(params.binary-cache)"
-        # - name: E_PROJECT_BUILD_ARTIFACT_ROOT_CACHE_LOCATION
+        # - name: E_DOCKER_CONTEXT_CACHE_LOCATION
         #   value: $(params.build-artifacts-root)
 
       workspaces:

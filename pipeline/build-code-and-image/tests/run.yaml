@@ -12,7 +12,7 @@ spec:
 
   params:
     # For git-clone task
-    - name: git-clone-params
+    - name: git-clone
       value:
         url: "git@github.com:IndranilNandy/demo-app-to-test-pipeline"
         revision: "master"
@@ -22,7 +22,7 @@ spec:
     #   value: master
 
     # For gradle task
-    - name: gradle-params
+    - name: gradle
       value:
         gradle-image: "gradle:8.7.0-jdk17"
         project-dir: "."
@@ -42,19 +42,33 @@ spec:
         # - --no-daemon
 
     # For kaniko task
-    - name: app-image
-      value: devbox6:8097/indranilnandy/appdemo2
-    - name: builder-image
-      value: gcr.io/kaniko-project/executor:v1.23.1@sha256:7914350eda14b43f3dcc6925afca88d6b7ba5dff13d221bb70ef44d4da73a1e8
-    - name: dockerfile
-      value: ./docker/copy_build_binary_from_ws.Dockerfile
-      # value: ./docker/primary.Dockerfile
-      # value: ./docker/primary-kaniko-compact.Dockerfile
-      # value: ./docker/primary-kaniko.Dockerfile
-    - name: context
-      # value: .
-      value: "$(params.build-artifacts-root)"
-    - name: extra-args
+    - name: kaniko
+      value:
+        iamge: "devbox6:8097/indranilnandy/appdemo2"
+        dockerfile: "./docker/copy_build_binary_from_ws.Dockerfile"
+        # dockerfile: ./docker/primary.Dockerfile
+        # dockerfile: ./docker/primary-kaniko-compact.Dockerfile
+        # dockerfile: ./docker/primary-kaniko.Dockerfile
+        context: "$(params.build-artifacts-root)"
+        # context: "."
+        builder-image: "gcr.io/kaniko-project/executor:v1.23.1@sha256:7914350eda14b43f3dcc6925afca88d6b7ba5dff13d221bb70ef44d4da73a1e8"
+        kaniko-cachedir: "/cache"
+        docker-internal-cache-location: "/workspace/binary"
+        # docker-internal-cache-location: "/workspace/temp/binary"
+        docker-context-cache-location: "$(params.build-artifacts-root)"
+    # - name: app-image
+    #   value: devbox6:8097/indranilnandy/appdemo2
+    # - name: builder-image
+    #   value: gcr.io/kaniko-project/executor:v1.23.1@sha256:7914350eda14b43f3dcc6925afca88d6b7ba5dff13d221bb70ef44d4da73a1e8
+    # - name: dockerfile
+    #   value: ./docker/copy_build_binary_from_ws.Dockerfile
+    #   # value: ./docker/primary.Dockerfile
+    #   # value: ./docker/primary-kaniko-compact.Dockerfile
+    #   # value: ./docker/primary-kaniko.Dockerfile
+    # - name: context
+    #   # value: .
+    #   value: "$(params.build-artifacts-root)"
+    - name: kaniko-params-extra-args
       value:
         - --build-arg
         - APPLICATION_NAME=com.example.demo.DemoApplication
@@ -69,11 +83,11 @@ spec:
         - --cache-copy-layers
         # --cache-run-layers: default=true
         - --cache-run-layers
-    - name: kaniko-cachedir
-      value: /cache
-    - name: binary-cache
-      value: /workspace/binary
-      # value: /workspace/temp/binary
+    # - name: kaniko-cachedir
+    #   value: /cache
+    # - name: binary-cache
+    #   value: /workspace/binary
+    #   # value: /workspace/temp/binary
 
     # Pipeline specific
     - name: build-artifacts-root

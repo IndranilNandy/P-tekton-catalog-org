@@ -5,7 +5,7 @@ metadata:
 spec:
   params:
     # For git-clone task
-    - name: git-clone-params
+    - name: git-clone
       type: object
       description: Git repo specific details
       properties:
@@ -60,7 +60,7 @@ spec:
         userHome: "/home/git"
 
     # For gradle task
-    - name: gradle-params
+    - name: gradle
       type: object
       description: Parameters of gradle task
       properties:
@@ -82,26 +82,58 @@ spec:
         #   - "build"
         gradle-user-home: "/home/gradle"
         project-build-dir: "$(params.build-artifacts-root)/$(params.project-build-dir-name)"
-    # - name: gradle-image
-    #   default: gradle:8.7.0-jdk17
-    # - name: project-dir
-    #   default: .
     - name: gradle-params-tasks
       type: array
       default:
         - build
-    # - name: gradle-user-home
-    #   default: /home/gradle
+
+    # For kaniko-warmer task
+    - name: kaniko-warmer
+      type: object
+      description: Parameters of kaniko-warmer task
+      properties:
+        kaniko-cachedir:
+          type: string
+        dockerfile:
+          type: string
+      default:
+        kaniko-cachedir: "$(params.kaniko.kaniko-cachedir)"
+        dockerfile: "$(params.kaniko.dockerfile)"
 
     # For kaniko task
-    - name: app-image
-    - name: builder-image
-    - name: dockerfile
-    - name: context
-    - name: extra-args
+    - name: kaniko
+      type: object
+      description: Parameters of kaniko task
+      properties:
+        image:
+          type: string
+        dockerfile:
+          type: string
+        context:
+          type: string
+        builder-image:
+          type: string
+        kaniko-cachedir:
+          type: string
+        gradle-user-home:
+          type: string
+        docker-internal-cache-location:
+          type: string
+        docker-context-cache-location:
+          type: string
+      default:
+        # image: "$(params.app-image):$(tasks.clone-source-repo.results.commit)"
+        context: "."
+        docker-internal-cache-location: "/workspace/binary"
+        docker-context-cache-location: "$(params.build-artifacts-root)"
+    # - name: app-image
+    # - name: builder-image
+    # - name: dockerfile
+    # - name: context
+    - name: kaniko-params-extra-args
       type: array
-    - name: kaniko-cachedir
-    - name: binary-cache
+    # - name: kaniko-cachedir
+    # - name: binary-cache
 
     # Pipeline specific
     - name: build-artifacts-root
@@ -115,9 +147,9 @@ spec:
     - name: build-test-publish-artifacts-debug-disabled
       default: "false"
     - name: kaniko-warmer-debug-disabled
-      default: "true"
+      default: "false"
     - name: kaniko-build-and-push-image
-      default: "true"
+      default: "false"
 
   workspaces:
     - name: shared-workspace
@@ -158,11 +190,11 @@ spec:
 
       params:
         - name: url
-          value: "$(params.git-clone-params.url)"
+          value: "$(params.git-clone.url)"
         - name: revision
-          value: "$(params.git-clone-params.revision)"
+          value: "$(params.git-clone.revision)"
         - name: depth
-          value: "$(params.git-clone-params.depth)"
+          value: "$(params.git-clone.depth)"
       workspaces:
         - name: output
           workspace: shared-workspace
@@ -187,16 +219,16 @@ spec:
 
       params:
         - name: GRADLE_IMAGE
-          value: "$(params.gradle-params.gradle-image)"
+          value: "$(params.gradle.gradle-image)"
         - name: PROJECT_DIR
-          value: "$(params.gradle-params.project-dir)"
+          value: "$(params.gradle.project-dir)"
         - name: TASKS
           value: ["$(params.gradle-params-tasks)"]
         - name: E_PROJECT_BUILD_DIR_CUSTOM
-          value: "$(params.gradle-params.project-build-dir)"
+          value: "$(params.gradle.project-build-dir)"
           # value: "$(params.build-artifacts-root)/$(params.project-build-dir-name)"
         - name: E_GRADLE_USER_HOME
-          value: "$(params.gradle-params.gradle-user-home)"
+          value: "$(params.gradle.gradle-user-home)"
 
       workspaces:
         - name: source
@@ -231,9 +263,9 @@ spec:
 
       params:
         - name: CACHE_DIR
-          value: "$(params.kaniko-cachedir)"
+          value: "$(params.kaniko-warmer.kaniko-cachedir)"
         - name: DOCKERFILE
-          value: "$(params.dockerfile)"
+          value: "$(params.kaniko-warmer.dockerfile)"
 
       workspaces:
         - name: source
@@ -262,21 +294,21 @@ spec:
 
       params:
         - name: IMAGE
-          value: "$(params.app-image):$(tasks.clone-source-repo.results.commit)"
+          value: "$(params.kaniko.image):$(tasks.clone-source-repo.results.commit)"
         - name: BUILDER_IMAGE
-          value: "$(params.builder-image)"
+          value: "$(params.kaniko.builder-image)"
         - name: DOCKERFILE
-          value: "$(params.dockerfile)"
+          value: "$(params.kaniko.dockerfile)"
         - name: CONTEXT
-          value: "$(params.context)"
+          value: "$(params.kaniko.context)"
         - name: EXTRA_ARGS
-          value: ["$(params.extra-args)"]
+          value: ["$(params.kaniko-params-extra-args)"]
         - name: E_KANIKO_CACHE_DIR
-          value: "$(params.kaniko-cachedir)"
-        - name: E_DOCKERFILE_SPECIFIC_CACHE_LOCATION
-          value: "$(params.binary-cache)"
-        - name: E_PROJECT_BUILD_ARTIFACT_ROOT_CACHE_LOCATION
-          value: "$(params.build-artifacts-root)"
+          value: "$(params.kaniko.kaniko-cachedir)"
+        - name: E_DOCKER_INTERNAL_CACHE_LOCATION
+          value: "$(params.kaniko.docker-internal-cache-location)"
+        - name: E_DOCKER_CONTEXT_CACHE_LOCATION
+          value: "$(params.kaniko.docker-context-cache-location)"
 
       workspaces:
         - name: source
@@ -355,6 +387,6 @@ spec:
             script: |
               #!/usr/bin/env bash
               echo -n "{\"url\":\"$(tasks.clone-source-repo.results.url)\",\"commit\":\"$(tasks.clone-source-repo.results.commit)\",\"committer-date\":\"$(tasks.clone-source-repo.results.committer-date)\"}" | tee $(results.repo-details.path)
-              echo -e revision="$(params.git-clone-params.revision)"
-              echo -e build-dir="$(params.gradle-params.project-build-dir)"
+              echo -e revision="$(params.git-clone.revision)"
+              echo -e build-dir="$(params.gradle.project-build-dir)"
 
