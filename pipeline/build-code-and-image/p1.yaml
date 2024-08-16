@@ -58,41 +58,30 @@ spec:
         verbose: "true"
         gitInitImage: "gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.44.5"
         userHome: "/home/git"
-    # - name: repo-url
-    #   default: git@github.com:IndranilNandy/demo-app-to-test-pipeline
-    # - name: branch
-    #   default: master
-    # - name: depth
-    #   description: Perform a shallow clone, fetching only the most recent N commits.
-    #   type: string
-    #   default: "1"
-    # - name: sslVerify
-    #   description: Set the `http.sslVerify` global git config. Setting this to `false` is not advised unless you are sure that you trust your git remote.
-    #   type: string
-    #   default: "true"
-    # - name: subdirectory
-    #   description: Subdirectory inside the `output` Workspace to clone the repo into.
-    #   type: string
-    #   default: ""
-    # - name: deleteExisting
-    #   description: Clean out the contents of the destination directory if it already exists before cloning.
-    #   type: string
-    #   default: "true"
-    # - name: verbose
-    #   description: Log the commands that are executed during `git-clone`'s operation.
-    #   type: string
-    #   default: "true"
-    # - name: gitInitImage
-    #   description: The image providing the git-init binary that this Task runs.
-    #   type: string
-    #   default: "gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.44.5"
-    # - name: userHome
-    #   description: |
-    #     Absolute path to the user's home directory.
-    #   type: string
-    #   default: "/home/git"
 
     # For gradle task
+    - name: gradle-params
+      type: object
+      description: Parameters of gradle task
+      properties:
+        gradle-image:
+          type: string
+        project-dir:
+          type: string
+        # Currently 'array' key-type not supported
+        # tasks:
+        #   type: array
+        gradle-user-home:
+          type: string
+        project-build-dir:
+          type: string
+      default:
+        gradle-image: "gradle:8.7.0-jdk17"
+        project-dir:  "."
+        # tasks:
+        #   - "build"
+        gradle-user-home: "/home/gradle"
+        project-build-dir: "$(params.project-build-dir-name)"
     - name: gradle-image
       default: gradle:8.7.0-jdk17
     - name: project-dir
@@ -136,15 +125,6 @@ spec:
     - name: docker-credentials
 
   results:
-    # - name: repo-commit
-    #   description: The precise commit SHA that was fetched by this Task.
-    #   value: "$(tasks.clone-source-repo.results.commit)"
-    # - name: repo-url
-    #   description: The precise URL that was fetched by this Task.
-    #   value: "$(tasks.clone-source-repo.results.url)"
-    # - name: repo-committer-date
-    #   description: The epoch timestamp of the commit that was fetched by this Task.
-    #   value: "$(tasks.clone-source-repo.results.committer-date)"
     - name: repo-details
       type: object
       description: "repo details of source codebase"
@@ -374,5 +354,6 @@ spec:
             script: |
               #!/usr/bin/env bash
               echo -n "{\"url\":\"$(tasks.clone-source-repo.results.url)\",\"commit\":\"$(tasks.clone-source-repo.results.commit)\",\"committer-date\":\"$(tasks.clone-source-repo.results.committer-date)\"}" | tee $(results.repo-details.path)
-              echo revision="$(params.git-repo.revision)"
+              echo -n revision="$(params.git-repo.revision)"
+              echo -n build-dir="$(params.gradle-params.project-build-dir)"
 
