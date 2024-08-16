@@ -330,5 +330,5 @@ spec:
               #!/usr/bin/env bash
               # echo result="$(pipelines.p1.results.repo-details.path)"
               # cat "$(pipelines.p1.results.repo-details.path)"
-              echo  "$(finally.aggregate-results.results.repo-details)"
+              cat "$(finally.aggregate-results.results.repo-details.path)"
 
