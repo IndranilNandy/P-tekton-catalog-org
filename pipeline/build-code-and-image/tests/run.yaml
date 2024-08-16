@@ -12,17 +12,26 @@ spec:
 
   params:
     # For git-clone task
-    - name: repo-url
-      value: git@github.com:IndranilNandy/demo-app-to-test-pipeline
-    - name: branch
-      value: master
+    - name: git-clone-params
+      value:
+        url: "git@github.com:IndranilNandy/demo-app-to-test-pipeline"
+        revision: "master"
+    # - name: repo-url
+    #   value: git@github.com:IndranilNandy/demo-app-to-test-pipeline
+    # - name: branch
+    #   value: master
 
     # For gradle task
-    - name: gradle-image
-      value: gradle:8.7.0-jdk17
-    - name: project-dir
-      value: .
-    - name: tasks
+    - name: gradle-params
+      value:
+        gradle-image: "gradle:8.7.0-jdk17"
+        project-dir: "."
+
+    # - name: gradle-image
+    #   value: gradle:8.7.0-jdk17
+    # - name: project-dir
+    #   value: .
+    - name: gradle-params-tasks
       value:
         - build
         - publish
