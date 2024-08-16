@@ -16,6 +16,8 @@ spec:
         revision:
           type: string
       default:
+        url: ""
+        repo-url: ""
         revision: "master"
     - name: repo-url
       default: git@github.com:IndranilNandy/demo-app-to-test-pipeline
