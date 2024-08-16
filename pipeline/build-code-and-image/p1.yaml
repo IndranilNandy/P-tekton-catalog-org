@@ -124,6 +124,7 @@ spec:
       default:
         # image: "$(params.app-image):$(tasks.clone-source-repo.results.commit)"
         context: "."
+        gradle-user-home: "/root/.gradle"
         docker-internal-cache-location: "/workspace/binary"
         docker-context-cache-location: "$(params.build-artifacts-root)"
     # - name: app-image
