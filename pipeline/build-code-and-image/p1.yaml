@@ -1,4 +1,4 @@
-apiVersion: tekton.dev/v1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: p1
@@ -355,7 +355,6 @@ spec:
         params:
           - name: aggregateTasksStatus
         steps:
-
           - name: ctx-f
             ref:
               resolver: git
@@ -368,6 +367,17 @@ spec:
             image: mirror.gcr.io/ubuntu
             script: |
               echo "Tasks status: $(params.aggregateTasksStatus)"
+          - name: another-context
+            image: mirror.gcr.io/ubuntu
+            script: |
+              echo "Task: $(context.task.name)"
+              echo "TaskRun: $(context.taskRun.name)"
+              echo "TaskRun uid: $(context.taskRun.uid)"
+              echo "TaskRun namespace: $(context.taskRun.namespace)"
+              # echo "Pipeline uid: $(context.pipelineRun.uid)"
+              # echo "Pipeline name: $(context.pipeline.name)"
+              # echo "PipelineRun name: $(context.pipelineRun.name)"
+              # echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
     - name: aggregate-results
       taskSpec:
         results:
