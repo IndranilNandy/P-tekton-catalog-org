@@ -16,10 +16,6 @@ spec:
       value:
         url: "git@github.com:IndranilNandy/demo-app-to-test-pipeline"
         revision: "master"
-    # - name: repo-url
-    #   value: git@github.com:IndranilNandy/demo-app-to-test-pipeline
-    # - name: branch
-    #   value: master
 
     # For gradle task
     - name: gradle
@@ -35,19 +31,6 @@ spec:
         # - --status
         # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
         # - --no-daemon
-    # - name: gradle-image
-    #   value: gradle:8.7.0-jdk17
-    # - name: project-dir
-    #   value: .
-    # - name: tasks
-    #   value:
-    #     - build
-    #     - publish
-    #     - -PbuildDir=$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)
-    #     - --console=verbose
-    #     # - --status
-    #     # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
-    #     # - --no-daemon
 
     # For kaniko task
     - name: kaniko
@@ -79,48 +62,12 @@ spec:
         - --cache-copy-layers
         # --cache-run-layers: default=true
         - --cache-run-layers
-    # - name: app-image
-    #   value: devbox6:8097/indranilnandy/appdemo2
-    # - name: builder-image
-    #   value: gcr.io/kaniko-project/executor:v1.23.1@sha256:7914350eda14b43f3dcc6925afca88d6b7ba5dff13d221bb70ef44d4da73a1e8
-    # - name: dockerfile
-    #   value: ./docker/copy_build_binary_from_ws.Dockerfile
-    #   # value: ./docker/primary.Dockerfile
-    #   # value: ./docker/primary-kaniko-compact.Dockerfile
-    #   # value: ./docker/primary-kaniko.Dockerfile
-    # - name: context
-    #   # value: .
-    #   value: "$(params.common.build-artifacts-root)"
-    # - name: extra-args
-    #   value:
-    #     - --build-arg
-    #     - APPLICATION_NAME=com.example.demo.DemoApplication
-    #     - --build-arg
-    #     - JAR_FILE=*-SNAPSHOT.jar
-    #     - --build-arg
-    #     - APP_SERVICE=app-service
-    #     - --build-arg
-    #     - SOURCE_BUILD_LOCATION=$(params.common.project-build-dir-name)
-    #     - --cache=true
-    #     - --insecure
-    #     - --cache-copy-layers
-    #     # --cache-run-layers: default=true
-    #     - --cache-run-layers
-    # - name: kaniko-cachedir
-    #   value: /cache
-    # - name: binary-cache
-    #   value: /workspace/binary
-    #   # value: /workspace/temp/binary
 
     # Pipeline specific
     - name: common
       value:
         build-artifacts-root: "/tmp/myproject/build-artifacts"
         project-build-dir-name: "build"
-    # - name: build-artifacts-root
-    #   value: /tmp/myproject/build-artifacts
-    # - name: project-build-dir-name
-    #   value: build
 
   workspaces:
     - name: shared-workspace
@@ -143,4 +90,3 @@ spec:
         value: P-tekton-catalog-org
       - name: pathInRepo
         value: pipeline/build-code-and-image/p1.yaml
-    # name: test-catalog-pipeline-p1-pvc
