@@ -1,4 +1,4 @@
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
   name: p1
@@ -11,47 +11,86 @@ spec:
       properties:
         url:
           type: string
-        repo-url:
-          type: string
         revision:
           type: string
+        refspec:
+          type: string
+        submodules:
+          type: string
+        depth:
+          type: string
+        sslVerify:
+          type: string
+        crtFileName:
+          type: string
+        subdirectory:
+          type: string
+        sparseCheckoutDirectories:
+          type: string
+        deleteExisting:
+          type: string
+        httpProxy:
+          type: string
+        httpsProxy:
+          type: string
+        noProxy:
+          type: string
+        verbose:
+          type: string
+        gitInitImage:
+          type: string
+        userHome:
+          type: string
       default:
-        url: ""
-        repo-url: ""
+        url: "git@github.com:IndranilNandy/demo-app-to-test-pipeline"
         revision: "master"
-    - name: repo-url
-      default: git@github.com:IndranilNandy/demo-app-to-test-pipeline
-    - name: branch
-      default: master
-    - name: depth
-      description: Perform a shallow clone, fetching only the most recent N commits.
-      type: string
-      default: "1"
-    - name: sslVerify
-      description: Set the `http.sslVerify` global git config. Setting this to `false` is not advised unless you are sure that you trust your git remote.
-      type: string
-      default: "true"
-    - name: subdirectory
-      description: Subdirectory inside the `output` Workspace to clone the repo into.
-      type: string
-      default: ""
-    - name: deleteExisting
-      description: Clean out the contents of the destination directory if it already exists before cloning.
-      type: string
-      default: "true"
-    - name: verbose
-      description: Log the commands that are executed during `git-clone`'s operation.
-      type: string
-      default: "true"
-    - name: gitInitImage
-      description: The image providing the git-init binary that this Task runs.
-      type: string
-      default: "gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.44.5"
-    - name: userHome
-      description: |
-        Absolute path to the user's home directory.
-      type: string
-      default: "/home/git"
+        refspec: ""
+        submodules: "true"
+        depth: "1"
+        sslVerify: "true"
+        crtFileName: "ca-bundle.crt"
+        subdirectory: ""
+        sparseCheckoutDirectories: ""
+        deleteExisting: "true"
+        httpProxy: ""
+        httpsProxy: ""
+        noProxy: ""
+        verbose: "true"
+        gitInitImage: "gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.44.5"
+        userHome: "/home/git"
+    # - name: repo-url
+    #   default: git@github.com:IndranilNandy/demo-app-to-test-pipeline
+    # - name: branch
+    #   default: master
+    # - name: depth
+    #   description: Perform a shallow clone, fetching only the most recent N commits.
+    #   type: string
+    #   default: "1"
+    # - name: sslVerify
+    #   description: Set the `http.sslVerify` global git config. Setting this to `false` is not advised unless you are sure that you trust your git remote.
+    #   type: string
+    #   default: "true"
+    # - name: subdirectory
+    #   description: Subdirectory inside the `output` Workspace to clone the repo into.
+    #   type: string
+    #   default: ""
+    # - name: deleteExisting
+    #   description: Clean out the contents of the destination directory if it already exists before cloning.
+    #   type: string
+    #   default: "true"
+    # - name: verbose
+    #   description: Log the commands that are executed during `git-clone`'s operation.
+    #   type: string
+    #   default: "true"
+    # - name: gitInitImage
+    #   description: The image providing the git-init binary that this Task runs.
+    #   type: string
+    #   default: "gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.44.5"
+    # - name: userHome
+    #   description: |
+    #     Absolute path to the user's home directory.
+    #   type: string
+    #   default: "/home/git"
 
     # For gradle task
     - name: gradle-image
@@ -85,11 +124,11 @@ spec:
     - name: clone-source-repo-debug-disabled
       default: "false"
     - name: build-test-publish-artifacts-debug-disabled
-      default: "false"
+      default: "true"
     - name: kaniko-warmer-debug-disabled
-      default: "false"
+      default: "true"
     - name: kaniko-build-and-push-image
-      default: "false"
+      default: "true"
 
   workspaces:
     - name: shared-workspace
@@ -139,11 +178,11 @@ spec:
 
       params:
         - name: url
-          value: "$(params.repo-url)"
+          value: "$(params.git-repo.url)"
         - name: revision
-          value: "$(params.branch)"
+          value: "$(params.git-repo.revision)"
         - name: depth
-          value: "$(params.depth)"
+          value: "$(params.git-repo.depth)"
       workspaces:
         - name: output
           workspace: shared-workspace
