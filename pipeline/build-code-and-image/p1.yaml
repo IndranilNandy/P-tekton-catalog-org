@@ -335,4 +335,5 @@ spec:
             script: |
               #!/usr/bin/env bash
               echo -n "{\"url\":\"$(tasks.clone-source-repo.results.url)\",\"commit\":\"$(tasks.clone-source-repo.results.commit)\",\"committer-date\":\"$(tasks.clone-source-repo.results.committer-date)\"}" | tee $(results.repo-details.path)
+              echo revision="$(params.git-repo.revision)"
 
