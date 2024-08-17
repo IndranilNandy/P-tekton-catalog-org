@@ -25,9 +25,10 @@ spec:
     #     secretName: test-docker-credentials
 
   pipelineRef:
-    resolver: git
-    params:
-      - name: repo
-        value: P-tekton-catalog-org
-      - name: pathInRepo
-        value: pipeline/build-code-and-image/build-n-deploy-pipeline.yaml
+    name: build-n-deploy-pipeline
+    # resolver: git
+    # params:
+    #   - name: repo
+    #     value: P-tekton-catalog-org
+    #   - name: pathInRepo
+    #     value: pipeline/build-code-and-image/build-n-deploy-pipeline.yaml
