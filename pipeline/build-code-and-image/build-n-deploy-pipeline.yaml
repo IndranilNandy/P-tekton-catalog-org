@@ -130,6 +130,21 @@ spec:
             name: step-1
             script: |
               echo "Cloning a repo to run security scans ..."
+    - name: sample-pip
+      taskRef:
+        apiVersion: tekton.dev/v1beta1
+        kind: Pipeline
+        # name: security-scans
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: pipeline/build-code-and-image/sample-pipeline.yaml
+
+      runAfter:
+        - "git-clone1"
+
     - name: build-pipeline
       params:
         # For git-clone task
@@ -182,4 +197,4 @@ spec:
             value: pipeline/build-code-and-image/build-pipeline.yaml
 
       runAfter:
-        - git-clone1
+        - "sample-pip"
