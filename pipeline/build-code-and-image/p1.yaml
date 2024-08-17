@@ -346,40 +346,7 @@ spec:
       runAfter:
         - "kaniko-warmer"
 
-    # - name: aggregate-results
-    #   taskSpec:
-    #     results:
-    #       - name: repo-details
-    #         type: object
-    #         properties:
-    #           url:
-    #             type: string
-    #           commit:
-    #             type: string
-    #           committer-date:
-    #             type: string
-    #       - name: image-details
-    #         type: object
-    #         properties:
-    #           url:
-    #             type: string
-    #           digest:
-    #             type: string
-    #         # default:
-    #         #   url: "error"
-    #         #   digest: "error"
-    #     steps:
-    #       - name: write-result
-    #         image: bash:latest
-    #         script: |
-    #           #!/usr/bin/env bash
-    #           echo -n "{\"url\":\"$(tasks.clone-source-repo.results.url)\",\"commit\":\"$(tasks.clone-source-repo.results.commit)\",\"committer-date\":\"$(tasks.clone-source-repo.results.committer-date)\"}" | tee $(results.repo-details.path)
-    #           echo -n "{\"url\":\"$(tasks.kaniko-build-and-push-image.results.IMAGE_URL)\",\"digest\":\"$(tasks.kaniko-build-and-push-image.results.IMAGE_DIGEST)\"}" | tee $(results.image-details.path)
-    #           echo -e revision="$(params.git-clone.revision)"
-    #           echo -e build-dir="$(params.gradle.project-build-dir)"
 
-    #   runAfter:
-    #     - "kaniko-build-and-push-image"
 
   finally:
     - name: all-tasks-status
@@ -465,4 +432,39 @@ spec:
               echo "task (build-test-publish-artifacts): $(params.build-test-publish-artifacts-status)"
               echo -n "task (kaniko-warmer): $(params.kaniko-warmer-status)"
               echo -n "task (kaniko-build-and-push-image): $(params.kaniko-build-and-push-image-status)"
+
+    - name: aggregate-results
+      taskSpec:
+        results:
+          - name: repo-details
+            type: object
+            properties:
+              url:
+                type: string
+              commit:
+                type: string
+              committer-date:
+                type: string
+          - name: image-details
+            type: object
+            properties:
+              url:
+                type: string
+              digest:
+                type: string
+            # default:
+            #   url: "error"
+            #   digest: "error"
+        steps:
+          - name: write-result
+            image: bash:latest
+            script: |
+              #!/usr/bin/env bash
+              echo -n "{\"url\":\"$(tasks.clone-source-repo.results.url)\",\"commit\":\"$(tasks.clone-source-repo.results.commit)\",\"committer-date\":\"$(tasks.clone-source-repo.results.committer-date)\"}" | tee $(results.repo-details.path)
+              echo -n "{\"url\":\"$(tasks.kaniko-build-and-push-image.results.IMAGE_URL)\",\"digest\":\"$(tasks.kaniko-build-and-push-image.results.IMAGE_DIGEST)\"}" | tee $(results.image-details.path)
+              echo -e revision="$(params.git-clone.revision)"
+              echo -e build-dir="$(params.gradle.project-build-dir)"
+
+      # runAfter:
+      #   - "kaniko-build-and-push-image"
 
