@@ -87,48 +87,6 @@ spec:
       default:
         - build
 
-    # For kaniko-warmer task
-    - name: kaniko-warmer
-      type: object
-      description: Parameters of kaniko-warmer task
-      properties:
-        kaniko-cachedir:
-          type: string
-        dockerfile:
-          type: string
-      default:
-        kaniko-cachedir: "$(params.kaniko.kaniko-cachedir)"
-        dockerfile: "$(params.kaniko.dockerfile)"
-
-    # For kaniko task
-    - name: kaniko
-      type: object
-      description: Parameters of kaniko task
-      properties:
-        image:
-          type: string
-        dockerfile:
-          type: string
-        context:
-          type: string
-        builder-image:
-          type: string
-        kaniko-cachedir:
-          type: string
-        gradle-user-home:
-          type: string
-        docker-internal-cache-location:
-          type: string
-        docker-context-cache-location:
-          type: string
-      default:
-        context: "."
-        gradle-user-home: "/root/.gradle"
-        docker-internal-cache-location: "/workspace/binary"
-        docker-context-cache-location: "$(params.common.build-artifacts-root)"
-    - name: kaniko-params-extra-args
-      type: array
-
     # Pipeline commons
     - name: common
       type: object
@@ -150,30 +108,24 @@ spec:
           type: string
         build-test-publish-artifacts-disabled:
           type: string
-        kaniko-warmer-disabled:
-          type: string
-        kaniko-build-and-push-image-disabled:
-          type: string
       default:
         clone-source-repo-disabled: "false"
         build-test-publish-artifacts-disabled: "false"
-        kaniko-warmer-disabled: "false"
-        kaniko-build-and-push-image-disabled: "false"
 
   workspaces:
     - name: shared-workspace
     # - name: git-ssh-credentials
-    - name: docker-credentials
+    # - name: docker-credentials
 
   results:
     - name: repo-details
       type: object
       description: "repo details of source codebase"
       value: "$(finally.aggregate-results.results.repo-details)"
-    - name: image-details
-      type: object
-      description: "details of image generated from dockerfile"
-      value: "$(finally.aggregate-results.results.image-details)"
+    # - name: image-details
+    #   type: object
+    #   description: "details of image generated from dockerfile"
+    #   value: "$(finally.aggregate-results.results.image-details)"
 
   tasks:
     - name: pipeline-ctx
@@ -259,92 +211,6 @@ spec:
 
       runAfter:
         - "clone-source-repo"
-
-    - name: kaniko-warmer
-      when:
-        - input: "$(params.debug.kaniko-warmer-disabled)"
-          operator: in
-          values:
-            - "false"
-      taskRef:
-        resolver: git
-        params:
-          - name: repo
-            value: P-tekton-catalog-org
-          - name: pathInRepo
-            value: task/image-build/kaniko/kaniko-warmer/kaniko-warmer.yaml
-
-      params:
-        - name: CACHE_DIR
-          value: "$(params.kaniko-warmer.kaniko-cachedir)"
-        - name: DOCKERFILE
-          value: "$(params.kaniko-warmer.dockerfile)"
-
-      workspaces:
-        - name: source
-          workspace: shared-workspace
-          subPath: source-code/
-        - name: e_kaniko_warmer_cache
-          workspace: shared-workspace
-          subPath: kaniko/kaniko-cache/
-
-      runAfter:
-        - "build-test-publish-artifacts"
-
-    - name: kaniko-build-and-push-image
-      when:
-        - input: "$(params.debug.kaniko-build-and-push-image-disabled)"
-          operator: in
-          values:
-            - "false"
-      taskRef:
-        resolver: git
-        params:
-          - name: repo
-            value: P-tekton-catalog-org
-          - name: pathInRepo
-            value: task/image-build/kaniko/kaniko.yaml
-
-      params:
-        - name: IMAGE
-          value: "$(params.kaniko.image):$(tasks.clone-source-repo.results.commit)"
-        - name: BUILDER_IMAGE
-          value: "$(params.kaniko.builder-image)"
-        - name: DOCKERFILE
-          value: "$(params.kaniko.dockerfile)"
-        - name: CONTEXT
-          value: "$(params.kaniko.context)"
-        - name: EXTRA_ARGS
-          value: ["$(params.kaniko-params-extra-args)"]
-        - name: E_KANIKO_CACHE_DIR
-          value: "$(params.kaniko.kaniko-cachedir)"
-        - name: E_DOCKER_INTERNAL_CACHE_LOCATION
-          value: "$(params.kaniko.docker-internal-cache-location)"
-        - name: E_DOCKER_CONTEXT_CACHE_LOCATION
-          value: "$(params.kaniko.docker-context-cache-location)"
-
-      workspaces:
-        - name: source
-          workspace: shared-workspace
-          subPath: source-code/
-        - name: e_kaniko_cache
-          workspace: shared-workspace
-          subPath: kaniko/kaniko-cache/
-        - name: e_docker_internal_cache
-          workspace: shared-workspace
-          subPath: kaniko/docker-internal-cache/
-        - name: e_gradle_cache
-          workspace: shared-workspace
-          subPath: kaniko/gradle-cache/
-        - name: e_project_build_artifact_root_cache
-          workspace: shared-workspace
-          subPath: gradle-cache/project/artifacts-cache/
-
-        - name: dockerconfig
-          workspace: docker-credentials
-
-      runAfter:
-        - "kaniko-warmer"
 
   finally:
     - name: all-tasks-status
@@ -461,8 +327,7 @@ spec:
             script: |
               #!/usr/bin/env bash
               echo -n "{\"url\":\"$(tasks.clone-source-repo.results.url)\",\"commit\":\"$(tasks.clone-source-repo.results.commit)\",\"committer-date\":\"$(tasks.clone-source-repo.results.committer-date)\"}" | tee $(results.repo-details.path)
-              echo
               echo -n "{\"url\":\"$(tasks.kaniko-build-and-push-image.results.IMAGE_URL)\",\"digest\":\"$(tasks.kaniko-build-and-push-image.results.IMAGE_DIGEST)\"}" | tee $(results.image-details.path)
-              echo revision="$(params.git-clone.revision)"
-              echo build-dir="$(params.gradle.project-build-dir)"
+              echo -e revision="$(params.git-clone.revision)"
+              echo -e build-dir="$(params.gradle.project-build-dir)"
 
