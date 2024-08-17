@@ -238,16 +238,16 @@ spec:
           value: "$(tasks.clone-source-repo.status)"
         - name: build-test-publish-artifacts-status
           value: "$(tasks.build-test-publish-artifacts.status)"
-        - name: kaniko-warmer-status
-          value: "$(tasks.kaniko-warmer.status)"
-        - name: kaniko-build-and-push-image-status
-          value: "$(tasks.kaniko-build-and-push-image.status)"
+        # - name: kaniko-warmer-status
+        #   value: "$(tasks.kaniko-warmer.status)"
+        # - name: kaniko-build-and-push-image-status
+        #   value: "$(tasks.kaniko-build-and-push-image.status)"
       taskSpec:
         params:
           - name: clone-source-repo-status
           - name: build-test-publish-artifacts-status
-          - name: kaniko-warmer-status
-          - name: kaniko-build-and-push-image-status
+          # - name: kaniko-warmer-status
+          # - name: kaniko-build-and-push-image-status
         steps:
           - name: failed
             image: mirror.gcr.io/ubuntu
@@ -255,8 +255,6 @@ spec:
               echo "One or more tasks failed"
               echo task: clone-source-repo \t\t\tstatus: $(params.clone-source-repo-status)"
               echo "task: build-test-publish-artifacts \t\tstatus: $(params.build-test-publish-artifacts-status)"
-              echo "task: kaniko-warmer \t\t\tstatus: $(params.kaniko-warmer-status)"
-              echo "task: kaniko-build-and-push-image \t\tstatus: $(params.kaniko-build-and-push-image-status)"
               echo
               echo "[ToDo] Notify on slack channel (use tekton task for slack)"
     - name: report-pipeline-success
@@ -271,16 +269,16 @@ spec:
           value: "$(tasks.clone-source-repo.status)"
         - name: build-test-publish-artifacts-status
           value: "$(tasks.build-test-publish-artifacts.status)"
-        - name: kaniko-warmer-status
-          value: "$(tasks.kaniko-warmer.status)"
-        - name: kaniko-build-and-push-image-status
-          value: "$(tasks.kaniko-build-and-push-image.status)"
+        # - name: kaniko-warmer-status
+        #   value: "$(tasks.kaniko-warmer.status)"
+        # - name: kaniko-build-and-push-image-status
+        #   value: "$(tasks.kaniko-build-and-push-image.status)"
       taskSpec:
         params:
           - name: clone-source-repo-status
           - name: build-test-publish-artifacts-status
-          - name: kaniko-warmer-status
-          - name: kaniko-build-and-push-image-status
+          # - name: kaniko-warmer-status
+          # - name: kaniko-build-and-push-image-status
         steps:
           - name: success
             image: mirror.gcr.io/ubuntu
@@ -288,8 +286,6 @@ spec:
               echo "All tasks passed"
               echo "task: clone-source-repo \t\t\tstatus: $(params.clone-source-repo-status)"
               echo "task: build-test-publish-artifacts \t\tstatus: $(params.build-test-publish-artifacts-status)"
-              echo "task: kaniko-warmer \t\t\tstatus: $(params.kaniko-warmer-status)"
-              echo "task: kaniko-build-and-push-image \t\tstatus: $(params.kaniko-build-and-push-image-status)"
               echo
               echo "[ToDo] Notify on slack channel (use tekton task for slack)"
 
@@ -311,13 +307,13 @@ spec:
                 type: string
               committer-date:
                 type: string
-          - name: image-details
-            type: object
-            properties:
-              url:
-                type: string
-              digest:
-                type: string
+          # - name: image-details
+          #   type: object
+          #   properties:
+          #     url:
+          #       type: string
+          #     digest:
+          #       type: string
             # default:
             #   url: "error"
             #   digest: "error"
@@ -327,7 +323,6 @@ spec:
             script: |
               #!/usr/bin/env bash
               echo -n "{\"url\":\"$(tasks.clone-source-repo.results.url)\",\"commit\":\"$(tasks.clone-source-repo.results.commit)\",\"committer-date\":\"$(tasks.clone-source-repo.results.committer-date)\"}" | tee $(results.repo-details.path)
-              echo -n "{\"url\":\"$(tasks.kaniko-build-and-push-image.results.IMAGE_URL)\",\"digest\":\"$(tasks.kaniko-build-and-push-image.results.IMAGE_DIGEST)\"}" | tee $(results.image-details.path)
               echo -e revision="$(params.git-clone.revision)"
               echo -e build-dir="$(params.gradle.project-build-dir)"
 
