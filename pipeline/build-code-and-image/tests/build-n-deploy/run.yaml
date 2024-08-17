@@ -10,6 +10,28 @@ spec:
       securityContext:
         fsGroup: 65532
 
+  params:
+    # For git-clone task
+    - name: git-clone
+      value:
+        url: "git@github.com:IndranilNandy/demo-app-to-test-pipeline"
+        revision: "master"
+
+    # For gradle task
+    - name: gradle
+      value:
+        gradle-image: "gradle:8.7.0-jdk17"
+        project-dir: "."
+    - name: gradle-params-tasks
+      value:
+        - build
+        - publish
+        - -PbuildDir=$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)
+        - --console=verbose
+        # - --status
+        # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
+        # - --no-daemon
+
   workspaces:
     - name: shared-workspace
       persistentVolumeClaim:

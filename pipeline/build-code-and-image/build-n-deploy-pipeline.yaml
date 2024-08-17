@@ -5,87 +5,87 @@ metadata:
 spec:
   params:
     # For git-clone task
-    # - name: git-clone
-    #   type: object
-    #   description: Git repo specific details
-    #   properties:
-    #     url:
-    #       type: string
-    #     revision:
-    #       type: string
-    #     refspec:
-    #       type: string
-    #     submodules:
-    #       type: string
-    #     depth:
-    #       type: string
-    #     sslVerify:
-    #       type: string
-    #     crtFileName:
-    #       type: string
-    #     subdirectory:
-    #       type: string
-    #     sparseCheckoutDirectories:
-    #       type: string
-    #     deleteExisting:
-    #       type: string
-    #     httpProxy:
-    #       type: string
-    #     httpsProxy:
-    #       type: string
-    #     noProxy:
-    #       type: string
-    #     verbose:
-    #       type: string
-    #     gitInitImage:
-    #       type: string
-    #     userHome:
-    #       type: string
-    #   default:
-    #     url: "git@github.com:IndranilNandy/demo-app-to-test-pipeline"
-    #     revision: "master"
-    #     refspec: ""
-    #     submodules: "true"
-    #     depth: "1"
-    #     sslVerify: "true"
-    #     crtFileName: "ca-bundle.crt"
-    #     subdirectory: ""
-    #     sparseCheckoutDirectories: ""
-    #     deleteExisting: "true"
-    #     httpProxy: ""
-    #     httpsProxy: ""
-    #     noProxy: ""
-    #     verbose: "true"
-    #     gitInitImage: "gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.44.5"
-    #     userHome: "/home/git"
+    - name: git-clone
+      type: object
+      description: Git repo specific details
+      properties:
+        url:
+          type: string
+        revision:
+          type: string
+        refspec:
+          type: string
+        submodules:
+          type: string
+        depth:
+          type: string
+        sslVerify:
+          type: string
+        crtFileName:
+          type: string
+        subdirectory:
+          type: string
+        sparseCheckoutDirectories:
+          type: string
+        deleteExisting:
+          type: string
+        httpProxy:
+          type: string
+        httpsProxy:
+          type: string
+        noProxy:
+          type: string
+        verbose:
+          type: string
+        gitInitImage:
+          type: string
+        userHome:
+          type: string
+      default:
+        url: "git@github.com:IndranilNandy/demo-app-to-test-pipeline"
+        revision: "master"
+        refspec: ""
+        submodules: "true"
+        depth: "1"
+        sslVerify: "true"
+        crtFileName: "ca-bundle.crt"
+        subdirectory: ""
+        sparseCheckoutDirectories: ""
+        deleteExisting: "true"
+        httpProxy: ""
+        httpsProxy: ""
+        noProxy: ""
+        verbose: "true"
+        gitInitImage: "gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.44.5"
+        userHome: "/home/git"
 
-    # # For gradle task
-    # - name: gradle
-    #   type: object
-    #   description: Parameters of gradle task
-    #   properties:
-    #     gradle-image:
-    #       type: string
-    #     project-dir:
-    #       type: string
-    #     # Currently 'array' key-type not supported
-    #     # tasks:
-    #     #   type: array
-    #     gradle-user-home:
-    #       type: string
-    #     project-build-dir:
-    #       type: string
-    #   default:
-    #     gradle-image: "gradle:8.7.0-jdk17"
-    #     project-dir:  "."
-    #     # tasks:
-    #     #   - "build"
-    #     gradle-user-home: "/home/gradle"
-    #     project-build-dir: "$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)"
-    # - name: gradle-params-tasks
-    #   type: array
-    #   default:
-    #     - build
+    # For gradle task
+    - name: gradle
+      type: object
+      description: Parameters of gradle task
+      properties:
+        gradle-image:
+          type: string
+        project-dir:
+          type: string
+        # Currently 'array' key-type not supported
+        # tasks:
+        #   type: array
+        gradle-user-home:
+          type: string
+        project-build-dir:
+          type: string
+      default:
+        gradle-image: "gradle:8.7.0-jdk17"
+        project-dir:  "."
+        # tasks:
+        #   - "build"
+        gradle-user-home: "/home/gradle"
+        project-build-dir: "$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)"
+    - name: gradle-params-tasks
+      type: array
+      default:
+        - build
 
     # Pipeline commons
     - name: common
@@ -99,18 +99,18 @@ spec:
         build-artifacts-root: "/tmp/myproject/build-artifacts"
         project-build-dir-name: "build"
 
-    #   # Debugging purpose
-    # - name: debug
-    #   type: object
-    #   description: all debug switches and properties
-    #   properties:
-    #     clone-source-repo-disabled:
-    #       type: string
-    #     build-test-publish-artifacts-disabled:
-    #       type: string
-    #   default:
-    #     clone-source-repo-disabled: "false"
-    #     build-test-publish-artifacts-disabled: "false"
+      # Debugging purpose
+    - name: debug
+      type: object
+      description: all debug switches and properties
+      properties:
+        clone-source-repo-disabled:
+          type: string
+        build-test-publish-artifacts-disabled:
+          type: string
+      default:
+        clone-source-repo-disabled: "false"
+        build-test-publish-artifacts-disabled: "false"
 
   workspaces:
     - name: shared-workspace
@@ -150,41 +150,48 @@ spec:
         # For git-clone task
         - name: git-clone
           value:
-            url: "git@github.com:IndranilNandy/demo-app-to-test-pipeline"
-            revision: "master"
+            # url: "git@github.com:IndranilNandy/demo-app-to-test-pipeline"
+            # revision: "master"
+            url: "$(params.git-clone.url)"
+            revision: "$(params.git-clone.revision)"
 
         # For gradle task
         - name: gradle
           value:
-            gradle-image: "gradle:8.7.0-jdk17"
-            project-dir: "."
+            # gradle-image: "gradle:8.7.0-jdk17"
+            # project-dir: "."
+            gradle-image: "$(params.gradle.gradle-image)"
+            project-dir: "$(params.gradle.project-dir)"
         - name: gradle-params-tasks
-          value:
-            - build
-            - publish
-            - -PbuildDir=$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)
-            - --console=verbose
-            # - --status
-            # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
-            # - --no-daemon
+          value: ["$(params.gradle-params-tasks)"]
+            # - build
+            # - publish
+            # - -PbuildDir=$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)
+            # - --console=verbose
+            # # - --status
+            # # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
+            # # - --no-daemon
 
         # Pipeline commons
         - name: common
           value:
-            build-artifacts-root: "/tmp/myproject/build-artifacts"
-            project-build-dir-name: "build"
+            # build-artifacts-root: "/tmp/myproject/build-artifacts"
+            # project-build-dir-name: "build"
+            build-artifacts-root: "$(params.common.build-artifacts-root)"
+            project-build-dir-name: "$(params.common.project-build-dir-name)"
 
         # Debugging purpose
         - name: debug
           value:
-            clone-source-repo-disabled: "false"
-            build-test-publish-artifacts-disabled: "false"
-      # params:
-      #   - name: param1
-      #     value: "$(params.param-root)"
+            # clone-source-repo-disabled: "false"
+            # build-test-publish-artifacts-disabled: "false"
+            clone-source-repo-disabled: "$(params.debug.clone-source-repo-disabled)"
+            build-test-publish-artifacts-disabled: "$(params.debug.build-test-publish-artifacts-disabled)"
+
       workspaces:
         - name: shared-workspace
           workspace: shared-workspace
+
       taskRef:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
