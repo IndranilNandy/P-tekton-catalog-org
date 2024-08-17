@@ -360,6 +360,40 @@ spec:
             image: mirror.gcr.io/ubuntu
             script: |
               echo "Tasks status: $(params.aggregateTasksStatus)"
+    - name: report-pipeline-failure
+      when:
+        - input: "$(tasks.status)"
+          operator: in
+          values:
+            - "Failed"
+            - "None"
+      taskSpec:
+        steps:
+          - name: failed
+            image: mirror.gcr.io/ubuntu
+            script: |
+              echo -e "One or more tasks failed"
+              echo -e "task (clone-source-repo): $(tasks.clone-source-repo.status)"
+              echo -e "task (build-test-publish-artifacts): $(build-test-publish-artifacts.status)"
+              echo -e "task (kaniko-warmer): $(tasks.kaniko-warmer.status)"
+              echo -e "task (kaniko-build-and-push-image): $(tasks.kaniko-build-and-push-image.status)"
+    - name: report-pipeline-success
+      when:
+        - input: "$(tasks.status)"
+          operator: in
+          values:
+            - "Succeeded"
+            - "Completed"
+      taskSpec:
+        steps:
+          - name: success
+            image: mirror.gcr.io/ubuntu
+            script: |
+              echo -e "All tasks passed"
+              echo -e "task (clone-source-repo): $(tasks.clone-source-repo.status)"
+              echo -e "task (build-test-publish-artifacts): $(build-test-publish-artifacts.status)"
+              echo -e "task (kaniko-warmer): $(tasks.kaniko-warmer.status)"
+              echo -e "task (kaniko-build-and-push-image): $(tasks.kaniko-build-and-push-image.status)"
     - name: aggregate-results
       taskSpec:
         results:
