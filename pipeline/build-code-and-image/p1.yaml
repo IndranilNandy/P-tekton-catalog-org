@@ -1,4 +1,4 @@
-apiVersion: tekton.dev/v1
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: p1
@@ -368,15 +368,24 @@ spec:
             - "Failed"
             - "None"
       taskSpec:
+        params:
+          - name: clone-source-repo-status
+            default: "$(tasks.clone-source-repo.status)"
+          - name: build-test-publish-artifacts-status
+            default: "$(tasks.build-test-publish-artifacts.status)"
+          - name: kaniko-warmer-status
+            default: "$(tasks.kaniko-warmer.status)"
+          - name: kaniko-build-and-push-image-status
+            default: "$(tasks.kaniko-build-and-push-image.status)"
         steps:
           - name: failed
             image: mirror.gcr.io/ubuntu
             script: |
-              echo -e "One or more tasks failed"
-              echo -e "task (clone-source-repo): $(tasks.clone-source-repo.status)"
-              echo -e "task (build-test-publish-artifacts): $(build-test-publish-artifacts.status)"
-              echo -e "task (kaniko-warmer): $(tasks.kaniko-warmer.status)"
-              echo -e "task (kaniko-build-and-push-image): $(tasks.kaniko-build-and-push-image.status)"
+              echo -n "One or more tasks failed"
+              echo -n "task (clone-source-repo): $(params.clone-source-repo-status)"
+              echo -n "task (build-test-publish-artifacts): $(params.build-test-publish-artifacts-status)"
+              echo -n "task (kaniko-warmer): $(params.kaniko-warmer-status)"
+              echo -n "task (kaniko-build-and-push-image): $(params.kaniko-build-and-push-image-status)"
     - name: report-pipeline-success
       when:
         - input: "$(tasks.status)"
@@ -385,15 +394,24 @@ spec:
             - "Succeeded"
             - "Completed"
       taskSpec:
+        params:
+          - name: clone-source-repo-status
+            default: "$(tasks.clone-source-repo.status)"
+          - name: build-test-publish-artifacts-status
+            default: "$(tasks.build-test-publish-artifacts.status)"
+          - name: kaniko-warmer-status
+            default: "$(tasks.kaniko-warmer.status)"
+          - name: kaniko-build-and-push-image-status
+            default: "$(tasks.kaniko-build-and-push-image.status)"
         steps:
           - name: success
             image: mirror.gcr.io/ubuntu
             script: |
-              echo -e "All tasks passed"
-              echo -e "task (clone-source-repo): $(tasks.clone-source-repo.status)"
-              echo -e "task (build-test-publish-artifacts): $(build-test-publish-artifacts.status)"
-              echo -e "task (kaniko-warmer): $(tasks.kaniko-warmer.status)"
-              echo -e "task (kaniko-build-and-push-image): $(tasks.kaniko-build-and-push-image.status)"
+              echo -n "All tasks passed"
+              echo -n "task (clone-source-repo): $(params.clone-source-repo-status)"
+              echo -n "task (build-test-publish-artifacts): $(params.build-test-publish-artifacts-status)"
+              echo -n "task (kaniko-warmer): $(params.kaniko-warmer-status)"
+              echo -n "task (kaniko-build-and-push-image): $(params.kaniko-build-and-push-image-status)"
     - name: aggregate-results
       taskSpec:
         results:
