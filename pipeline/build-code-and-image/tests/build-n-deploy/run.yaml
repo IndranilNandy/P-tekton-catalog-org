@@ -1,8 +1,15 @@
-apiVersion: tekton.dev/v1beta1
+apiVersion: tekton.dev/v1
 kind: PipelineRun
 metadata:
   generateName: build-n-deploy-r-
 spec:
+
+  taskRunTemplate:
+    serviceAccountName: test-service-account
+    podTemplate:
+      securityContext:
+        fsGroup: 65532
+
   workspaces:
     - name: shared-workspace
       persistentVolumeClaim:
