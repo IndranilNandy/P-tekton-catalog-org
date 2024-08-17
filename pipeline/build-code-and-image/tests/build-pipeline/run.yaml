@@ -54,10 +54,6 @@ spec:
     #   secret:
     #     secretName: git-creds-ssh-secret-3
 
-    # - name: docker-credentials
-    #   secret:
-    #     secretName: test-docker-credentials
-
   pipelineRef:
     resolver: git
     params:
