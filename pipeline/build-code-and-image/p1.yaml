@@ -393,10 +393,10 @@ spec:
             image: mirror.gcr.io/ubuntu
             script: |
               echo "One or more tasks failed"
-              echo task: clone-source-repo --- status: $(params.clone-source-repo-status)"
-              echo "task: build-test-publish-artifacts --- status: $(params.build-test-publish-artifacts-status)"
-              echo "task: kaniko-warmer --- status: $(params.kaniko-warmer-status)"
-              echo "task: kaniko-build-and-push-image --- status: $(params.kaniko-build-and-push-image-status)"
+              echo task: clone-source-repo \t\t\tstatus: $(params.clone-source-repo-status)"
+              echo "task: build-test-publish-artifacts \t\t\tstatus: $(params.build-test-publish-artifacts-status)"
+              echo "task: kaniko-warmer \t\t\tstatus: $(params.kaniko-warmer-status)"
+              echo "task: kaniko-build-and-push-image \t\t\tstatus: $(params.kaniko-build-and-push-image-status)"
     - name: report-pipeline-success
       when:
         - input: "$(tasks.status)"
@@ -428,10 +428,10 @@ spec:
             image: mirror.gcr.io/ubuntu
             script: |
               echo "All tasks passed"
-              echo "task: clone-source-repo --- status: $(params.clone-source-repo-status)"
-              echo "task: build-test-publish-artifacts --- status: $(params.build-test-publish-artifacts-status)"
-              echo "task: kaniko-warmer --- status: $(params.kaniko-warmer-status)"
-              echo "task: kaniko-build-and-push-image --- status: $(params.kaniko-build-and-push-image-status)"
+              echo "task: clone-source-repo \t\t\tstatus: $(params.clone-source-repo-status)"
+              echo "task: build-test-publish-artifacts \t\t\tstatus: $(params.build-test-publish-artifacts-status)"
+              echo "task: kaniko-warmer \t\t\tstatus: $(params.kaniko-warmer-status)"
+              echo "task: kaniko-build-and-push-image \t\t\tstatus: $(params.kaniko-build-and-push-image-status)"
 
     - name: aggregate-results
       when:
@@ -439,7 +439,7 @@ spec:
           operator: in
           values:
             - "Succeeded"
-            # - "Completed"
+            # "Completed" is NOT allowed, since some tasks may be skipped due to when condition and corresponding results would not be available, and this task would never start
       taskSpec:
         results:
           - name: repo-details
