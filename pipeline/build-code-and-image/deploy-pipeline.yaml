@@ -67,17 +67,17 @@ spec:
       type: object
       description: all debug switches and properties
       properties:
-        clone-source-repo-disabled:
-          type: string
-        build-test-publish-artifacts-disabled:
-          type: string
+        # clone-source-repo-disabled:
+        #   type: string
+        # build-test-publish-artifacts-disabled:
+        #   type: string
         kaniko-warmer-disabled:
           type: string
         kaniko-build-and-push-image-disabled:
           type: string
       default:
-        clone-source-repo-disabled: "false"
-        build-test-publish-artifacts-disabled: "false"
+        # clone-source-repo-disabled: "false"
+        # build-test-publish-artifacts-disabled: "false"
         kaniko-warmer-disabled: "false"
         kaniko-build-and-push-image-disabled: "false"
 

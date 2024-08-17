@@ -32,6 +32,52 @@ spec:
         # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
         # - --no-daemon
 
+    # For kaniko task
+    - name: kaniko
+      value:
+        image: "devbox6:8097/indranilnandy/appdemo2"
+        image-tag: "v10"
+        dockerfile: "./docker/copy_build_binary_from_ws.Dockerfile"
+        # dockerfile: ./docker/primary.Dockerfile
+        # dockerfile: ./docker/primary-kaniko-compact.Dockerfile
+        # dockerfile: ./docker/primary-kaniko.Dockerfile
+        context: "$(params.common.build-artifacts-root)"
+        # context: "."
+        builder-image: "gcr.io/kaniko-project/executor:v1.23.1@sha256:7914350eda14b43f3dcc6925afca88d6b7ba5dff13d221bb70ef44d4da73a1e8"
+        kaniko-cachedir: "/cache"
+        docker-internal-cache-location: "/workspace/binary"
+        # docker-internal-cache-location: "/workspace/temp/binary"
+        docker-context-cache-location: "$(params.common.build-artifacts-root)"
+    - name: kaniko-params-extra-args
+      value:
+        - --build-arg
+        - APPLICATION_NAME=com.example.demo.DemoApplication
+        - --build-arg
+        - JAR_FILE=*-SNAPSHOT.jar
+        - --build-arg
+        - APP_SERVICE=app-service
+        - --build-arg
+        - SOURCE_BUILD_LOCATION=$(params.common.project-build-dir-name)
+        - --cache=true
+        - --insecure
+        - --cache-copy-layers
+        # --cache-run-layers: default=true
+        - --cache-run-layers
+
+    # Pipeline commons
+    - name: common
+      value:
+        build-artifacts-root: "/tmp/myproject/build-artifacts"
+        project-build-dir-name: "build"
+
+    # Debugging purpose
+    - name: debug
+      value:
+        clone-source-repo-disabled: "false"
+        build-test-publish-artifacts-disabled: "false"
+        kaniko-warmer-disabled: "false"
+        kaniko-build-and-push-image-disabled: "false"
+
   workspaces:
     - name: shared-workspace
       persistentVolumeClaim:

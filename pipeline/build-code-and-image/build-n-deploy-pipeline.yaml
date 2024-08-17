@@ -87,6 +87,51 @@ spec:
       default:
         - build
 
+    # For kaniko-warmer task
+    - name: kaniko-warmer
+      type: object
+      description: Parameters of kaniko-warmer task
+      properties:
+        kaniko-cachedir:
+          type: string
+        dockerfile:
+          type: string
+      default:
+        kaniko-cachedir: "$(params.kaniko.kaniko-cachedir)"
+        dockerfile: "$(params.kaniko.dockerfile)"
+
+    # For kaniko task
+    - name: kaniko
+      type: object
+      description: Parameters of kaniko task
+      properties:
+        image:
+          type: string
+        image-tag:
+          type: string
+        dockerfile:
+          type: string
+        context:
+          type: string
+        builder-image:
+          type: string
+        kaniko-cachedir:
+          type: string
+        gradle-user-home:
+          type: string
+        docker-internal-cache-location:
+          type: string
+        docker-context-cache-location:
+          type: string
+      default:
+        image-tag: "latest"
+        context: "."
+        gradle-user-home: "/root/.gradle"
+        docker-internal-cache-location: "/workspace/binary"
+        docker-context-cache-location: "$(params.common.build-artifacts-root)"
+    - name: kaniko-params-extra-args
+      type: array
+
     # Pipeline commons
     - name: common
       type: object
@@ -108,9 +153,15 @@ spec:
           type: string
         build-test-publish-artifacts-disabled:
           type: string
+        kaniko-warmer-disabled:
+          type: string
+        kaniko-build-and-push-image-disabled:
+          type: string
       default:
         clone-source-repo-disabled: "false"
         build-test-publish-artifacts-disabled: "false"
+        kaniko-warmer-disabled: "false"
+        kaniko-build-and-push-image-disabled: "false"
 
   workspaces:
     - name: shared-workspace
@@ -205,3 +256,36 @@ spec:
 
       runAfter:
         - "sample-pip"
+
+    - name: deploy-pipeline
+      params:
+        # For kaniko-warmer task
+        - name: kaniko-warmer
+          value:
+            kaniko-cachedir: "$(params.kaniko.kaniko-cachedir)"
+            dockerfile: "$(params.kaniko.dockerfile)"
+
+        # For kaniko task
+        - name: kaniko
+          value:
+            image-tag: "$(params.kaniko.image-tag)"
+            context: "$(params.kaniko.context)"
+            gradle-user-home: "$(params.kaniko.gradle-user-home)"
+            docker-internal-cache-location: "$(params.kaniko.docker-internal-cache-location)"
+            docker-context-cache-location: "$(params.kaniko.docker-context-cache-location)"
+        - name: kaniko-params-extra-args
+          value: ["$(params.kaniko-params-extra-args)"]
+
+        # Debugging purpose
+        - name: debug
+          value:
+            kaniko-warmer-disabled: "$(params.debug.kaniko-warmer-disabled)"
+            kaniko-build-and-push-image-disabled: "$(params.debug.kaniko-build-and-push-image-disabled)"
+      workspaces:
+        - name: shared-workspace
+          workspace: shared-workspace
+
+      taskRef:
+        apiVersion: tekton.dev/v1beta1
+        kind: Pipeline
+        name: deploy-pipeline
