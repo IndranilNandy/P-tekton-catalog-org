@@ -392,11 +392,11 @@ spec:
           - name: failed
             image: mirror.gcr.io/ubuntu
             script: |
-              echo -n "One or more tasks failed"
-              echo -n "task (clone-source-repo): $(params.clone-source-repo-status)"
-              echo -n "task (build-test-publish-artifacts): $(params.build-test-publish-artifacts-status)"
-              echo -n "task (kaniko-warmer): $(params.kaniko-warmer-status)"
-              echo -n "task (kaniko-build-and-push-image): $(params.kaniko-build-and-push-image-status)"
+              echo "One or more tasks failed"
+              echo task: clone-source-repo --- status: $(params.clone-source-repo-status)"
+              echo "task: build-test-publish-artifacts --- status: $(params.build-test-publish-artifacts-status)"
+              echo "task: kaniko-warmer --- status: $(params.kaniko-warmer-status)"
+              echo "task: kaniko-build-and-push-image --- status: $(params.kaniko-build-and-push-image-status)"
     - name: report-pipeline-success
       when:
         - input: "$(tasks.status)"
@@ -428,12 +428,18 @@ spec:
             image: mirror.gcr.io/ubuntu
             script: |
               echo "All tasks passed"
-              echo "task (clone-source-repo): $(params.clone-source-repo-status)"
-              echo "task (build-test-publish-artifacts): $(params.build-test-publish-artifacts-status)"
-              echo -n "task (kaniko-warmer): $(params.kaniko-warmer-status)"
-              echo -n "task (kaniko-build-and-push-image): $(params.kaniko-build-and-push-image-status)"
+              echo "task: clone-source-repo --- status: $(params.clone-source-repo-status)"
+              echo "task: build-test-publish-artifacts --- status: $(params.build-test-publish-artifacts-status)"
+              echo "task: kaniko-warmer --- status: $(params.kaniko-warmer-status)"
+              echo "task: kaniko-build-and-push-image --- status: $(params.kaniko-build-and-push-image-status)"
 
     - name: aggregate-results
+      when:
+        - input: "$(tasks.status)"
+          operator: in
+          values:
+            - "Succeeded"
+            - "Completed"
       taskSpec:
         results:
           - name: repo-details
