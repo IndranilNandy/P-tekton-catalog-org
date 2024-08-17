@@ -44,6 +44,7 @@ spec:
       default:
         image-tag: "latest"
         context: "."
+        builder-image: "gcr.io/kaniko-project/executor:v1.23.1@sha256:7914350eda14b43f3dcc6925afca88d6b7ba5dff13d221bb70ef44d4da73a1e8"
         gradle-user-home: "/root/.gradle"
         docker-internal-cache-location: "/workspace/binary"
         docker-context-cache-location: "$(params.common.build-artifacts-root)"
