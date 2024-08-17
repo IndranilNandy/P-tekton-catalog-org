@@ -8,10 +8,14 @@ kubectl apply -f resources.yaml
     echo -e
     echo -e "Creating configs/secrets"
     echo "echo -e \"$(cat git-ssh-auth-generic.sh.yaml)\"" | bash | kubectl apply -f -
-    # echo "echo -e \"$(cat docker-credentials-generic.sh.yaml)\"" | bash | kubectl apply -f -
+    echo "echo -e \"$(cat docker-credentials-generic.sh.yaml)\"" | bash | kubectl apply -f -
 )
 
 kubectl apply -f serviceaccount.yaml
+kubectl apply -f sample-pipeline.yaml
+kubectl apply -f build-pipeline.yaml
+# kubectl apply -f deploy-pipeline.yaml
+kubectl apply -f build-n-deploy-pipeline.yaml
 kubectl create -f run.yaml
 
 echo -e "Run tear_test.sh once the runs are completed, to restore your environment (configmaps etc)"
