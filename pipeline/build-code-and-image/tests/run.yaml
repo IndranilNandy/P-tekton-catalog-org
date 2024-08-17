@@ -69,6 +69,14 @@ spec:
         build-artifacts-root: "/tmp/myproject/build-artifacts"
         project-build-dir-name: "build"
 
+    # Debugging purpose
+    - name: debug
+      value:
+        clone-source-repo-disabled: "false"
+        build-test-publish-artifacts-disabled: "false"
+        kaniko-warmer-disabled: "false"
+        kaniko-build-and-push-image-disabled: "false"
+
   workspaces:
     - name: shared-workspace
       persistentVolumeClaim:

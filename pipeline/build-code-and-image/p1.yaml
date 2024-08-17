@@ -156,9 +156,9 @@ spec:
           type: string
       default:
         clone-source-repo-disabled: "false"
-        build-test-publish-artifacts-disabled: "true"
-        kaniko-warmer-disabled: "true"
-        kaniko-build-and-push-image-disabled: "true"
+        build-test-publish-artifacts-disabled: "false"
+        kaniko-warmer-disabled: "false"
+        kaniko-build-and-push-image-disabled: "false"
 
   workspaces:
     - name: shared-workspace
