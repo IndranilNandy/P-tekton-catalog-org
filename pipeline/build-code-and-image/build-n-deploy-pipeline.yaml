@@ -178,7 +178,7 @@ spec:
     - name: repo-details
       type: object
       description: "repo details of source codebase"
-      value: "$(tasks.build-pipeline.results.repo-details.commit)"
+      value: "$(tasks.build-pipeline.results.repo-details)"
 
   tasks:
     - name: build-pipeline
