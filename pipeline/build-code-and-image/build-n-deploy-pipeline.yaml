@@ -166,6 +166,7 @@ spec:
   workspaces:
     - name: shared-workspace
     # - name: git-ssh-credentials
+    - name: docker-credentials
 
   # results:
   #   - name: repo-details
@@ -288,6 +289,8 @@ spec:
       workspaces:
         - name: shared-workspace
           workspace: shared-workspace
+        - name: docker-credentials
+          workspace: docker-credentials
 
       taskRef:
         apiVersion: tekton.dev/v1beta1
