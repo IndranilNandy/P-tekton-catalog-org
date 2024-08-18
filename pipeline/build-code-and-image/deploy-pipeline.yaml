@@ -88,10 +88,10 @@ spec:
     - name: docker-credentials
 
   results:
-    - name: repo-details
-      type: object
-      description: "repo details of source codebase"
-      value: "$(finally.aggregate-results.results.repo-details)"
+    # - name: repo-details
+    #   type: object
+    #   description: "repo details of source codebase"
+    #   value: "$(finally.aggregate-results.results.repo-details)"
     - name: image-details
       type: object
       description: "details of image generated from dockerfile"
