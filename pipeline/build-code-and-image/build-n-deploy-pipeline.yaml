@@ -263,8 +263,8 @@ spec:
         # For kaniko-warmer task
         - name: kaniko-warmer
           value:
-            kaniko-cachedir: "$(params.kaniko.kaniko-cachedir)"
-            dockerfile: "$(params.kaniko.dockerfile)"
+            kaniko-cachedir: "$(params.kaniko-warmer.kaniko-cachedir)"
+            dockerfile: "$(params.kaniko-warmer.dockerfile)"
 
         # For kaniko task
         - name: kaniko
@@ -296,3 +296,6 @@ spec:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
         name: deploy-pipeline
+
+      runAfter:
+        - "build-pipeline"
