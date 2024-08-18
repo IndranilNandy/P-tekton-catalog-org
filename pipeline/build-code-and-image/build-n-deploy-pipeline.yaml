@@ -177,13 +177,13 @@ spec:
   results:
     - name: repo-details
       type: object
-      properties:
-        url:
-          type: string
-        commit:
-          type: string
-        committer-date:
-          type: string
+      # properties:
+      #   url:
+      #     type: string
+      #   commit:
+      #     type: string
+      #   committer-date:
+      #     type: string
       description: "repo details of source codebase"
       value: "$(tasks.build-pipeline.results.repo-details)"
 
