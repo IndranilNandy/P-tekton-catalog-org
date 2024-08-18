@@ -245,7 +245,8 @@ spec:
         - name: kaniko
           value:
             image: "$(params.kaniko.image)"
-            image-tag: "$(params.kaniko.image-tag)"
+            image-tag: "$(tasks.build-pipeline.results.repo-details.commit)"
+            # image-tag: "$(params.kaniko.image-tag)"
             dockerfile: "$(params.kaniko.dockerfile)"
             context: "$(params.kaniko.context)"
             builder-image: "$(params.kaniko.builder-image)"
