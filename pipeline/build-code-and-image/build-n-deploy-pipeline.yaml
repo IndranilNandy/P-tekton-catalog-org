@@ -124,7 +124,7 @@ spec:
         docker-context-cache-location:
           type: string
       default:
-        image-tag: "$(tasks.build-pipeline.results.repo-details.commit)"
+        # image-tag: "$(tasks.build-pipeline.results.repo-details.commit)"
         context: "."
         gradle-user-home: "/root/.gradle"
         docker-internal-cache-location: "/workspace/binary"
@@ -260,8 +260,8 @@ spec:
         - name: kaniko
           value:
             image: "$(params.kaniko.image)"
-            # image-tag: "$(tasks.build-pipeline.results.repo-details.commit)"
-            image-tag: "$(params.kaniko.image-tag)"
+            image-tag: "$(tasks.build-pipeline.results.repo-details.commit)"
+            # image-tag: "$(params.kaniko.image-tag)"
             dockerfile: "$(params.kaniko.dockerfile)"
             context: "$(params.kaniko.context)"
             builder-image: "$(params.kaniko.builder-image)"
