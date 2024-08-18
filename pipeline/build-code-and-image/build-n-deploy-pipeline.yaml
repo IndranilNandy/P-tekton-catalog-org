@@ -229,7 +229,8 @@ spec:
           workspace: shared-workspace
 
 
-      taskRef:
+      customRef:
+      # taskRef:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
         name: build-pipeline
@@ -275,7 +276,8 @@ spec:
         - name: docker-credentials
           workspace: docker-credentials
 
-      taskRef:
+      customRef:
+      # taskRef:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
         name: deploy-pipeline
