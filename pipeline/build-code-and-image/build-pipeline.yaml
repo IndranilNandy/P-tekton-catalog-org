@@ -121,6 +121,10 @@ spec:
       type: object
       description: "repo details of source codebase"
       value: "$(finally.aggregate-results.results.repo-details)"
+    - name: repo-url
+      value: "$(finally.aggregate-results.results.repo-details.url)"
+    - name: repo-commit
+      value: "$(finally.aggregate-results.results.repo-details.commit)"
 
   tasks:
     - name: pipeline-ctx

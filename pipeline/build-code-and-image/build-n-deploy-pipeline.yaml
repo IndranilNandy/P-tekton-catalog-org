@@ -186,6 +186,10 @@ spec:
       #     type: string
       description: "repo details of source codebase"
       value: "$(tasks.build-pipeline.results.repo-details)"
+    - name: repo-url
+      value: "$(tasks.build-pipeline.results.repo-url)"
+    - name: repo-commit
+      value: "$(tasks.build-pipeline.results.repo-commit)"
 
   tasks:
     - name: build-pipeline
