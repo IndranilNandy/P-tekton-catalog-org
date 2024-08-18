@@ -124,7 +124,7 @@ spec:
         docker-context-cache-location:
           type: string
       default:
-        image-tag: "latest"
+        # image-tag: "latest"
         context: "."
         gradle-user-home: "/root/.gradle"
         docker-internal-cache-location: "/workspace/binary"
@@ -268,8 +268,12 @@ spec:
         # For kaniko task
         - name: kaniko
           value:
+            image: "$(params.kaniko.image)"
             image-tag: "$(params.kaniko.image-tag)"
+            dockerfile: "$(params.kaniko.dockerfile)"
             context: "$(params.kaniko.context)"
+            builder-image: "$(params.kaniko.builder-image)"
+            kaniko-cachedir: "$(params.kaniko.kaniko-cachedir)"
             gradle-user-home: "$(params.kaniko.gradle-user-home)"
             docker-internal-cache-location: "$(params.kaniko.docker-internal-cache-location)"
             docker-context-cache-location: "$(params.kaniko.docker-context-cache-location)"
