@@ -124,7 +124,7 @@ spec:
         docker-context-cache-location:
           type: string
       default:
-        # image-tag: "latest"
+        image-tag: "$(tasks.build-pipeline.results.repo-details.commit)"
         context: "."
         gradle-user-home: "/root/.gradle"
         docker-internal-cache-location: "/workspace/binary"
@@ -177,6 +177,13 @@ spec:
   results:
     - name: repo-details
       type: object
+      properties:
+        url:
+          type: string
+        commit:
+          type: string
+        committer-date:
+          type: string
       description: "repo details of source codebase"
       value: "$(tasks.build-pipeline.results.repo-details)"
 
@@ -229,8 +236,8 @@ spec:
           workspace: shared-workspace
 
 
-      customRef:
-      # taskRef:
+      # customRef:
+      taskRef:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
         name: build-pipeline
@@ -276,8 +283,8 @@ spec:
         - name: docker-credentials
           workspace: docker-credentials
 
-      customRef:
-      # taskRef:
+      # customRef:
+      taskRef:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
         name: deploy-pipeline
