@@ -42,9 +42,7 @@ spec:
         docker-context-cache-location:
           type: string
       default:
-        # image-tag: "latest"
         context: "."
-        # builder-image: "gcr.io/kaniko-project/executor:v1.23.1@sha256:7914350eda14b43f3dcc6925afca88d6b7ba5dff13d221bb70ef44d4da73a1e8"
         gradle-user-home: "/root/.gradle"
         docker-internal-cache-location: "/workspace/binary"
         docker-context-cache-location: "$(params.common.build-artifacts-root)"
@@ -68,17 +66,11 @@ spec:
       type: object
       description: all debug switches and properties
       properties:
-        # clone-source-repo-disabled:
-        #   type: string
-        # build-test-publish-artifacts-disabled:
-        #   type: string
         kaniko-warmer-disabled:
           type: string
         kaniko-build-and-push-image-disabled:
           type: string
       default:
-        # clone-source-repo-disabled: "false"
-        # build-test-publish-artifacts-disabled: "false"
         kaniko-warmer-disabled: "false"
         kaniko-build-and-push-image-disabled: "false"
 
@@ -88,14 +80,14 @@ spec:
     - name: docker-credentials
 
   results:
-    # - name: repo-details
-    #   type: object
-    #   description: "repo details of source codebase"
-    #   value: "$(finally.aggregate-results.results.repo-details)"
     - name: image-details
       type: object
       description: "details of image generated from dockerfile"
       value: "$(finally.aggregate-results.results.image-details)"
+    - name: image-url
+      value: "$(finally.aggregate-results.results.image-details.url)"
+    - name: image-digest
+      value: "$(finally.aggregate-results.results.image-details.digest)"
 
   tasks:
     - name: pipeline-ctx
@@ -218,18 +210,12 @@ spec:
             - "Failed"
             - "None"
       params:
-        # - name: clone-source-repo-status
-        #   value: "$(tasks.clone-source-repo.status)"
-        # - name: build-test-publish-artifacts-status
-        #   value: "$(tasks.build-test-publish-artifacts.status)"
         - name: kaniko-warmer-status
           value: "$(tasks.kaniko-warmer.status)"
         - name: kaniko-build-and-push-image-status
           value: "$(tasks.kaniko-build-and-push-image.status)"
       taskSpec:
         params:
-          # - name: clone-source-repo-status
-          # - name: build-test-publish-artifacts-status
           - name: kaniko-warmer-status
           - name: kaniko-build-and-push-image-status
         steps:
@@ -249,18 +235,12 @@ spec:
             - "Succeeded"
             - "Completed"
       params:
-        # - name: clone-source-repo-status
-        #   value: "$(tasks.clone-source-repo.status)"
-        # - name: build-test-publish-artifacts-status
-        #   value: "$(tasks.build-test-publish-artifacts.status)"
         - name: kaniko-warmer-status
           value: "$(tasks.kaniko-warmer.status)"
         - name: kaniko-build-and-push-image-status
           value: "$(tasks.kaniko-build-and-push-image.status)"
       taskSpec:
         params:
-          # - name: clone-source-repo-status
-          # - name: build-test-publish-artifacts-status
           - name: kaniko-warmer-status
           - name: kaniko-build-and-push-image-status
         steps:
@@ -282,15 +262,6 @@ spec:
             # "Completed" is NOT allowed, since some tasks may be skipped due to when condition and corresponding results would not be available, and this task would never start
       taskSpec:
         results:
-          # - name: repo-details
-          #   type: object
-          #   properties:
-          #     url:
-          #       type: string
-          #     commit:
-          #       type: string
-          #     committer-date:
-          #       type: string
           - name: image-details
             type: object
             properties:

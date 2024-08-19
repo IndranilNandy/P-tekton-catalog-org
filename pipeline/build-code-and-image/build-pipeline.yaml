@@ -121,10 +121,13 @@ spec:
       type: object
       description: "repo details of source codebase"
       value: "$(finally.aggregate-results.results.repo-details)"
+    # 'pipelines-in-pipelines' feature doesn't support 'object' results. Hence, declaring 'string' results also
     - name: repo-url
       value: "$(finally.aggregate-results.results.repo-details.url)"
     - name: repo-commit
       value: "$(finally.aggregate-results.results.repo-details.commit)"
+    - name: repo-committer-date
+      value: "$(finally.aggregate-results.results.repo-details.committer-date)"
 
   tasks:
     - name: pipeline-ctx

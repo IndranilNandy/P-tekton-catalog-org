@@ -168,22 +168,9 @@ spec:
     # - name: git-ssh-credentials
     - name: docker-credentials
 
-  # results:
-  #   - name: repo-details
-  #     type: object
-  #     description: "repo details of source codebase"
-  #     value: "$(finally.aggregate-results.results.repo-details)"
-
   results:
     - name: repo-details
       type: object
-      # properties:
-      #   url:
-      #     type: string
-      #   commit:
-      #     type: string
-      #   committer-date:
-      #     type: string
       description: "repo details of source codebase"
       value: "$(tasks.build-pipeline.results.repo-details)"
     - name: repo-url
@@ -239,18 +226,16 @@ spec:
         - name: shared-workspace
           workspace: shared-workspace
 
-
-      # customRef:
       taskRef:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
         name: build-pipeline
-        # resolver: git
-        # params:
-        #   - name: repo
-        #     value: P-tekton-catalog-org
-        #   - name: pathInRepo
-        #     value: pipeline/build-code-and-image/build-pipeline.yaml
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: pipeline/build-code-and-image/build-pipeline.yaml
 
     - name: deploy-pipeline
       params:
@@ -288,7 +273,6 @@ spec:
         - name: docker-credentials
           workspace: docker-credentials
 
-      # customRef:
       taskRef:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
