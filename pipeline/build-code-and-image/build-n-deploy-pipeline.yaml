@@ -226,7 +226,8 @@ spec:
         - name: shared-workspace
           workspace: shared-workspace
 
-      taskRef:
+      # taskRef:
+      pipelineRef:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
         # name: build-pipeline
