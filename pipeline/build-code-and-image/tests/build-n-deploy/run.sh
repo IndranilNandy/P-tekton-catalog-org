@@ -12,8 +12,8 @@ kubectl apply -f resources.yaml
 )
 
 kubectl apply -f serviceaccount.yaml
-# kubectl apply -f ../../sample-pipeline.yaml
-# kubectl apply -f ../../build-pipeline.yaml
+kubectl apply -f ../../sample-pipeline.yaml
+kubectl apply -f ../../build-pipeline.yaml
 kubectl apply -f ../../deploy-pipeline.yaml
 kubectl apply -f ../../build-n-deploy-pipeline.yaml
 kubectl create -f run.yaml
