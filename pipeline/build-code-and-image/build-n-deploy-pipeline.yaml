@@ -229,7 +229,7 @@ spec:
       taskRef:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
-        name: build-pipeline
+        # name: build-pipeline
         resolver: git
         params:
           - name: repo
