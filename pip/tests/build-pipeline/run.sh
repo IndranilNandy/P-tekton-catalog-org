@@ -3,7 +3,7 @@
 kubectl apply -f resources.yaml
 
 (
-    cd ../../../../scripts/tests/secrets/yaml-generator
+    cd ../../../scripts/tests/secrets/yaml-generator
 
     echo -e
     echo -e "Creating configs/secrets"
