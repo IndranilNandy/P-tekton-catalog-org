@@ -1,0 +1,56 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: trigger-info
+spec:
+  params:
+    - name: eventID
+    - name: message
+    - name: environment
+
+    - name: event-type
+    - name: event-contenttype
+    - name: event-github-delivery-id
+    - name: event-github-hook-id
+    - name: event-webhook-deliveries-url
+
+    - name: git-info-pusher
+    - name: git-info-compare-url
+    - name: git-head-revision
+    - name: git-head-committer
+
+    - name: git-repo-url
+    - name: git-repo-name
+    - name: git-repo-open-issues-count
+    - name: git-repo-default-branch
+
+    - name: git-info-branch
+  steps:
+    - name: test-step
+      image: ubuntu
+      script: |
+        echo "eventID:\t$(params.eventID)"
+        echo "message:\t$(params.message)"
+        echo "environment:\t$(params.environment)"
+
+        echo
+        echo "Event:"
+        echo "\t\tType:\t$(params.event-type)"
+        echo "\t\tContent-type:\t$(params.event-contenttype)"
+        echo "\t\tGitHub-Delivery-ID:\t$(params.event-github-delivery-id)"
+        echo "\t\tGitHub-Hook-ID:\t$(params.event-github-hook-id)"
+        echo "\t\tWebhook deliveries url:\t$(params.event-webhook-deliveries-url)"
+
+        echo
+        echo "Repository:"
+        echo "\t\tName:\t$(params.git-repo-name)"
+        echo "\t\tUrl:\t$(params.git-repo-url)"
+        echo "\t\tRevision:\t$(params.git-head-revision)"
+        echo "\t\tBranch:\t$(params.git-info-branch)"
+
+        echo
+        echo "\t\tDefault branch:\t$(params.git-repo-default-branch)"
+        echo "\t\tCompare url:\t$(params.git-info-compare-url)"
+        echo "\t\tCommitter:\t$(params.git-head-committer)"
+        echo "\t\tPusher:\t$(params.git-info-pusher)"
+        echo "\t\tOpen issues count:\t$(params.git-repo-open-issues-count)"
