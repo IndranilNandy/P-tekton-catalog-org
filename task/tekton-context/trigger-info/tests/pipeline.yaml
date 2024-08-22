@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: task-context-pipeline
+spec:
+  tasks:
+    - name: task-context
+      # params:
+      #   - name: pipelinecontext
+      #     value: "$(context)"
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/tekton-context/task-context/task-context.yaml
