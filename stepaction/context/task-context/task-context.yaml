@@ -11,3 +11,4 @@ spec:
     echo "\t\tTaskRun:\t$(context.taskRun.name)"
     echo "\t\tTaskRun uid:\t$(context.taskRun.uid)"
     echo "\t\tTaskRun namespace:\t$(context.taskRun.namespace)"
+    echo
