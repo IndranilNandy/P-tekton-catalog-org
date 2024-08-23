@@ -26,6 +26,8 @@ spec:
 
     - name: git-info-branch
 
+    - name: changed-files
+
   steps:
     - name: payload
       image: ubuntu
@@ -55,3 +57,7 @@ spec:
         echo "\t\tCommitter:\t$(params.git-head-committer)"
         echo "\t\tPusher:\t$(params.git-info-pusher)"
         echo "\t\tOpen issues count:\t$(params.git-repo-open-issues-count)"
+
+        echo
+        echo "Changed Files:"
+        echo "\t\tList:\t$(params.changed-files)"
