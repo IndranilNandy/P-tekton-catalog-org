@@ -5,28 +5,48 @@ metadata:
 spec:
   params:
     - name: eventID
+      default: "NA"
     - name: message
+      default: "NA"
     - name: environment
+      default: "NA"
 
     - name: event-type
+      default: "NA"
     - name: event-contenttype
+      default: "NA"
     - name: event-github-delivery-id
+      default: "NA"
     - name: event-github-hook-id
+      default: "NA"
     - name: event-webhook-deliveries-url
+      default: "NA"
 
     - name: git-info-pusher
+      default: "NA"
     - name: git-info-compare-url
+      default: "NA"
     - name: git-head-revision
+      default: "NA"
     - name: git-head-committer
+      default: "NA"
 
     - name: git-repo-url
+      default: "NA"
     - name: git-repo-name
+      default: "NA"
     - name: git-repo-open-issues-count
+      default: "NA"
     - name: git-repo-default-branch
+      default: "NA"
 
     - name: git-info-branch
+      default: "NA"
 
     - name: changed-files
+      default: "NA"
+    - name: short-sha
+      default: "NA"
 
   steps:
     - name: payload
@@ -61,3 +81,7 @@ spec:
         echo
         echo "Changed Files:"
         echo "\t\tList:\t$(params.changed-files)"
+
+        echo
+        echo "Additional:"
+        echo "\t\tList:\t$(params.short-sha)"
