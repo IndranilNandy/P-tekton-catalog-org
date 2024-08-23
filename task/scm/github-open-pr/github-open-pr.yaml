@@ -78,7 +78,6 @@ spec:
     - name: URL
       description: URL of the created pull request.
 
-    # Customized: Added for my pipeline
     - name: E_COMMIT_SHA
       description: SHA of the merge commit created by the pull request
 
