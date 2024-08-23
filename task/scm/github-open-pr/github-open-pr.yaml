@@ -164,4 +164,4 @@ spec:
                 f.write(f'{body["head"]["sha"]}')
 
             print("GitHub pull request created for $(params.REPO_FULL_NAME): \n"
-                  f'number={body["number"]} url={body["html_url"]} merge-commit-sha={body["merge_commit_sha"]} head-commit-sha={body["head"]["sha"]} created-at={body["created_at"]}')
+                  f'number={body["number"]} \nurl={body["html_url"]} \nmerge-commit-sha={body["merge_commit_sha"]} \nhead-commit-sha={body["head"]["sha"]} \ncreated-at={body["created_at"]}')
