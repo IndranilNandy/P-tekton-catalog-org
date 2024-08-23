@@ -1,0 +1,30 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: github-open-pr-r-
+spec:
+  params:
+    - name: github-host-url
+      value: api.github.com
+    - name: repo
+      value: IndranilNandy/demo-app-to-test-pipeline
+    - name: github-token-secret-name
+      value: github-open-pr-secret
+    - name: github-token-secret-key
+      value: prSecretToken
+    - name: head
+      value: dev
+    - name: base
+      value: master
+    - name: body
+      value: "no body"
+    - name: title
+      value: "test pr"
+
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/github-open-pr/github-open-pr.yaml

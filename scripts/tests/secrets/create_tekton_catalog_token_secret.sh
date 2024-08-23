@@ -11,7 +11,7 @@ kubectl get secret tekton-catalog-secret && exit 0
 read -p "Enter the PAT for tekton catalog: " token
 
 TEKTON_CATALOG_ACCESS_TOKEN="$token"
-echo "Token=$TEKTON_CATALOG_ACCESS_TOKEN"
+# echo "Token=$TEKTON_CATALOG_ACCESS_TOKEN"
 
 kubectl create secret generic tekton-catalog-secret --from-literal=tektonCatalogToken=$TEKTON_CATALOG_ACCESS_TOKEN
 

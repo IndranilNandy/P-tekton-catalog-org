@@ -8,6 +8,12 @@ for arg in "$@"; do
             ./create_tekton_catalog_token_secret.sh
         )
         ;;
+    pr-token)
+        (
+            cd secrets
+            ./create_pr_token_secret.sh
+        )
+        ;;
     git-ssh)
         (
             cd secrets
