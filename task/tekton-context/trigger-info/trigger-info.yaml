@@ -47,6 +47,8 @@ spec:
       default: "NA"
     - name: short-sha
       default: "NA"
+    - name: commit-msg
+      default: "NA"
 
   steps:
     - name: payload
@@ -75,6 +77,7 @@ spec:
         echo "\t\tDefault branch:\t$(params.git-repo-default-branch)"
         echo "\t\tCompare url:\t$(params.git-info-compare-url)"
         echo "\t\tCommitter:\t$(params.git-head-committer)"
+        echo "\t\tCommit message:\t$(params.commit-msg)"
         echo "\t\tPusher:\t$(params.git-info-pusher)"
         echo "\t\tOpen issues count:\t$(params.git-repo-open-issues-count)"
 
