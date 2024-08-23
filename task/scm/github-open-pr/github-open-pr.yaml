@@ -163,5 +163,5 @@ spec:
             with open(os.environ.get('PULLREQUEST_COMMIT_SHA_PATH'), 'w', encoding="utf-8") as f:
                 f.write(f'{body["head"]["sha"]}')
 
-            print("GitHub pull request created for $(params.REPO_FULL_NAME): "
+            print("GitHub pull request created for $(params.REPO_FULL_NAME): \n"
                   f'number={body["number"]} url={body["html_url"]} merge-commit-sha={body["merge_commit_sha"]} head-commit-sha={body["head"]["sha"]} created-at={body["created_at"]}')

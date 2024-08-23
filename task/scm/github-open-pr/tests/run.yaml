@@ -3,23 +3,48 @@ kind: TaskRun
 metadata:
   generateName: github-open-pr-r-
 spec:
+  # params:
+  #   - name: github-host-url
+  #     value: api.github.com
+  #   - name: repo
+  #     value: IndranilNandy/demo-app-to-test-pipeline
+  #   - name: github-token-secret-name
+  #     value: github-open-pr-secret
+  #   - name: github-token-secret-key
+  #     value: prSecretToken
+  #   - name: head
+  #     value: dev
+  #   - name: base
+  #     value: master
+  #   - name: body
+  #     value: "no body"
+  #   - name: title
+  #     value: "test pr"
   params:
-    - name: github-host-url
+    - name: GITHUB_HOST_URL
       value: api.github.com
-    - name: repo
+      # value: "$(params.github-host-url)"
+    - name: REPO_FULL_NAME
       value: IndranilNandy/demo-app-to-test-pipeline
-    - name: github-token-secret-name
+      # value: "$(params.repo)"
+    - name: GITHUB_TOKEN_SECRET_NAME
       value: github-open-pr-secret
-    - name: github-token-secret-key
+      # value: "$(params.github-token-secret-name)"
+    - name: GITHUB_TOKEN_SECRET_KEY
       value: prSecretToken
-    - name: head
+      # value: "$(params.github-token-secret-key)"
+    - name: HEAD
       value: dev
-    - name: base
+      # value: "$(params.head)"
+    - name: BASE
       value: master
-    - name: body
-      value: "no body"
-    - name: title
+      # value: "$(params.base)"
+    - name: TITLE
       value: "test pr"
+      # value: "$(params.title)"
+    - name: BODY
+      value: "no body"
+      # value: "$(params.body)"
 
   taskRef:
     resolver: git
