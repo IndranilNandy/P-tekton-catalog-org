@@ -84,4 +84,4 @@ spec:
 
         echo
         echo "Additional:"
-        echo "\t\tList:\t$(params.short-sha)"
+        echo "\t\tShort SHA:\t$(params.short-sha)"
