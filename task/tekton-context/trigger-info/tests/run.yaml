@@ -33,8 +33,8 @@ spec:
 
     - name: git-repo-url
       value: git-repo-url
-    - name: git-repo-name
-      value: git-repo-name
+    - name: git-repo-full-name
+      value: git-repo-full-name
     - name: git-repo-open-issues-count
       value: git-repo-open-issues-count
     - name: git-repo-default-branch
