@@ -32,11 +32,24 @@ spec:
         # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
         # - --no-daemon
 
+    # For github-open-pr task
+    - name: github-open-pr
+      value:
+        github-host-url: "api.github.com"
+        repo-full-name: "IndranilNandy/demo-app-to-test-pipeline"
+        github-token-secret-name: github-open-pr-secret
+        github-token-secret-key: prSecretToken
+        head: dev
+        base: master
+        title: "Pull request default title"
+        body: "Pull request default body"
+
     # Pipeline commons
     - name: common
       value:
         build-artifacts-root: "/tmp/myproject/build-artifacts"
         project-build-dir-name: "build"
+        create-pr: "false"
 
     # Debugging purpose
     - name: debug

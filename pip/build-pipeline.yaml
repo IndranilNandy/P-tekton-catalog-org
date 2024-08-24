@@ -87,6 +87,36 @@ spec:
       default:
         - build
 
+    # github-open-pr commons
+    - name: github-open-pr
+      type: object
+      properties:
+        github-host-url:
+          type: string
+        repo-full-name:
+          type: string
+        github-token-secret-name:
+          type: string
+        github-token-secret-key:
+          type: string
+        head:
+          type: string
+        base:
+          type: string
+        title:
+          type: string
+        body:
+          type: string
+      default:
+        github-host-url: "api.github.com"
+        # repo-full-name:
+        # github-token-secret-name:
+        # github-token-secret-key:
+        head: "NA"
+        base: "master"
+        title: "Pull request default title"
+        body: "Pull request default body"
+
     # Pipeline commons
     - name: common
       type: object
@@ -95,9 +125,12 @@ spec:
           type: string
         project-build-dir-name:
           type: string
+        create-pr:
+          type: string
       default:
         build-artifacts-root: "/tmp/myproject/build-artifacts"
         project-build-dir-name: "build"
+        create-pr: "false"
 
       # Debugging purpose
     - name: debug
@@ -213,6 +246,41 @@ spec:
 
       runAfter:
         - "clone-source-repo"
+
+    - name: create-pr
+      when:
+        - input: "$(params.common.create-pr)"
+          operator: in
+          values:
+            - "true"
+      params:
+        - name: GITHUB_HOST_URL
+          value: "$(params.github-open-pr.github-host-url)"
+        - name: REPO_FULL_NAME
+          value: "$(params.github-open-pr.repo-full-name)"
+        - name: GITHUB_TOKEN_SECRET_NAME
+          value: "$(params.github-open-pr.github-token-secret-name)"
+        - name: GITHUB_TOKEN_SECRET_KEY
+          value: "$(params.github-open-pr.github-token-secret-key)"
+        - name: HEAD
+          value: "$(params.github-open-pr.head)"
+        - name: BASE
+          value: "$(params.github-open-pr.base)"
+        - name: TITLE
+          value: "$(params.github-open-pr.title)"
+        - name: BODY
+          value: "$(params.github-open-pr.body)"
+
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/scm/github-open-pr/github-open-pr.yaml
+
+      runAfter:
+        - "build-test-publish-artifacts"
 
   finally:
     - name: all-tasks-status

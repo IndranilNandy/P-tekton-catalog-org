@@ -132,6 +132,36 @@ spec:
     - name: kaniko-params-extra-args
       type: array
 
+    # github-open-pr commons
+    - name: github-open-pr
+      type: object
+      properties:
+        github-host-url:
+          type: string
+        repo-full-name:
+          type: string
+        github-token-secret-name:
+          type: string
+        github-token-secret-key:
+          type: string
+        head:
+          type: string
+        base:
+          type: string
+        title:
+          type: string
+        body:
+          type: string
+      default:
+        github-host-url: "api.github.com"
+        # repo-full-name:
+        # github-token-secret-name:
+        # github-token-secret-key:
+        head: "NA"
+        base: "master"
+        title: "Pull request default title"
+        body: "Pull request default body"
+
     # Pipeline commons
     - name: common
       type: object
@@ -205,6 +235,18 @@ spec:
             # # - --status
             # # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
             # # - --no-daemon
+
+        # For github-open-pr task
+        - name: github-open-pr
+          value:
+            github-host-url: "$(params.github-open-pr.github-host-url)"
+            repo-full-name: "$(params.github-open-pr.repo-full-name)"
+            github-token-secret-name: "$(params.github-open-pr.github-token-secret-name)"
+            github-token-secret-key: "$(params.github-open-pr.github-token-secret-key)"
+            head: "$(params.github-open-pr.head)"
+            base: "$(params.github-open-pr.base)"
+            title: "$(params.github-open-pr.title)"
+            body: "$(params.github-open-pr.body)"
 
         # Pipeline commons
         - name: common
