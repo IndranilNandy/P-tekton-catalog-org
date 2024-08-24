@@ -153,19 +153,26 @@ spec:
     - name: repo-details
       type: object
       description: "repo details of source codebase"
-      value: "$(finally.aggregate-results.results.repo-details)"
+      value: "$(finally.results-clone-source-repo.results.repo-details)"
     - name: pr-details
       type: object
       description: "detailes of created pr"
-      value: "$(finally.aggregate-results.results.pr-details)"
+      value: "$(finally.results-create-pr.results.pr-details)"
 
     # 'pipelines-in-pipelines' feature doesn't support 'object' results. Hence, declaring 'string' results also
     - name: repo-url
-      value: "$(finally.aggregate-results.results.repo-details.url)"
+      value: "$(finally.results-clone-source-repo.results.repo-details.url)"
     - name: repo-commit
-      value: "$(finally.aggregate-results.results.repo-details.commit)"
+      value: "$(finally.results-clone-source-repo.results.repo-details.commit)"
     - name: repo-committer-date
-      value: "$(finally.aggregate-results.results.repo-details.committer-date)"
+      value: "$(finally.results-clone-source-repo.results.repo-details.committer-date)"
+
+    - name: pr-number
+      value: "$(finally.results-create-pr.results.pr-details.number)"
+    - name: pr-url
+      value: "$(finally.results-create-pr.results.pr-details.url)"
+    - name: pr-head-sha
+      value: "$(finally.results-create-pr.results.pr-details.head-sha)"
 
   tasks:
     - name: pipeline-ctx
