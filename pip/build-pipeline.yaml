@@ -365,7 +365,7 @@ spec:
         - input: "$(tasks.status)"
           operator: in
           values:
-            - "Succeeded"
+            # - "Succeeded"
             - "Completed"
             # "Completed" is NOT allowed, since some tasks may be skipped due to when condition and corresponding results would not be available, and this task would never start
       params:
