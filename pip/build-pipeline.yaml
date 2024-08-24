@@ -154,6 +154,11 @@ spec:
       type: object
       description: "repo details of source codebase"
       value: "$(finally.aggregate-results.results.repo-details)"
+    - name: pr-details
+      type: object
+      description: "detailes of created pr"
+      value: "$(finally.aggregate-results.results.pr-details)"
+
     # 'pipelines-in-pipelines' feature doesn't support 'object' results. Hence, declaring 'string' results also
     - name: repo-url
       value: "$(finally.aggregate-results.results.repo-details.url)"
@@ -308,10 +313,13 @@ spec:
           value: "$(tasks.clone-source-repo.status)"
         - name: build-test-publish-artifacts-status
           value: "$(tasks.build-test-publish-artifacts.status)"
+        - name: create-pr-status
+          value: "$(tasks.create-pr.status)"
       taskSpec:
         params:
           - name: clone-source-repo-status
           - name: build-test-publish-artifacts-status
+          - name: create-pr-status
         steps:
           - name: failed
             image: mirror.gcr.io/ubuntu
@@ -319,6 +327,7 @@ spec:
               echo "One or more tasks failed"
               echo task: clone-source-repo \t\t\tstatus: $(params.clone-source-repo-status)"
               echo "task: build-test-publish-artifacts \t\tstatus: $(params.build-test-publish-artifacts-status)"
+              echo "task: create-pr \t\tstatus: $(params.create-pr-status)"
               echo
               echo "[ToDo] Notify on slack channel (use tekton task for slack)"
     - name: report-pipeline-success
@@ -333,10 +342,13 @@ spec:
           value: "$(tasks.clone-source-repo.status)"
         - name: build-test-publish-artifacts-status
           value: "$(tasks.build-test-publish-artifacts.status)"
+        - name: create-pr-status
+          value: "$(tasks.create-pr.status)"
       taskSpec:
         params:
           - name: clone-source-repo-status
           - name: build-test-publish-artifacts-status
+          - name: create-pr-status
         steps:
           - name: success
             image: mirror.gcr.io/ubuntu
@@ -344,6 +356,7 @@ spec:
               echo "All tasks passed"
               echo "task: clone-source-repo \t\t\tstatus: $(params.clone-source-repo-status)"
               echo "task: build-test-publish-artifacts \t\tstatus: $(params.build-test-publish-artifacts-status)"
+              echo "task: create-pr \t\tstatus: $(params.create-pr-status)"
               echo
               echo "[ToDo] Notify on slack channel (use tekton task for slack)"
 
@@ -360,10 +373,13 @@ spec:
           value: "$(tasks.clone-source-repo.status)"
         - name: build-test-publish-artifacts-status
           value: "$(tasks.build-test-publish-artifacts.status)"
+        - name: create-pr-status
+          value: "$(tasks.create-pr.status)"
       taskSpec:
         params:
           - name: clone-source-repo-status
           - name: build-test-publish-artifacts-status
+          - name: create-pr-status
         results:
           - name: repo-details
             type: object
@@ -374,6 +390,15 @@ spec:
                 type: string
               committer-date:
                 type: string
+          - name: pr-details
+            type: object
+            properties:
+              number:
+                type: string
+              url:
+                type: string
+              head-sha:
+                type: string
         steps:
           - name: write-result
             image: bash:latest
@@ -381,6 +406,7 @@ spec:
               #!/usr/bin/env bash
               [[ $(params.clone-source-repo-status) == "Succeeded" ]] && echo -n "{\"url\":\"$(tasks.clone-source-repo.results.url)\",\"commit\":\"$(tasks.clone-source-repo.results.commit)\",\"committer-date\":\"$(tasks.clone-source-repo.results.committer-date)\"}" | tee $(results.repo-details.path)
               echo
+              [[ $(params.create-pr-status) == "Succeeded" ]] && echo -n "{\"number\":\"$(tasks.create-pr.results.NUMBER)\",\"url\":\"$(tasks..create-pr.results.URL)\",\"head-sha\":\"$(tasks..create-pr.results.E_HEAD_SHA)\"}" | tee $(results.pr-details.path)
               # echo revision="$(params.git-clone.revision)"
               # echo build-dir="$(params.gradle.project-build-dir)"
 

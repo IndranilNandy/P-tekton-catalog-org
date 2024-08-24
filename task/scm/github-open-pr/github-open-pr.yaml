@@ -78,7 +78,7 @@ spec:
     - name: URL
       description: URL of the created pull request.
 
-    - name: E_COMMIT_SHA
+    - name: E_HEAD_SHA
       description: SHA of the merge commit created by the pull request
 
   volumes:
@@ -97,8 +97,8 @@ spec:
           value: $(results.NUMBER.path)
         - name: PULLREQUEST_URL_PATH
           value: $(results.URL.path)
-        - name: PULLREQUEST_COMMIT_SHA_PATH
-          value: $(results.E_COMMIT_SHA.path)
+        - name: PULLREQUEST_HEAD_SHA_PATH
+          value: $(results.E_HEAD_SHA.path)
 
       image: registry.access.redhat.com/ubi8/python-38:1-34.1599745032
       script: |
@@ -159,7 +159,7 @@ spec:
             with open(os.environ.get('PULLREQUEST_URL_PATH'), 'w', encoding="utf-8") as f:
                 f.write(body["html_url"])
 
-            with open(os.environ.get('PULLREQUEST_COMMIT_SHA_PATH'), 'w', encoding="utf-8") as f:
+            with open(os.environ.get('PULLREQUEST_HEAD_SHA_PATH'), 'w', encoding="utf-8") as f:
                 f.write(f'{body["head"]["sha"]}')
 
             print("GitHub pull request created for $(params.REPO_FULL_NAME): \n"
