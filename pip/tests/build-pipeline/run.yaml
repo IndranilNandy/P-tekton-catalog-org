@@ -73,4 +73,4 @@ spec:
       - name: repo
         value: P-tekton-catalog-org
       - name: pathInRepo
-        value: pipeline/build-code-and-image/build-pipeline.yaml
+        value: pip/build-pipeline.yaml

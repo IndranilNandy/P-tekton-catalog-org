@@ -353,8 +353,17 @@ spec:
           operator: in
           values:
             - "Succeeded"
+            - "Completed"
             # "Completed" is NOT allowed, since some tasks may be skipped due to when condition and corresponding results would not be available, and this task would never start
+      params:
+        - name: clone-source-repo-status
+          value: "$(tasks.clone-source-repo.status)"
+        - name: build-test-publish-artifacts-status
+          value: "$(tasks.build-test-publish-artifacts.status)"
       taskSpec:
+        params:
+          - name: clone-source-repo-status
+          - name: build-test-publish-artifacts-status
         results:
           - name: repo-details
             type: object
@@ -370,8 +379,8 @@ spec:
             image: bash:latest
             script: |
               #!/usr/bin/env bash
-              echo -n "{\"url\":\"$(tasks.clone-source-repo.results.url)\",\"commit\":\"$(tasks.clone-source-repo.results.commit)\",\"committer-date\":\"$(tasks.clone-source-repo.results.committer-date)\"}" | tee $(results.repo-details.path)
+              [[ $(params.clone-source-repo-status) == "Succeeded" ]] && echo -n "{\"url\":\"$(tasks.clone-source-repo.results.url)\",\"commit\":\"$(tasks.clone-source-repo.results.commit)\",\"committer-date\":\"$(tasks.clone-source-repo.results.committer-date)\"}" | tee $(results.repo-details.path)
               echo
-              echo revision="$(params.git-clone.revision)"
-              echo build-dir="$(params.gradle.project-build-dir)"
+              # echo revision="$(params.git-clone.revision)"
+              # echo build-dir="$(params.gradle.project-build-dir)"
 
