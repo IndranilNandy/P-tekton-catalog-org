@@ -400,6 +400,11 @@ spec:
               head-sha:
                 type: string
         steps:
+          - name: another
+            image: bash:latest
+            script: |
+              #!/usr/bin/env bash
+              echo hello from another step
           - name: write-result
             image: bash:latest
             script: |
@@ -409,9 +414,4 @@ spec:
               [[ $(params.create-pr-status) == "Succeeded" ]] && echo -n "{\"number\":\"$(tasks.create-pr.results.NUMBER)\",\"url\":\"$(tasks..create-pr.results.URL)\",\"head-sha\":\"$(tasks..create-pr.results.E_HEAD_SHA)\"}" | tee $(results.pr-details.path)
               # echo revision="$(params.git-clone.revision)"
               # echo build-dir="$(params.gradle.project-build-dir)"
-          - name: another
-            image: bash:latest
-            script: |
-              #!/usr/bin/env bash
-              echo hello from another step
 
