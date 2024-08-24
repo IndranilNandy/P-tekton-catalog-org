@@ -49,7 +49,7 @@ spec:
       value:
         build-artifacts-root: "/tmp/myproject/build-artifacts"
         project-build-dir-name: "build"
-        create-pr: "true"
+        create-pr: "false"
 
     # Debugging purpose
     - name: debug

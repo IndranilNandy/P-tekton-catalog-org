@@ -161,18 +161,24 @@ spec:
 
     # 'pipelines-in-pipelines' feature doesn't support 'object' results. Hence, declaring 'string' results also
     - name: repo-url
-      value: "$(finally.results-clone-source-repo.results.repo-details.url)"
+      value: "$(tasks.clone-source-repo.results.url)"
+      # value: "$(finally.results-clone-source-repo.results.repo-details.url)"
     - name: repo-commit
-      value: "$(finally.results-clone-source-repo.results.repo-details.commit)"
+      value: "$(tasks.clone-source-repo.results.commit)"
+      # value: "$(finally.results-clone-source-repo.results.repo-details.commit)"
     - name: repo-committer-date
-      value: "$(finally.results-clone-source-repo.results.repo-details.committer-date)"
+      value: "$(tasks.clone-source-repo.results.committer-date)"
+      # value: "$(finally.results-clone-source-repo.results.repo-details.committer-date)"
 
     - name: pr-number
-      value: "$(finally.results-create-pr.results.pr-details.number)"
+      value: "$(tasks.create-pr.results.NUMBER)"
+      # value: "$(finally.results-create-pr.results.pr-details.number)"
     - name: pr-url
-      value: "$(finally.results-create-pr.results.pr-details.url)"
+      value: "$(tasks.create-pr.results.URL)"
+      # value: "$(finally.results-create-pr.results.pr-details.url)"
     - name: pr-head-sha
-      value: "$(finally.results-create-pr.results.pr-details.head-sha)"
+      value: "$(tasks.create-pr.results.E_HEAD_SHA)"
+      # value: "$(finally.results-create-pr.results.pr-details.head-sha)"
 
   tasks:
     - name: pipeline-ctx
