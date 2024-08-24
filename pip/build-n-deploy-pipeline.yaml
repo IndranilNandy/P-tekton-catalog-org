@@ -170,9 +170,12 @@ spec:
           type: string
         project-build-dir-name:
           type: string
+        create-pr:
+          type: string
       default:
         build-artifacts-root: "/tmp/myproject/build-artifacts"
         project-build-dir-name: "build"
+        create-pr: "false"
 
       # Debugging purpose
     - name: debug
@@ -203,10 +206,25 @@ spec:
       type: object
       description: "repo details of source codebase"
       value: "$(tasks.build-pipeline.results.repo-details)"
+    - name: pr-details
+      type: object
+      description: "detailes of created pr"
+      value: "$(tasks.build-pipeline.results.pr-details)"
+
+    # 'pipelines-in-pipelines' feature doesn't support 'object' results. Hence, declaring 'string' results also
     - name: repo-url
       value: "$(tasks.build-pipeline.results.repo-url)"
     - name: repo-commit
       value: "$(tasks.build-pipeline.results.repo-commit)"
+    - name: repo-committer-date
+      value: "$(tasks.build-pipeline.results.repo-committer-date)"
+
+    - name: pr-number
+      value: "$(tasks.build-pipeline.results.pr-number)"
+    - name: pr-url
+      value: "$(tasks.build-pipeline.results.pr-url)"
+    - name: pr-head-sha
+      value: "$(tasks.build-pipeline.results.pr-head-sha)"
 
   tasks:
     - name: build-pipeline
@@ -255,6 +273,7 @@ spec:
             # project-build-dir-name: "build"
             build-artifacts-root: "$(params.common.build-artifacts-root)"
             project-build-dir-name: "$(params.common.project-build-dir-name)"
+            create-pr: "$(params.common.create-pr)"
 
         # Debugging purpose
         - name: debug
@@ -277,7 +296,7 @@ spec:
         #   - name: repo
         #     value: P-tekton-catalog-org
         #   - name: pathInRepo
-        #     value: pipeline/build-code-and-image/build-pipeline.yaml
+        #     value: pip/build-pipeline.yaml
 
     - name: deploy-pipeline
       params:
