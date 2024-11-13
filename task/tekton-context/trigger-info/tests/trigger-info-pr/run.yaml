@@ -49,4 +49,4 @@ spec:
       - name: repo
         value: P-tekton-catalog-org
       - name: pathInRepo
-        value: task/tekton-context/trigger-info/trigger-info-prod.yaml
+        value: task/tekton-context/trigger-info/trigger-info-pr.yaml
