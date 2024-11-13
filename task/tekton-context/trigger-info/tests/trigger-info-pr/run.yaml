@@ -31,6 +31,37 @@ spec:
     # - name: git-head-committer
     #   value: git-head-committer
 
+
+    - name: git-pr-number
+    - name: git-pr-url
+    - name: git-pr-diff-url
+    - name: git-pr-state
+    - name: git-pr-locked
+    - name: git-pr-title
+    - name: git-pr-body
+    - name: git-pr-user
+    - name: git-pr-assignees
+
+    - name: git-pr-head-branch
+    - name: git-pr-head-sha
+    - name: git-pr-head-repo-name
+    - name: git-pr-head-repo-full-name
+    - name: git-pr-head-repo-url
+
+    - name: git-pr-base-branch
+    - name: git-pr-base-sha
+    - name: git-pr-base-repo-name
+    - name: git-pr-base-repo-full-name
+    - name: git-pr-base-repo-url
+
+    - name: git-pr-links-self
+    - name: git-pr-links-issue
+    - name: git-pr-links-comments
+    - name: git-pr-links-review-comments
+    - name: git-pr-links-commits
+    - name: git-pr-links-statuses
+
+
     - name: git-repo-url
       value: git-repo-url
     - name: git-repo-full-name
@@ -40,8 +71,6 @@ spec:
     - name: git-repo-default-branch
       value: git-repo-default-branch
 
-    - name: git-pr-number
-      value: git-pr-number
     # - name: git-info-branch
     #   value: git-info-branch
   taskRef:
