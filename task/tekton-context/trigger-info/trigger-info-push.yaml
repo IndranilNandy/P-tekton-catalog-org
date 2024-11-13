@@ -1,0 +1,90 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: trigger-info-push
+spec:
+  params:
+    - name: eventID
+      default: "NA"
+    - name: message
+      default: "NA"
+    - name: environment
+      default: "NA"
+
+    - name: event-type
+      default: "NA"
+    - name: event-contenttype
+      default: "NA"
+    - name: event-github-delivery-id
+      default: "NA"
+    - name: event-github-hook-id
+      default: "NA"
+    - name: event-webhook-deliveries-url
+      default: "NA"
+
+    - name: git-info-pusher
+      default: "NA"
+    - name: git-info-compare-url
+      default: "NA"
+    - name: git-head-revision
+      default: "NA"
+    - name: git-head-committer
+      default: "NA"
+
+    - name: git-repo-url
+      default: "NA"
+    - name: git-repo-full-name
+      default: "NA"
+    - name: git-repo-open-issues-count
+      default: "NA"
+    - name: git-repo-default-branch
+      default: "NA"
+
+    - name: git-info-branch
+      default: "NA"
+
+    - name: changed-files
+      default: "NA"
+    - name: short-sha
+      default: "NA"
+    - name: commit-msg
+      default: "NA"
+
+  steps:
+    - name: payload
+      image: ubuntu
+      script: |
+        echo "eventID:\t$(params.eventID)"
+        echo "message:\t$(params.message)"
+        echo "environment:\t$(params.environment)"
+
+        echo
+        echo "Event:"
+        echo "\t\tType:\t$(params.event-type)"
+        echo "\t\tContent-type:\t$(params.event-contenttype)"
+        echo "\t\tGitHub-Delivery-ID:\t$(params.event-github-delivery-id)"
+        echo "\t\tGitHub-Hook-ID:\t$(params.event-github-hook-id)"
+        echo "\t\tWebhook deliveries url:\t$(params.event-webhook-deliveries-url)"
+
+        echo
+        echo "Repository:"
+        echo "\t\tName:\t$(params.git-repo-full-name)"
+        echo "\t\tUrl:\t$(params.git-repo-url)"
+        echo "\t\tRevision:\t$(params.git-head-revision)"
+        echo "\t\tBranch:\t$(params.git-info-branch)"
+
+        echo
+        echo "\t\tDefault branch:\t$(params.git-repo-default-branch)"
+        echo "\t\tCompare url:\t$(params.git-info-compare-url)"
+        echo "\t\tCommitter:\t$(params.git-head-committer)"
+        echo "\t\tCommit message:\t$(params.commit-msg)"
+        echo "\t\tPusher:\t$(params.git-info-pusher)"
+        echo "\t\tOpen issues count:\t$(params.git-repo-open-issues-count)"
+
+        echo
+        echo "Changed Files:"
+        echo "\t\tList:\t$(params.changed-files)"
+
+        echo
+        echo "Additional:"
+        echo "\t\tShort SHA:\t$(params.short-sha)"

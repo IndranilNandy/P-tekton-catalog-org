@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
-  generateName: trigger-info-prod-r-
+  generateName: trigger-info-pr-r-
 spec:
   params:
     - name: eventID

@@ -1,0 +1,52 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: trigger-info-push-r-
+spec:
+  params:
+    - name: eventID
+      value: eventID
+    - name: message
+      value: message
+    - name: environment
+      value: environment
+
+    - name: event-type
+      value: event-type
+    - name: event-contenttype
+      value: event-contenttype
+    - name: event-github-delivery-id
+      value: event-github-delivery-id
+    - name: event-github-hook-id
+      value: event-github-hook-id
+    - name: event-webhook-deliveries-url
+      value: event-webhook-deliveries-url
+
+    - name: git-info-pusher
+      value: git-info-pusher
+    - name: git-info-compare-url
+      value: git-info-compare-url
+    - name: git-head-revision
+      value: git-head-revision
+    - name: git-head-committer
+      value: git-head-committer
+
+    - name: git-repo-url
+      value: git-repo-url
+    - name: git-repo-full-name
+      value: git-repo-full-name
+    - name: git-repo-open-issues-count
+      value: git-repo-open-issues-count
+    - name: git-repo-default-branch
+      value: git-repo-default-branch
+
+    - name: git-info-branch
+      value: git-info-branch
+  taskRef:
+    # name: echo-hello-world
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/tekton-context/trigger-info/trigger-info-push.yaml
