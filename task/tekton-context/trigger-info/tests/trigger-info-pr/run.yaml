@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: TaskRun
 metadata:
-  generateName: trigger-info-pr-r-
+  generateName: trigger-info-ic-r-
 spec:
   params:
     - name: eventID
@@ -25,59 +25,24 @@ spec:
     - name: git-event-action
       value: git-event-action
 
-    - name: git-pr-number
-      value: git-pr-number
-    - name: git-pr-url
-      value: git-pr-url
-    - name: git-pr-diff-url
-      value: git-pr-diff-url
-    - name: git-pr-state
-      value: git-pr-state
-    - name: git-pr-locked
-      value: git-pr-locked
-    - name: git-pr-title
-      value: git-pr-title
-    - name: git-pr-body
-      value: git-pr-body
-    - name: git-pr-user
-      value: git-pr-user
-    - name: git-pr-assignees
-      value: git-pr-assignees
 
-    - name: git-pr-head-branch
-      value: git-pr-head-branch
-    - name: git-pr-head-sha
-      value: git-pr-head-sha
-    - name: git-pr-head-repo-name
-      value: git-pr-head-repo-name
-    - name: git-pr-head-repo-full-name
-      value: git-pr-head-repo-full-name
-    - name: git-pr-head-repo-url
-      value: git-pr-head-repo-url
+    - name: git-issue-url
+      value: git-issue-url
+    - name: git-issue-number
+      value: git-issue-number
+    - name: git-issue-title
+      value: git-issue-title
+    - name: git-issue-user
+      value: git-issue-user
 
-    - name: git-pr-base-branch
-      value: git-pr-base-branch
-    - name: git-pr-base-sha
-      value: git-pr-base-sha
-    - name: git-pr-base-repo-name
-      value: git-pr-base-repo-name
-    - name: git-pr-base-repo-full-name
-      value: git-pr-base-repo-full-name
-    - name: git-pr-base-repo-url
-      value: git-pr-base-repo-url
-
-    - name: git-pr-links-self
-      value: git-pr-links-self
-    - name: git-pr-links-issue
-      value: git-pr-links-issue
-    - name: git-pr-links-comments
-      value: git-pr-links-comments
-    - name: git-pr-links-review-comments
-      value: git-pr-links-comments
-    - name: git-pr-links-commits
-      value: git-pr-links-commits
-    - name: git-pr-links-statuses
-      value: git-pr-links-statuses
+    - name: git-comment-url
+      value: git-comment-url
+    - name: git-comment-user
+      value: git-comment-user
+    - name: git-comment-author-association
+      value: git-comment-author-association
+    - name: git-comment-body
+      value: git-comment-body
 
     - name: git-repo-url
       value: git-repo-url
@@ -98,4 +63,4 @@ spec:
       - name: repo
         value: P-tekton-catalog-org
       - name: pathInRepo
-        value: task/tekton-context/trigger-info/trigger-info-pr.yaml
+        value: task/tekton-context/trigger-info/trigger-info-ic.yaml

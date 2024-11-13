@@ -25,58 +25,22 @@ spec:
     - name: git-event-action
       default: "NA"
 
-    - name: git-pr-number
+    - name: git-issue-url
       default: "NA"
-    - name: git-pr-url
+    - name: git-issue-number
       default: "NA"
-    - name: git-pr-diff-url
+    - name: git-issue-title
       default: "NA"
-    - name: git-pr-state
-      default: "NA"
-    - name: git-pr-locked
-      default: "NA"
-    - name: git-pr-title
-      default: "NA"
-    - name: git-pr-body
-      default: "NA"
-    - name: git-pr-user
-      default: "NA"
-    - name: git-pr-assignees
+    - name: git-issue-user
       default: "NA"
 
-    - name: git-pr-head-branch
+    - name: git-comment-url
       default: "NA"
-    - name: git-pr-head-sha
+    - name: git-comment-user
       default: "NA"
-    - name: git-pr-head-repo-name
+    - name: git-comment-author-association
       default: "NA"
-    - name: git-pr-head-repo-full-name
-      default: "NA"
-    - name: git-pr-head-repo-url
-      default: "NA"
-
-    - name: git-pr-base-branch
-      default: "NA"
-    - name: git-pr-base-sha
-      default: "NA"
-    - name: git-pr-base-repo-name
-      default: "NA"
-    - name: git-pr-base-repo-full-name
-      default: "NA"
-    - name: git-pr-base-repo-url
-      default: "NA"
-
-    - name: git-pr-links-self
-      default: "NA"
-    - name: git-pr-links-issue
-      default: "NA"
-    - name: git-pr-links-comments
-      default: "NA"
-    - name: git-pr-links-review-comments
-      default: "NA"
-    - name: git-pr-links-commits
-      default: "NA"
-    - name: git-pr-links-statuses
+    - name: git-comment-body
       default: "NA"
 
     - name: git-repo-url
@@ -116,39 +80,18 @@ spec:
         echo "\t\tOpen issues count:\t$(params.git-repo-open-issues-count)"
 
         echo
-        echo "Pull request:"
-        echo "\t\tTitle:\t$(params.git-pr-title)"
-        echo "\t\tNumber:\t$(params.git-pr-number)"
-        echo "\t\tUrl:\t$(params.git-pr-url)"
-        echo "\t\tDiff url:\t$(params.git-pr-diff-url)"
-        echo "\t\tUser:\t$(params.git-pr-user)"
-        echo "\t\tState:\t$(params.git-pr-state)"
-        echo "\t\tLocked:\t$(params.git-pr-locked)"
-        echo "\t\tBody:\t$(params.git-pr-body)"
-        echo "\t\tAssignees:\t$(params.git-pr-assignees)"
+        echo "Issue:"
+        echo "\t\tTitle:\t$(params.git-issue-title)"
+        echo "\t\tNumber:\t$(params.git-issue-number)"
+        echo "\t\tUrl:\t$(params.git-issue-url)"
+        echo "\t\tUser:\t$(params.git-issue-user)"
 
         echo
-        echo "\tHead:"
-        echo "\t\t\tRepo:\t$(params.git-pr-head-repo-full-name)"
-        echo "\t\t\tUrl:\t$(params.git-pr-head-repo-url)"
-        echo "\t\t\tBranch:\t$(params.git-pr-head-branch)"
-        echo "\t\t\tSHA:\t$(params.git-pr-head-sha)"
-
-        echo
-        echo "\tBase:"
-        echo "\t\t\tRepo:\t$(params.git-pr-base-repo-full-name)"
-        echo "\t\t\tUrl:\t$(params.git-pr-base-repo-url)"
-        echo "\t\t\tBranch:\t$(params.git-pr-base-branch)"
-        echo "\t\t\tSHA:\t$(params.git-pr-base-sha)"
-
-        echo
-        echo "\tLinks:"
-        echo "\t\t\tSelf:\t$(params.git-pr-links-self)"
-        echo "\t\t\tIssue:\t$(params.git-pr-links-issue)"
-        echo "\t\t\tComments:\t$(params.git-pr-links-comments)"
-        echo "\t\t\tReview comments:\t$(params.git-pr-links-review-comments)"
-        echo "\t\t\tCommits:\t$(params.git-pr-links-commits)"
-        echo "\t\t\tStatuses:\t$(params.git-pr-links-statuses)"
+        echo "Comment:"
+        echo "\t\tUrl:\t$(params.git-comment-url)"
+        echo "\t\tUser:\t$(params.git-comment-user)"
+        echo "\t\tAuthor:\t$(params.git-comment-author-association)"
+        echo "\t\tBody:\t$(params.git-comment-body)"
 
         echo
         echo "Additional:"
