@@ -121,7 +121,7 @@ spec:
         echo "\t\tState:\t$(params.git-pr-state)"
         echo "\t\tLocked:\t$(params.git-pr-locked)"
         echo "\t\tBody:\t$(params.git-pr-body)"
-        echo "\t\Assignees:\t$(params.git-pr-assignees)"
+        echo "\t\tAssignees:\t$(params.git-pr-assignees)"
 
         echo
         echo "\tHead:"
