@@ -23,58 +23,58 @@ spec:
       default: "NA"
 
     - name: git-pr-number
-      value: "NA"
+      default: "NA"
     - name: git-pr-url
-      value: "NA"
+      default: "NA"
     - name: git-pr-diff-url
-      value: "NA"
+      default: "NA"
     - name: git-pr-state
-      value: "NA"
+      default: "NA"
     - name: git-pr-locked
-      value: "NA"
+      default: "NA"
     - name: git-pr-title
-      value: "NA"
+      default: "NA"
     - name: git-pr-body
       value: "NA"
     - name: git-pr-user
-      value: "NA"
+      default: "NA"
     - name: git-pr-assignees
-      value: "NA"
+      default: "NA"
 
     - name: git-pr-head-branch
-      value: "NA"
+      default: "NA"
     - name: git-pr-head-sha
-      value: "NA"
+      default: "NA"
     - name: git-pr-head-repo-name
-      value: "NA"
+      default: "NA"
     - name: git-pr-head-repo-full-name
-      value: "NA"
+      default: "NA"
     - name: git-pr-head-repo-url
-      value: "NA"
+      default: "NA"
 
     - name: git-pr-base-branch
-      value: "NA"
+      default: "NA"
     - name: git-pr-base-sha
-      value: "NA"
+      default: "NA"
     - name: git-pr-base-repo-name
-      value: "NA"
+      default: "NA"
     - name: git-pr-base-repo-full-name
-      value: "NA"
+      default: "NA"
     - name: git-pr-base-repo-url
-      value: "NA"
+      default: "NA"
 
     - name: git-pr-links-self
-      value: "NA"
+      default: "NA"
     - name: git-pr-links-issue
-      value: "NA"
+      default: "NA"
     - name: git-pr-links-comments
-      value: "NA"
+      default: "NA"
     - name: git-pr-links-review-comments
-      value: "NA"
+      default: "NA"
     - name: git-pr-links-commits
-      value: "NA"
+      default: "NA"
     - name: git-pr-links-statuses
-      value: "NA"
+      default: "NA"
 
     - name: git-repo-url
       default: "NA"
