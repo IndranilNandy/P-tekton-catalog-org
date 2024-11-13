@@ -35,7 +35,7 @@ spec:
     - name: git-pr-title
       default: "NA"
     - name: git-pr-body
-      value: "NA"
+      default: "NA"
     - name: git-pr-user
       default: "NA"
     - name: git-pr-assignees
