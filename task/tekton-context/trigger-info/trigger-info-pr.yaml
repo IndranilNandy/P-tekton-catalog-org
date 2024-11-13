@@ -22,14 +22,59 @@ spec:
     - name: event-webhook-deliveries-url
       default: "NA"
 
-    - name: git-info-pusher
-      default: "NA"
-    - name: git-info-compare-url
-      default: "NA"
-    - name: git-head-revision
-      default: "NA"
-    - name: git-head-committer
-      default: "NA"
+    - name: git-pr-number
+      value: "NA"
+    - name: git-pr-url
+      value: "NA"
+    - name: git-pr-diff-url
+      value: "NA"
+    - name: git-pr-state
+      value: "NA"
+    - name: git-pr-locked
+      value: "NA"
+    - name: git-pr-title
+      value: "NA"
+    - name: git-pr-body
+      value: "NA"
+    - name: git-pr-user
+      value: "NA"
+    - name: git-pr-assignees
+      value: "NA"
+
+    - name: git-pr-head-branch
+      value: "NA"
+    - name: git-pr-head-sha
+      value: "NA"
+    - name: git-pr-head-repo-name
+      value: "NA"
+    - name: git-pr-head-repo-full-name
+      value: "NA"
+    - name: git-pr-head-repo-url
+      value: "NA"
+
+    - name: git-pr-base-branch
+      value: "NA"
+    - name: git-pr-base-sha
+      value: "NA"
+    - name: git-pr-base-repo-name
+      value: "NA"
+    - name: git-pr-base-repo-full-name
+      value: "NA"
+    - name: git-pr-base-repo-url
+      value: "NA"
+
+    - name: git-pr-links-self
+      value: "NA"
+    - name: git-pr-links-issue
+      value: "NA"
+    - name: git-pr-links-comments
+      value: "NA"
+    - name: git-pr-links-review-comments
+      value: "NA"
+    - name: git-pr-links-commits
+      value: "NA"
+    - name: git-pr-links-statuses
+      value: "NA"
 
     - name: git-repo-url
       default: "NA"
@@ -40,14 +85,7 @@ spec:
     - name: git-repo-default-branch
       default: "NA"
 
-    - name: git-info-branch
-      default: "NA"
-
-    - name: changed-files
-      default: "NA"
-    - name: short-sha
-      default: "NA"
-    - name: commit-msg
+    - name: git-sender
       default: "NA"
 
   steps:
@@ -75,16 +113,43 @@ spec:
 
         echo
         echo "\t\tDefault branch:\t$(params.git-repo-default-branch)"
-        echo "\t\tCompare url:\t$(params.git-info-compare-url)"
-        echo "\t\tCommitter:\t$(params.git-head-committer)"
-        echo "\t\tCommit message:\t$(params.commit-msg)"
-        echo "\t\tPusher:\t$(params.git-info-pusher)"
         echo "\t\tOpen issues count:\t$(params.git-repo-open-issues-count)"
 
         echo
-        echo "Changed Files:"
-        echo "\t\tList:\t$(params.changed-files)"
+        echo "Pull request:"
+        echo "\t\tTitle:\t$(params.git-pr-title)"
+        echo "\t\tNumber:\t$(params.git-pr-number)"
+        echo "\t\tUrl:\t$(params.git-pr-url)"
+        echo "\t\tDiff url:\t$(params.git-pr-diff-url)"
+        echo "\t\tUser:\t$(params.git-pr-user)"
+        echo "\t\tState:\t$(params.git-pr-state)"
+        echo "\t\tLocked:\t$(params.git-pr-locked)"
+        echo "\t\tBody:\t$(params.git-pr-body)"
+        echo "\t\Assignees:\t$(params.git-pr-assignees)"
+
+        echo
+        echo "\tHead:"
+        echo "\t\t\tRepo:\t$(params.git-pr-head-repo-full-name)"
+        echo "\t\t\tUrl:\t$(params.git-pr-head-repo-url)"
+        echo "\t\t\tBranch:\t$(params.git-pr-head-branch)"
+        echo "\t\t\tSHA:\t$(params.git-pr-head-sha)"
+
+        echo
+        echo "\tBase:"
+        echo "\t\t\tRepo:\t$(params.git-pr-base-repo-full-name)"
+        echo "\t\t\tUrl:\t$(params.git-pr-base-repo-url)"
+        echo "\t\t\tBranch:\t$(params.git-pr-base-branch)"
+        echo "\t\t\tSHA:\t$(params.git-pr-base-sha)"
+
+        echo
+        echo "\tLinks:"
+        echo "\t\t\tSelf:\t$(params.git-pr-links-self)"
+        echo "\t\t\tIssue:\t$(params.git-pr-links-issue)"
+        echo "\t\t\tComments:\t$(params.git-pr-links-comments)"
+        echo "\t\t\tReview comments:\t$(params.git-pr-links-review-comments)"
+        echo "\t\t\tCommits:\t$(params.git-pr-links-commits)"
+        echo "\t\t\tStatuses:\t$(params.git-pr-links-statuses)"
 
         echo
         echo "Additional:"
-        echo "\t\tShort SHA:\t$(params.short-sha)"
+        echo "\t\tSender:\t$(params.git-sender)"
