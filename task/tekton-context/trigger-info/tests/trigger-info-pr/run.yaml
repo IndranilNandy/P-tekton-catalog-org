@@ -22,14 +22,14 @@ spec:
     - name: event-webhook-deliveries-url
       value: event-webhook-deliveries-url
 
-    - name: git-info-pusher
-      value: git-info-pusher
-    - name: git-info-compare-url
-      value: git-info-compare-url
-    - name: git-head-revision
-      value: git-head-revision
-    - name: git-head-committer
-      value: git-head-committer
+    # - name: git-info-pusher
+    #   value: git-info-pusher
+    # - name: git-info-compare-url
+    #   value: git-info-compare-url
+    # - name: git-head-revision
+    #   value: git-head-revision
+    # - name: git-head-committer
+    #   value: git-head-committer
 
     - name: git-repo-url
       value: git-repo-url
@@ -40,8 +40,8 @@ spec:
     - name: git-repo-default-branch
       value: git-repo-default-branch
 
-    - name: git-info-branch
-      value: git-info-branch
+    # - name: git-info-branch
+    #   value: git-info-branch
   taskRef:
     # name: echo-hello-world
     resolver: git
