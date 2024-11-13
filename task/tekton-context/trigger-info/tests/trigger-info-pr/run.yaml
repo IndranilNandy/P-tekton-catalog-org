@@ -22,15 +22,8 @@ spec:
     - name: event-webhook-deliveries-url
       value: event-webhook-deliveries-url
 
-    # - name: git-info-pusher
-    #   value: git-info-pusher
-    # - name: git-info-compare-url
-    #   value: git-info-compare-url
-    # - name: git-head-revision
-    #   value: git-head-revision
-    # - name: git-head-committer
-    #   value: git-head-committer
-
+    - name: git-event-action
+      value: git-event-action
 
     - name: git-pr-number
       value: git-pr-number

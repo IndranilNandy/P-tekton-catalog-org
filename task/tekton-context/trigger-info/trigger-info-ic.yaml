@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: Task
 metadata:
-  name: trigger-info-pr
+  name: trigger-info-ic
 spec:
   params:
     - name: eventID
