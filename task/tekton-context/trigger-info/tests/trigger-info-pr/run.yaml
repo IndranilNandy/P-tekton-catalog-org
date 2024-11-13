@@ -40,6 +40,8 @@ spec:
     - name: git-repo-default-branch
       value: git-repo-default-branch
 
+    - name: git-pr-number
+      value: git-pr-number
     # - name: git-info-branch
     #   value: git-info-branch
   taskRef:
