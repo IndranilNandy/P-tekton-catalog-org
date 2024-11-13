@@ -25,7 +25,6 @@ spec:
     - name: git-event-action
       value: git-event-action
 
-
     - name: git-issue-url
       value: git-issue-url
     - name: git-issue-number
