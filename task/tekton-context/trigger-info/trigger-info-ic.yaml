@@ -33,6 +33,16 @@ spec:
       default: "NA"
     - name: git-issue-user
       default: "NA"
+    - name: git-issue-body
+      default: "NA"
+    - name: git-issue-state
+      default: "NA"
+    - name: git-issue-locked
+      default: "NA"
+    - name: git-issue-pr-url
+      default: "NA"
+    - name: git-issue-pr-diff-url
+      default: "NA"
 
     - name: git-comment-url
       default: "NA"
@@ -85,6 +95,14 @@ spec:
         echo "\t\tNumber:\t$(params.git-issue-number)"
         echo "\t\tUrl:\t$(params.git-issue-url)"
         echo "\t\tUser:\t$(params.git-issue-user)"
+        echo "\t\tBody:\t$(params.git-issue-body)"
+        echo "\t\tState:\t$(params.git-issue-state)"
+        echo "\t\tLocked:\t$(params.git-issue-locked)"
+
+        echo
+        echo "\tPull request:"
+        echo "\t\t\tUrl:\t$(params.git-issue-pr-url)"
+        echo "\t\t\tDiff url:\t$(params.git-issue-pr-diff-url)"
 
         echo
         echo "Comment:"
