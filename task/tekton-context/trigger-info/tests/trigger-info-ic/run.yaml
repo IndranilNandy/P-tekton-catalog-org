@@ -33,6 +33,16 @@ spec:
       value: git-issue-title
     - name: git-issue-user
       value: git-issue-user
+    - name: git-issue-body
+      value: git-issue-body
+    - name: git-issue-state
+      value: git-issue-state
+    - name: git-issue-locked
+      value: git-issue-locked
+    - name: git-issue-pr-url
+      value: git-issue-pr-url
+    - name: git-issue-pr-diff-url
+      value: git-issue-pr-diff-url
 
     - name: git-comment-url
       value: git-comment-url
