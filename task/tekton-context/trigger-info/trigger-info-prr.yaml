@@ -27,6 +27,8 @@ spec:
 
     - name: git-review-user
       default: "NA"
+    - name: git-review-author-association
+      default: "NA"
     - name: git-review-url
       default: "NA"
     - name: git-review-pr
@@ -133,6 +135,7 @@ spec:
         echo "\t\tPR:\t$(params.git-review-pr)"
         echo "\t\tUrl:\t$(params.git-review-url)"
         echo "\t\tUser:\t$(params.git-review-user)"
+        echo "\t\tAuthor association:\t$(params.git-review-author-association)"
         echo "\t\tBody:\t$(params.git-review-body)"
         echo "\t\tCommit-id:\t$(params.git-review-commit-id)"
         echo "\t\tState:\t$(params.git-review-state)"

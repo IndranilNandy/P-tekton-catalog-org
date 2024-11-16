@@ -27,6 +27,8 @@ spec:
 
     - name: git-review-user
       value: git-review-user
+    - name: git-review-author-association
+      value: git-review-author-association
     - name: git-review-url
       value: git-review-url
     - name: git-review-pr

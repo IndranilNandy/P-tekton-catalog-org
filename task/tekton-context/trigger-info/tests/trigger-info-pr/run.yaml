@@ -41,6 +41,8 @@ spec:
       value: git-pr-body
     - name: git-pr-user
       value: git-pr-user
+    - name: git-pr-author-association
+      value: git-pr-author-association
     - name: git-pr-assignees
       value: git-pr-assignees
 
