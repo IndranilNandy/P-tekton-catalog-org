@@ -55,6 +55,8 @@ spec:
 
     - name: git-repo-url
       default: "NA"
+    - name: git-repo-ssh-url
+      default: "NA"
     - name: git-repo-full-name
       default: "NA"
     - name: git-repo-open-issues-count
@@ -86,6 +88,7 @@ spec:
         echo "Repository:"
         echo "\t\tName:\t$(params.git-repo-full-name)"
         echo "\t\tUrl:\t$(params.git-repo-url)"
+        echo "\t\tSSH url:\t$(params.git-repo-ssh-url)"
         echo "\t\tDefault branch:\t$(params.git-repo-default-branch)"
         echo "\t\tOpen issues count:\t$(params.git-repo-open-issues-count)"
 

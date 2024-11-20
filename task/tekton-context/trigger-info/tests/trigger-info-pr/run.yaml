@@ -83,6 +83,8 @@ spec:
 
     - name: git-repo-url
       value: git-repo-url
+    - name: git-repo-ssh-url
+      value: git-repo-ssh-url
     - name: git-repo-full-name
       value: git-repo-full-name
     - name: git-repo-open-issues-count
