@@ -1,0 +1,93 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: prr--repo-binding
+spec:
+  params:
+    - name: git-event-action
+      value: $(body.action)
+
+    - name: git-review-user
+      value: $(body.review.user.login)
+    - name: git-review-author-association
+      value: $(body.review.author_association)
+    - name: git-review-url
+      value: $(body.review._links.html.href)
+    - name: git-review-pr
+      value: $(body.review._links.pull_request.href)
+    - name: git-review-body
+      value: $(body.review.body)
+    - name: git-review-commit-id
+      value: $(body.review.commit_id)
+    - name: git-review-state
+      value: $(body.review.state)
+
+    - name: git-pr-number
+      value: $(body.pull_request.number)
+    - name: git-pr-url
+      value: $(body.pull_request.html_url)
+    - name: git-pr-diff-url
+      value: $(body.pull_request.diff_url)
+    - name: git-pr-state
+      value: $(body.pull_request.state)
+    - name: git-pr-locked
+      value: $(body.pull_request.locked)
+    - name: git-pr-title
+      value: $(body.pull_request.title)
+    - name: git-pr-body
+      value: $(body.pull_request.body)
+    - name: git-pr-user
+      value: $(body.pull_request.user.login)
+    - name: git-pr-assignees
+      value: $(body.pull_request.assignees)
+
+    - name: git-pr-head-branch
+      value: $(body.pull_request.head.ref)
+    - name: git-pr-head-sha
+      value: $(body.pull_request.head.sha)
+    - name: git-pr-head-repo-name
+      value: $(body.pull_request.head.repo.name)
+    - name: git-pr-head-repo-full-name
+      value: $(body.pull_request.head.repo.full_name)
+    - name: git-pr-head-repo-url
+      value: $(body.pull_request.head.repo.url)
+
+    - name: git-pr-base-branch
+      value: $(body.pull_request.base.ref)
+    - name: git-pr-base-sha
+      value: $(body.pull_request.base.sha)
+    - name: git-pr-base-repo-name
+      value: $(body.pull_request.base.repo.name)
+    - name: git-pr-base-repo-full-name
+      value: $(body.pull_request.base.repo.full_name)
+    - name: git-pr-base-repo-url
+      value: $(body.pull_request.base.repo.url)
+
+    - name: git-pr-links-self
+      value: $(body.pull_request._links.self.href)
+    - name: git-pr-links-issue
+      value: $(body.pull_request._links.issue.href)
+    - name: git-pr-links-comments
+      value: $(body.pull_request._links.comments.href)
+    - name: git-pr-links-review-comments
+      value: $(body.pull_request._links.review_comments.href)
+    - name: git-pr-links-commits
+      value: $(body.pull_request._links.commits.href)
+    - name: git-pr-links-statuses
+      value: $(body.pull_request._links.statuses.href)
+
+    - name: git-sender
+      value: $(body.sender.login)
+
+    - name: git-repo-full-name
+      value: $(body.repository.full_name)
+    - name: git-repo-name
+      value: $(body.repository.name)
+    - name: git-repo-url
+      value: $(body.repository.html_url)
+    - name: git-repo-ssh-url
+      value: $(body.repository.ssh_url)
+    - name: git-repo-open-issues-count
+      value: $(body.repository.open_issues_count)
+    - name: git-repo-default-branch
+      value: $(body.repository.default_branch)

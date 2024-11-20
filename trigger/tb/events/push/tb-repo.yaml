@@ -1,0 +1,27 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: push--repo-binding
+spec:
+  params:
+    - name: git-info-pusher
+      value: $(body.pusher.name)
+    - name: git-info-compare-url
+      value: $(body.compare)
+    - name: git-head-revision
+      value: $(body.head_commit.id)
+    - name: git-head-committer
+      value: $(body.head_commit.committer.name)
+
+    - name: git-repo-full-name
+      value: $(body.repository.full_name)
+    - name: git-repo-name
+      value: $(body.repository.name)
+    - name: git-repo-url
+      value: $(body.repository.html_url)
+    - name: git-repo-ssh-url
+      value: $(body.repository.ssh_url)
+    - name: git-repo-open-issues-count
+      value: $(body.repository.open_issues_count)
+    - name: git-repo-default-branch
+      value: $(body.repository.default_branch)

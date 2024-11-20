@@ -1,0 +1,16 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: push--cel-ext-binding
+spec:
+  params:
+    - name: git-info-branch
+      value: $(extensions.branch_name)
+    - name: changed-files
+      value: $(extensions.changed_files)
+    - name: short-sha
+      value: $(extensions.short_sha)
+    - name: commit-msg
+      value: $(extensions.commit_msg)
+    - name: create-pr
+      value: $(extensions.create_pr_requested)

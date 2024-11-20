@@ -1,0 +1,52 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: ic--repo-binding
+spec:
+  params:
+    - name: git-event-action
+      value: $(body.action)
+
+    - name: git-issue-url
+      value: $(body.issue.html_url)
+    - name: git-issue-number
+      value: $(body.issue.number)
+    - name: git-issue-title
+      value: $(body.issue.title)
+    - name: git-issue-user
+      value: $(body.issue.user.login)
+    - name: git-issue-body
+      value: $(body.issue.body)
+    - name: git-issue-state
+      value: $(body.issue.state)
+    - name: git-issue-locked
+      value: $(body.issue.locked)
+    - name: git-issue-pr-url
+      value: $(body.issue.pull_request.html_url)
+    - name: git-issue-pr-diff-url
+      value: $(body.issue.pull_request.diff_url)
+
+    - name: git-comment-url
+      value: $(body.comment.html_url)
+    - name: git-comment-user
+      value: $(body.comment.user.login)
+    - name: git-comment-author-association
+      value: $(body.comment.author_association)
+    - name: git-comment-body
+      value: $(body.comment.body)
+
+    - name: git-sender
+      value: $(body.sender.login)
+
+    - name: git-repo-full-name
+      value: $(body.repository.full_name)
+    - name: git-repo-name
+      value: $(body.repository.name)
+    - name: git-repo-url
+      value: $(body.repository.html_url)
+    - name: git-repo-ssh-url
+      value: $(body.repository.ssh_url)
+    - name: git-repo-open-issues-count
+      value: $(body.repository.open_issues_count)
+    - name: git-repo-default-branch
+      value: $(body.repository.default_branch)
