@@ -1,0 +1,33 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: Trigger
+metadata:
+  name: trigger-prr-0-ed
+  labels:
+    event-type: pull_request_review
+    event-action: edited
+spec:
+  interceptors:
+    - name: "CEL filter: only when pull request reviews are edited"
+      ref:
+        name: "cel"
+      params:
+      - name: "filter"
+        value: "body.action in ['edited']"
+
+    - name: "Check if test run requested"
+      ref:
+        name: cel
+      params:
+      - name: filter
+        value: "body.review.body.trim().endsWith('/ok-to-test')"
+
+  bindings:
+  - ref: common--event-binding
+  - ref: common--message-binding
+  - ref: common--env-staging-binding
+  - ref: prr--repo-binding
+
+  template:
+    ref: ci-trigger-template-prr
+    # ref: ci-trigger-template-pr
+    # ref: pr-template-test

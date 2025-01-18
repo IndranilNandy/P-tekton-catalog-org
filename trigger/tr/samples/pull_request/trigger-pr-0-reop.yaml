@@ -1,0 +1,32 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: Trigger
+metadata:
+  name: trigger-pr-0-reop
+  labels:
+    event-type: pull_request
+    event-action: reopened
+spec:
+  interceptors:
+    - name: "CEL filter: only when PRs are opened"
+      ref:
+        name: "cel"
+      params:
+      - name: "filter"
+        value: "body.action in ['reopened']"
+    - ref:
+        name: "cel"
+      params:
+        - name: "filter"
+          value: "header.match('X-GitHub-Event', 'pull_request')"
+        - name: "overlays"
+          value:
+            - key: extensions.truncated_sha
+              expression: "body.pull_request.head.sha.truncate(7)"
+  bindings:
+  - ref: common--event-binding
+  - ref: common--message-binding
+  - ref: common--env-staging-binding
+  - ref: pr--repo-binding
+
+  template:
+    ref: ci-trigger-template-pr

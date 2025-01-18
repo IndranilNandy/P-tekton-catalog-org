@@ -1,0 +1,62 @@
+apiVersion: triggers.tekton.dev/v1beta1
+# apiVersion: triggers.tekton.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: trigger-push-0
+  labels:
+    event-type: push
+
+spec:
+  interceptors:
+    - name: "Extracts repo information"
+      ref:
+        name: cel
+      params:
+      - name: "overlays"
+        value:
+        - key: short_sha
+          expression: "body.head_commit.id.truncate(7)"
+        - key: branch_name
+          expression: "body.ref.split('/')[2]"
+        - key: commit_msg
+          expression: "body.head_commit.message"
+        - key: create_pr_requested
+          expression: body.head_commit.message.contains('/ok-to-create-pr')
+
+    - name: "Accept push triggers only for certain branches"
+      ref:
+        name: cel
+      params:
+      - name: "filter"
+        value: "extensions.branch_name in ['dev']"
+
+    - name: "Extract the changed files first"
+      ref:
+        name: "github"
+      params:
+      - name: "addChangedFiles"
+        value:
+          enabled: true
+          personalAccessToken:
+            secretName: repo-pat-secret
+            secretKey: repoPAT
+
+    - name: "Check if the changed files require the Pipeline to be triggered"
+      ref:
+        name: cel
+      params:
+      - name: filter
+        # execute only when a file within the controllers directory has changed
+        value: extensions.changed_files.matches('src/') || extensions.changed_files.matches('docker/')
+
+  bindings:
+    - ref: common--message-binding
+    - ref: common--event-binding
+    - ref: common--env-staging-binding
+    - ref: push--cel-ext-binding
+    - ref: push--repo-binding
+
+  template:
+    # ref: ci-trigger-template
+    ref: ci-trigger-template-push
+    # ref: ic-template-test

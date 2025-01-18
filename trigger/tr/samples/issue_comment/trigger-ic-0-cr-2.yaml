@@ -1,0 +1,53 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: Trigger
+metadata:
+  name: trigger-ic-0-cr-2
+  labels:
+    event-type: issue_comment
+    event-action: created
+    author-assoc: collaborator
+spec:
+  interceptors:
+    - name: "CEL filter: only when issue comments are created"
+      ref:
+        name: "cel"
+      params:
+      - name: "filter"
+        value: "body.action in ['created']"
+
+    - name: "CEL filter: Only commented by COLLABORATOR"
+      ref:
+        name: "cel"
+      params:
+      - name: "filter"
+        value: "body.comment.author_association in ['COLLABORATOR']"
+
+    - name: "Check if test run requested"
+      ref:
+        name: cel
+      params:
+      - name: filter
+        value: "body.comment.body.trim().endsWith('/ok-to-test')"
+
+    # This is commented out as of now, since we are doing it explicitly (and customized) above
+    # - name: "validate GitHub payload and filter on eventType"
+    #   ref:
+    #     name: "github"
+    #   params:
+    #   - name: "githubOwners"
+    #     value:
+    #       enabled: true
+    #       personalAccessToken:
+    #         secretName: repo-pat-secret
+    #         secretKey: repoPAT
+    #       checkType: none
+
+  bindings:
+  - ref: common--event-binding
+  - ref: common--message-binding
+  - ref: common--env-staging-binding
+  - ref: ic--repo-binding
+
+  template:
+    ref: ci-trigger-template-ic
+    # ref: ic-template-test
