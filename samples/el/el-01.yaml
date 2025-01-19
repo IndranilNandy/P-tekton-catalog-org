@@ -1,0 +1,110 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: ci-eventlistener
+spec:
+  serviceAccountName: ci-tekton-triggers-sa
+  resources:
+    kubernetesResource:
+      serviceType: NodePort
+  triggerGroups:
+
+    # Push event Group
+    - name: github-push
+      interceptors:
+        - name: "validate GitHub payload and filter on eventType"
+          ref:
+            name: "github"
+          params:
+          - name: "secretRef"
+            value:
+              secretName: webhook-secret
+              secretKey: webhookSecretToken
+          - name: "eventTypes"
+            value:
+              - "push"
+
+      triggerSelector:
+        namespaceSelector:
+          matchNames:
+            - "*"
+        labelSelector:
+          matchExpressions:
+            - { key: event-type, operator: In, values: [push] }
+
+    # PR event Group
+    - name: github-pr
+      interceptors:
+        - name: "validate GitHub payload and filter on eventType"
+          ref:
+            name: "github"
+          params:
+          - name: "secretRef"
+            value:
+              secretName: webhook-secret
+              secretKey: webhookSecretToken
+          - name: "eventTypes"
+            value:
+              - "pull_request"
+
+      triggerSelector:
+        namespaceSelector:
+          matchNames:
+            - "*"
+        labelSelector:
+          matchExpressions:
+            - { key: event-type, operator: In, values: [pull_request] }
+            - { key: event-action, operator: In, values: [opened, reopened] }
+
+    # Issue-comments event Group
+    - name: github-issue-comments
+      interceptors:
+        - name: "validate GitHub payload and filter on eventType"
+          ref:
+            name: "github"
+          params:
+          - name: "secretRef"
+            value:
+              secretName: webhook-secret
+              secretKey: webhookSecretToken
+          - name: "eventTypes"
+            value:
+              - "issue_comment"
+
+
+      triggerSelector:
+        namespaceSelector:
+          matchNames:
+            - "*"
+        labelSelector:
+          matchExpressions:
+            - { key: event-type, operator: In, values: [issue_comment] }
+            - { key: author-assoc, operator: In, values: [owner, collaborator] }
+
+    # Pull-request-review event Group
+    - name: github-pull-request-review
+      interceptors:
+        - name: "validate GitHub payload and filter on eventType"
+          ref:
+            name: "github"
+          params:
+          - name: "secretRef"
+            value:
+              secretName: webhook-secret
+              secretKey: webhookSecretToken
+          - name: "eventTypes"
+            value:
+              - "pull_request_review"
+
+      triggerSelector:
+        namespaceSelector:
+          matchNames:
+            - "*"
+        labelSelector:
+          matchExpressions:
+            - { key: event-type, operator: In, values: [pull_request_review] }
+            - { key: event-action, operator: In, values: [submitted, edited] }
+
+  # Would be deprecated when using triggerGroups
+  # triggers:
+  #   - triggerRef: push-trigger
