@@ -4,7 +4,7 @@
 # kubectl patch -n tekton-pipelines configmaps feature-flags --patch-file patch_files/default/feature-flags-default.yaml
 
 kubectl patch -n tekton-pipelines configmaps feature-flags --patch-file /tmp/feature-flags-original.yaml
-kubectl patch -n tekton-pipelines configmaps git-resolver-config --patch-file /tmp/git-resolver-config-original.yaml
+kubectl patch -n tekton-pipelines-resolvers configmaps git-resolver-config --patch-file /tmp/git-resolver-config-original.yaml
 
 rm /tmp/feature-flags-original.yaml
 rm /tmp/git-resolver-config-original.yaml

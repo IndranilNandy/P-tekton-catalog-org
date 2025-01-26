@@ -112,13 +112,15 @@ spec:
       image: $(params.GRADLE_IMAGE)
       env:
         - name: GRADLE_USER_HOME
-          value: "/home/gradle"
+          value: $(params.E_GRADLE_USER_HOME)
+          # value: "/home/gradle"
       workingDir: $(workspaces.source.path)/$(params.PROJECT_DIR)
       args:
         - "$(params.TASKS)"
       script: |
         #!/usr/bin/env bash
         whoami
+        echo -e "Debug line: HOME > $GRADLE_USER_HOME"
         if [[ "$(workspaces.gradle-config.bound)" == "true" ]]; then
           echo "gradle-config workspace is bound"
           if [[ -f $(workspaces.gradle-config.path)/gradle.properties ]]; then
