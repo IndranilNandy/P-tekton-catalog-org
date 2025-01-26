@@ -124,8 +124,8 @@ spec:
         if [[ "$(workspaces.gradle-config.bound)" == "true" ]]; then
           echo "gradle-config workspace is bound"
           if [[ -f $(workspaces.gradle-config.path)/gradle.properties ]]; then
-            echo "copying gradle.properties to /home/gradle"
-            cp "$(workspaces.gradle-config.path)/gradle.properties" /home/gradle
+            echo "copying gradle.properties to $GRADLE_USER_HOME"
+            cp "$(workspaces.gradle-config.path)/gradle.properties" "$GRADLE_USER_HOME"
           fi
         fi
 
