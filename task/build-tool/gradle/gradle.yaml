@@ -119,8 +119,8 @@ spec:
         - "$(params.TASKS)"
       script: |
         #!/usr/bin/env bash
-        whoami
-        echo -e "Debug line: HOME > $GRADLE_USER_HOME"
+        echo -e "User: $(whoami)"
+        echo -e "GRADLE_USER_HOME: $GRADLE_USER_HOME"
         if [[ "$(workspaces.gradle-config.bound)" == "true" ]]; then
           echo "gradle-config workspace is bound"
           if [[ -f $(workspaces.gradle-config.path)/gradle.properties ]]; then
