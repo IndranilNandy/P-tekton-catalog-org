@@ -35,7 +35,7 @@ spec:
     # For kaniko task
     - name: kaniko
       value:
-        image: "devbox6:8097/indranilnandy/appdemo2"
+        image: "nexus.repo.dev:8097/indranilnandy/appdemo2"
         dockerfile: "./docker/copy_build_binary_from_ws.Dockerfile"
         # dockerfile: ./docker/primary.Dockerfile
         # dockerfile: ./docker/primary-kaniko-compact.Dockerfile
