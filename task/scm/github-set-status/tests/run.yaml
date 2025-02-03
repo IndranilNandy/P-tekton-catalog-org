@@ -24,9 +24,11 @@ spec:
           - name: STATE
             value: success
           - name: GITHUB_TOKEN_SECRET_NAME
-            value: github-open-pr-secret
+            # value: github-open-pr-secret
+            value: gh-indranilnandy-demo-app-to-test-pipeline-commit-status-write-pat
           - name: GITHUB_TOKEN_SECRET_KEY
-            value: prSecretToken
+            # value: prSecretToken
+            value: tokenKey
           - name: CONTEXT
             value: "catalog-task-test-github-set-status"
         taskRef:
