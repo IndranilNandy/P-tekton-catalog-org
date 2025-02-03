@@ -18,4 +18,4 @@ while IFS= read -u 4 -r line; do
     read -p "Enter the PAT: " token
     GITHUB_PAT="$token"
     kubectl create secret generic "$pat_name" --from-literal=tokenKey=$GITHUB_PAT
-done 4< <(grep -v "^$" "$req_perms_file" | grep -v " *#")
+done 4< <(grep -v "^$" "$req_perms_file" | grep -v "^ *#")
