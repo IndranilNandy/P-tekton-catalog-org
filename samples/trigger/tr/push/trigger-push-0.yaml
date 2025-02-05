@@ -38,8 +38,8 @@ spec:
         value:
           enabled: true
           personalAccessToken:
-            secretName: repo-pat-secret
-            secretKey: repoPAT
+            secretName: gh-indranilnandy-demo-app-to-test-pipeline-content-read-pat
+            secretKey: tokenKey
 
     - name: "Check if the changed files require the Pipeline to be triggered"
       ref:

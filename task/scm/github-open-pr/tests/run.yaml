@@ -28,7 +28,7 @@ spec:
       value: IndranilNandy/demo-app-to-test-pipeline
       # value: "$(params.repo)"
     - name: GITHUB_TOKEN_SECRET_NAME
-      value: gh-indranilnandy-demo-app-to-test-pipeline-pull-request-write-pat
+      value: gh-indranilnandy-demo-app-to-test-pipeline-code-read-pull-request-write-pat
       # value: github-open-pr-secret
       # value: "$(params.github-token-secret-name)"
     - name: GITHUB_TOKEN_SECRET_KEY

@@ -37,8 +37,8 @@ spec:
       value:
         github-host-url: "api.github.com"
         repo-full-name: "IndranilNandy/demo-app-to-test-pipeline"
-        github-token-secret-name: github-open-pr-secret
-        github-token-secret-key: prSecretToken
+        github-token-secret-name: gh-indranilnandy-demo-app-to-test-pipeline-code-read-pull-request-write-pat
+        github-token-secret-key: tokenKey
         head: dev
         base: master
         title: "Pull request default title"
