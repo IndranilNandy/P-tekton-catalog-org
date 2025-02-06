@@ -5,6 +5,33 @@ metadata:
 spec:
   pipelineSpec:
     tasks:
+      - name: github-open-pr
+        params:
+          - name: GITHUB_HOST_URL
+            value: api.github.com
+          - name: REPO_FULL_NAME
+            value: IndranilNandy/demo-app-to-test-pipeline
+          - name: GITHUB_TOKEN_SECRET_NAME
+            value: gh-indranilnandy-demo-app-to-test-pipeline-code-read-pull-request-write-pat
+          - name: GITHUB_TOKEN_SECRET_KEY
+            value: tokenKey
+          - name: HEAD
+            value: dev
+          - name: BASE
+            value: master
+          - name: TITLE
+            value: "test pr"
+          - name: BODY
+            value: "no body"
+
+        taskRef:
+          resolver: git
+          params:
+            - name: repo
+              value: P-tekton-catalog-org
+            - name: pathInRepo
+              value: task/scm/github-open-pr/github-open-pr.yaml
+
       - name: github-set-status
         params:
           - name: GITHUB_HOST_URL
@@ -14,9 +41,7 @@ spec:
             value: IndranilNandy/demo-app-to-test-pipeline
             # value: tektoncd/catalog
           - name: SHA
-            # value: f1dca32ca5cef8f26611f628ab7b7770f52d72d2
-            # value: 175fb95c4ed477ce8350e4d26b1ca0fc26b89aa0
-            value: b4cdc1ecadc8cc9173ce8d539528dd9d0b4c90ac
+            value: "$(tasks.github-open-pr.results.E_HEAD_SHA)"
           - name: TARGET_URL
             value: http://localhost:8080/this-could-be-your-pipeline-dashboard
           - name: DESCRIPTION
