@@ -54,10 +54,10 @@ spec:
       type: object
       description: all debug switches and properties
       properties:
-        clone-source-repo-disabled:
+        set-github-status-pr-created-disabled:
           type: string
-        build-test-publish-artifacts-disabled:
-          type: string
+        # build-test-publish-artifacts-disabled:
+        #   type: string
       default:
         set-github-status-pr-created-disabled: "false"
         # build-test-publish-artifacts-disabled: "false"
