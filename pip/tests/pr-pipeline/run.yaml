@@ -18,7 +18,8 @@ spec:
         repo-full-name: "IndranilNandy/demo-app-to-test-pipeline"
         github-token-secret-name: gh-indranilnandy-demo-app-to-test-pipeline-commit-status-write-pat
         github-token-secret-key: tokenKey
-        sha: dev
+        # sha: dev
+        sha: 559debcd6ff6ac6aa6e38e84377259d5642afca6
         description: "PR pipeline"
         context: "pr/ci"
         TEKTON_DASHBOARD_HOST: "http://localhost:8093"
