@@ -100,11 +100,11 @@ spec:
         value: "$(params.github-set-status.TEKTON_DASHBOARD_HOST)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
         # value: "$(params.github-set-status.target-url)"
       - name: DESCRIPTION
-        value: "$(params.github-set-status.description)"
+        value: "PR raised. Pending: build/test"
       - name: CONTEXT
         value: "$(params.github-set-status.context)"
       - name: STATE
-        value: "$(params.github-set-status.state)"
+        value: "pending"
       - name: AUTH_TYPE
         value: "$(params.github-set-status.auth-type)"
       - name: IMAGE
