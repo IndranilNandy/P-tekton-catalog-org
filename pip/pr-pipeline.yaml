@@ -1,0 +1,108 @@
+# apiVersion: tekton.dev/v1
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: pr-pipeline
+spec:
+  params:
+    # github-set-status commons
+    - name: github-set-status
+      type: object
+      properties:
+        github-host-url:
+          type: string
+        api-path-prefix:
+          type: string
+        repo-full-name:
+          type: string
+        github-token-secret-name:
+          type: string
+        github-token-secret-key:
+          type: string
+        sha:
+          type: string
+        target-url:
+          type: string
+        description:
+          type: string
+        context:
+          type: string
+        state:
+          type: string
+        auth-type:
+          type: string
+        image:
+          type: string
+        shebang:
+          type: string
+        TEKTON_DASHBOARD_HOST:
+          type: string
+      default:
+        github-host-url: "api.github.com"
+        api-path-prefix: ""
+        description: "PR pipeline: Tasks should set the description individually"
+        context: "pr/ci"
+        state: "PR pipeline: Tasks should set the state individually"
+        auth-type: "Bearer"
+        image: "python:3.10.1-alpine3.15"
+        shebang: /usr/bin/env python
+        TEKTON_DASHBOARD_HOST: "http://localhost:8090"
+        # target-url: "$(params.github-set-status.TEKTON_DASHBOARD_HOST)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
+
+      # Debugging purpose
+    - name: debug
+      type: object
+      description: all debug switches and properties
+      properties:
+        clone-source-repo-disabled:
+          type: string
+        build-test-publish-artifacts-disabled:
+          type: string
+      default:
+        set-github-status-pr-created-disabled: "false"
+        # build-test-publish-artifacts-disabled: "false"
+
+  tasks:
+    - name: pipeline-ctx
+      taskSpec:
+          steps:
+            - name: ctx
+              image: mirror.gcr.io/ubuntu
+              script: |
+                echo "Pipeline: $(context.pipeline.name)"
+                echo "PipelineRun: $(context.pipelineRun.name)"
+                echo "PipelineRun uid: $(context.pipelineRun.uid)"
+                echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
+
+    - name: set-github-status-pr-created
+      taskRef:
+        name: github-set-status-mytask
+
+      params:
+      - name: GITHUB_HOST_URL
+        value: "$(params.github-set-status.github-host-url)"
+      - name: API_PATH_PREFIX
+        value: "$(params.github-set-status.api-path-prefix)"
+      - name: REPO_FULL_NAME
+        value: "$(params.github-set-status.repo-full-name)"
+      - name: GITHUB_TOKEN_SECRET_NAME
+        value: "$(params.github-set-status.github-token-secret-name)"
+      - name: GITHUB_TOKEN_SECRET_KEY
+        value: "$(params.github-set-status.github-token-secret-key)"
+      - name: SHA
+        value: "$(params.github-set-status.sha)"
+      - name: TARGET_URL
+        value: "$(params.github-set-status.TEKTON_DASHBOARD_HOST)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
+        # value: "$(params.github-set-status.target-url)"
+      - name: DESCRIPTION
+        value: "$(params.github-set-status.description)"
+      - name: CONTEXT
+        value: "$(params.github-set-status.context)"
+      - name: STATE
+        value: "PR raised. Pending: build/test"
+      - name: AUTH_TYPE
+        value: "$(params.github-set-status.auth-type)"
+      - name: IMAGE
+        value: "$(params.github-set-status.image)"
+      - name: SHEBANG
+        value: "$(params.github-set-status.shebang)"
