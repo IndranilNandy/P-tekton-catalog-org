@@ -104,7 +104,7 @@ spec:
       - name: CONTEXT
         value: "$(params.github-set-status.context)"
       - name: STATE
-        value: "PR raised. Pending: build/test"
+        value: "$(params.github-set-status.state)"
       - name: AUTH_TYPE
         value: "$(params.github-set-status.auth-type)"
       - name: IMAGE
