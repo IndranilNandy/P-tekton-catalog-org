@@ -42,6 +42,7 @@ spec:
         api-path-prefix: ""
         description: "PR pipeline: Tasks should set the description individually"
         context: "pr/ci"
+        # Valid values for state: One of failure/pending/success
         state: "pending"
         auth-type: "Bearer"
         image: "python:3.10.1-alpine3.15"
@@ -97,14 +98,14 @@ spec:
       - name: SHA
         value: "$(params.github-set-status.sha)"
       - name: TARGET_URL
-        value: "$(params.github-set-status.TEKTON_DASHBOARD_HOST)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
-        # value: "$(params.github-set-status.target-url)"
+        # value: "$(params.github-set-status.TEKTON_DASHBOARD_HOST)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
+        value: "$(params.github-set-status.target-url)"
       - name: DESCRIPTION
         value: "PR raised. Pending: build/test"
       - name: CONTEXT
         value: "$(params.github-set-status.context)"
       - name: STATE
-        value: "pending"
+        value: "success"
       - name: AUTH_TYPE
         value: "$(params.github-set-status.auth-type)"
       - name: IMAGE
