@@ -64,10 +64,9 @@ spec:
     #     secretName: git-creds-ssh-secret-3
 
   pipelineRef:
-    name: catalog-pr-pipeline-prereq-provider
-    # resolver: git
-    # params:
-    #   - name: repo
-    #     value: P-tekton-catalog-org
-    #   - name: pathInRepo
-    #     value: pip/pr-pipeline.yaml
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: pip/pr-pipeline.yaml
