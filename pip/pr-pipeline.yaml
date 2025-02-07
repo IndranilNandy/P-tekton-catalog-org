@@ -47,7 +47,7 @@ spec:
         image: "python:3.10.1-alpine3.15"
         shebang: /usr/bin/env python
         TEKTON_DASHBOARD_HOST: "http://localhost:8090"
-        # target-url: "$(params.github-set-status.TEKTON_DASHBOARD_HOST)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
+        target-url: "$(params.github-set-status.TEKTON_DASHBOARD_HOST)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
 
       # Debugging purpose
     - name: debug
