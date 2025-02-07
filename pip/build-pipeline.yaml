@@ -78,7 +78,7 @@ spec:
           type: string
       default:
         gradle-image: "gradle:8.7.0-jdk17"
-        project-dir:  "."
+        project-dir: "."
         # tasks:
         #   - "build"
         gradle-user-home: "/home/gradle"
@@ -88,7 +88,7 @@ spec:
       default:
         - build
 
-    # github-open-pr commons
+    # For github-open-pr
     - name: github-open-pr
       type: object
       properties:
@@ -184,14 +184,14 @@ spec:
   tasks:
     - name: pipeline-ctx
       taskSpec:
-          steps:
-            - name: ctx
-              image: mirror.gcr.io/ubuntu
-              script: |
-                echo "Pipeline: $(context.pipeline.name)"
-                echo "PipelineRun: $(context.pipelineRun.name)"
-                echo "PipelineRun uid: $(context.pipelineRun.uid)"
-                echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
+        steps:
+          - name: ctx
+            image: mirror.gcr.io/ubuntu
+            script: |
+              echo "Pipeline: $(context.pipeline.name)"
+              echo "PipelineRun: $(context.pipelineRun.name)"
+              echo "PipelineRun uid: $(context.pipelineRun.uid)"
+              echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
 
     - name: clone-source-repo
       when:

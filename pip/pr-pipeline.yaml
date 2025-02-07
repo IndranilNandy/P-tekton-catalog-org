@@ -35,22 +35,34 @@ spec:
           type: string
         shebang:
           type: string
-        TEKTON_DASHBOARD_HOST:
-          type: string
+        # TEKTON_DASHBOARD_HOST:
+        #   type: string
       default:
         github-host-url: "api.github.com"
         api-path-prefix: ""
         description: "PR pipeline: Tasks should set the description individually"
-        context: "pr/ci"
+        context: "ci/pr"
         # Valid values for state: One of failure/pending/success
         state: "pending"
         auth-type: "Bearer"
         image: "python:3.10.1-alpine3.15"
         shebang: /usr/bin/env python
-        TEKTON_DASHBOARD_HOST: "http://localhost:8090"
-        target-url: "$(params.github-set-status.TEKTON_DASHBOARD_HOST)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
+        # TEKTON_DASHBOARD_HOST: "http://localhost:8090"
+        target-url: "$(params.common.tekton-dashboard)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
 
-      # Debugging purpose
+    # Pipeline commons
+    - name: common
+      type: object
+      properties:
+        tekton-dashboard:
+          type: string
+        # create-pr:
+        #   type: string
+      default:
+        tekton-dashboard: "http://localhost:8090"
+        # create-pr: "false"
+
+    # Debugging purpose
     - name: debug
       type: object
       description: all debug switches and properties
@@ -105,7 +117,7 @@ spec:
       - name: CONTEXT
         value: "$(params.github-set-status.context)"
       - name: STATE
-        value: "success"
+        value: "pending"
       - name: AUTH_TYPE
         value: "$(params.github-set-status.auth-type)"
       - name: IMAGE
