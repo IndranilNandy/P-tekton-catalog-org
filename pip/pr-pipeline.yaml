@@ -76,7 +76,12 @@ spec:
 
     - name: set-github-status-pr-created
       taskRef:
-        name: github-set-status-mytask
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/scm/github-set-status/github-set-status.yaml
 
       params:
       - name: GITHUB_HOST_URL
