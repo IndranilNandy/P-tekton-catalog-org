@@ -11,6 +11,11 @@ kubectl apply -f resources.yaml
     # echo "echo -e \"$(cat docker-credentials-generic.sh.yaml)\"" | bash | kubectl apply -f -
 )
 
+# kubectl apply -f serviceaccount.yaml
+# # kubectl apply -f ../../pr-pipeline.yaml
+# # kubectl apply -f prereq-provider.yaml
+# kubectl create -f run1.yaml
+
 kubectl apply -f serviceaccount.yaml
 kubectl apply -f ../../pr-pipeline.yaml
 kubectl apply -f prereq-provider.yaml

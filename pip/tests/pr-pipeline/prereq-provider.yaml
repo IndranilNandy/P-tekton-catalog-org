@@ -5,6 +5,34 @@ metadata:
 spec:
   params:
 
+    - name: github-open-pr
+      type: object
+      properties:
+        github-host-url:
+          type: string
+        api-path-prefix:
+          type: string
+        repo-full-name:
+          type: string
+        github-token-secret-name:
+          type: string
+        github-token-secret-key:
+          type: string
+        auth-type:
+          type: string
+        head:
+          type: string
+        base:
+          type: string
+        body:
+          type: string
+        title:
+          type: string
+      default:
+        github-host-url: "api.github.com"
+        api-path-prefix: ""
+        auth-type: "Bearer"
+
     # github-set-status commons
     - name: github-set-status
       type: object
@@ -72,6 +100,33 @@ spec:
         # build-test-publish-artifacts-disabled: "false"
 
   tasks:
+    - name: create-pr
+      params:
+        - name: GITHUB_HOST_URL
+          value: "$(params.github-open-pr.github-host-url)"
+        - name: REPO_FULL_NAME
+          value: "$(params.github-open-pr.repo-full-name)"
+        - name: GITHUB_TOKEN_SECRET_NAME
+          value: "$(params.github-open-pr.github-token-secret-name)"
+        - name: GITHUB_TOKEN_SECRET_KEY
+          value: "$(params.github-open-pr.github-token-secret-key)"
+        - name: HEAD
+          value: "$(params.github-open-pr.head)"
+        - name: BASE
+          value: "$(params.github-open-pr.base)"
+        - name: TITLE
+          value: "$(params.github-open-pr.title)"
+        - name: BODY
+          value: "$(params.github-open-pr.body)"
+
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/scm/github-open-pr/github-open-pr.yaml
+
     - name: pr-pipeline
       params:
         # For github-set-status task
