@@ -85,6 +85,11 @@ spec:
                 echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
 
     - name: set-github-status-pr-created
+      when:
+        - input: "$(params.debug.set-github-status-pr-created-disabled)"
+          operator: in
+          values:
+            - "false"
       taskRef:
         resolver: git
         params:

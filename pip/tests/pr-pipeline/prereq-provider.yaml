@@ -6,6 +6,7 @@ metadata:
 spec:
   params:
 
+    # For github-open-pr
     - name: github-open-pr
       type: object
       properties:
@@ -34,7 +35,7 @@ spec:
         api-path-prefix: ""
         auth-type: "Bearer"
 
-    # github-set-status commons
+    # For github-set-status
     - name: github-set-status
       type: object
       properties:
@@ -129,6 +130,15 @@ spec:
             value: task/scm/github-open-pr/github-open-pr.yaml
 
     - name: pr-pipeline
+      # when:
+        # - input: "$(steps.create-pr.exitCode.path)"
+        #   operator: in
+        #   values:
+        #     - "Succeeded"
+        # - input: "$(tasks.create-pr.status)"
+        #   operator: in
+        #   values:
+        #     - "Succeeded"
       params:
         # For github-set-status task
         - name: github-set-status
