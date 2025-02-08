@@ -1,4 +1,5 @@
 apiVersion: tekton.dev/v1
+# apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: catalog-pr-pipeline-prereq-provider
@@ -137,7 +138,8 @@ spec:
             github-token-secret-name: "$(params.github-set-status.github-token-secret-name)"
             github-token-secret-key: "$(params.github-set-status.github-token-secret-key)"
             # sha: dev
-            sha: "$(params.github-set-status.sha)"
+            # sha: "$(params.github-set-status.sha)"
+            sha: "$(tasks.create-pr.results.E_HEAD_SHA)"
             description: "$(params.github-set-status.description)"
             context: "$(params.github-set-status.context)"
 
@@ -158,3 +160,6 @@ spec:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
         name: pr-pipeline
+
+      runAfter:
+        - create-pr

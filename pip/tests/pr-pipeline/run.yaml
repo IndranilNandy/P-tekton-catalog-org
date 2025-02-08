@@ -1,4 +1,5 @@
 apiVersion: tekton.dev/v1
+# apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
   generateName: catalog-pr-pipeline-r-
@@ -13,36 +14,14 @@ spec:
   params:
 
     - name: github-open-pr
-      type: object
-      properties:
-        github-host-url:
-          type: string
-        api-path-prefix:
-          type: string
-        repo-full-name:
-          type: string
-        github-token-secret-name:
-          type: string
-        github-token-secret-key:
-          type: string
-        auth-type:
-          type: string
-        head:
-          type: string
-        base:
-          type: string
-        body:
-          type: string
-        title:
-          type: string
-      default:
+      value:
         github-host-url: "api.github.com"
         api-path-prefix: ""
         repo-full-name: "IndranilNandy/demo-app-to-test-pipeline"
         github-token-secret-name: gh-indranilnandy-demo-app-to-test-pipeline-code-read-pull-request-write-pat
         github-token-secret-key: tokenKey
         auth-type: "Bearer"
-        head: "base"
+        head: "dev"
         base: "master"
         body: "Test body"
         title: "Sample PR"
