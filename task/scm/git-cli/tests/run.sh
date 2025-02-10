@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-kubectl apply -f resources.yaml
+# kubectl apply -f resources.yaml
 
 (
     cd ../../../../scripts/tests/secrets/yaml-generator

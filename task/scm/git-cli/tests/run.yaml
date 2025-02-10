@@ -22,8 +22,14 @@ spec:
 
   workspaces:
     - name: source
-      persistentVolumeClaim:
-        claimName: test-catalog-task-git-cli-pvc
+      volumeClaimTemplate:
+        spec:
+          storageClassName: k8-default-sc-with-clustered-nfs-server
+          resources:
+            requests:
+              storage: 1024Mi
+          accessModes:
+            - ReadWriteOnce
       subPath: codebase/
 
   taskRef:
