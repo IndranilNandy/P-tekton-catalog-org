@@ -1,0 +1,36 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: git-cli-run-
+spec:
+
+  serviceAccountName: test-service-account
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+
+  params:
+    - name: GIT_USER_NAME
+      value: testuser
+    - name: GIT_USER_EMAIL
+      value: test_mail@gmail.com
+    - name: GIT_SCRIPT
+      value: |
+        git clone git@github.com:IndranilNandy/demo-app-to-test-pipeline.git
+        cd demo-app-to-test-pipeline/
+        ls -alut
+
+  workspaces:
+    - name: source
+      persistentVolumeClaim:
+        claimName: test-catalog-task-git-cli-pvc
+      subPath: codebase/
+
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/git-cli/git-cli.yaml
+
