@@ -19,6 +19,10 @@ spec:
         git clone git@github.com:IndranilNandy/demo-app-to-test-pipeline.git
         cd demo-app-to-test-pipeline/
         ls -alut
+        echo -e "pull:$pull_number"
+    - name: E_SCRIPT_ARGUMENTS
+      value:
+        - pull_number=115
 
   workspaces:
     - name: source

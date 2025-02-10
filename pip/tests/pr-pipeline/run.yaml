@@ -13,6 +13,7 @@ spec:
 
   params:
 
+    # For github-open-pr task
     - name: github-open-pr
       value:
         github-host-url: "api.github.com"
@@ -37,6 +38,27 @@ spec:
         sha: 559debcd6ff6ac6aa6e38e84377259d5642afca6
         description: "PR pipeline"
         context: "ci/pr"
+
+    # For fetch-pr-merge-branch
+    - name: fetch-pr-merge-branch
+      value:
+        # base-image: cgr.dev/chainguard/git:root-2.39@sha256:7759f87050dd8bacabe61354d75ccd7f864d6b6f8ec42697db7159eccd491139
+        git-user-name: "test-user"
+        git-user-email: "test-email@gmail.com"
+        git-script: |
+            git init
+            git remote add upstream git@github.com:IndranilNandy/demo-app-to-test-pipeline.git
+            # pull_number="$x"
+            echo pull_number="$pull_number"
+            git fetch upstream refs/pull/"$pull_number"/merge:merge-"$pull_number"
+            git checkout merge-"$pull_number"
+            git branch
+            ls
+        # user-home: "/root"
+        # verbose: "true"
+    - name: fetch-pr-merge-branch-script-arguments
+      value:
+        - "pull_number=115"
 
     # For gradle task
     # - name: gradle
@@ -65,13 +87,15 @@ spec:
     # Debugging purpose
     - name: debug
       value:
+        create-pr-disabled: "false"
         set-github-status-pr-created-disabled: "false"
+        fetch-pr-merge-branch-disabled: "false"
 
   workspaces:
-    # - name: shared-workspace
-    #   persistentVolumeClaim:
-    #     claimName: test-catalog-pipeline-build-pipeline-pvc
-    #   subPath: kaniko-pipeline/
+    - name: shared-workspace
+      persistentVolumeClaim:
+        claimName: test-catalog-pipeline-pr-pipeline-pvc
+      subPath: pr-pipeline/
 
     # - name: ssh-directory
     #   secret:

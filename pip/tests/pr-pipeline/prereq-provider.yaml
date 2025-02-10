@@ -77,6 +77,34 @@ spec:
         shebang: /usr/bin/env python
         target-url: "$(params.common.tekton-dashboard)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
 
+    # For fetch-pr-merge-branch
+    - name: fetch-pr-merge-branch
+      type: object
+      properties:
+        base-image:
+          type: string
+        git-user-name:
+          type: string
+        git-user-email:
+          type: string
+        git-script:
+          type: string
+        user-home:
+          type: string
+        verbose:
+          type: string
+      default:
+        base-image: cgr.dev/chainguard/git:root-2.39@sha256:7759f87050dd8bacabe61354d75ccd7f864d6b6f8ec42697db7159eccd491139
+        git-user-name: ""
+        git-user-email: ""
+        git-script: "git help"
+        user-home: "/root"
+        verbose: "true"
+    - name: fetch-pr-merge-branch-script-arguments
+      type: array
+      default:
+        - "sample_param=sample_value"
+
     # Pipeline commons
     - name: common
       type: object
@@ -93,16 +121,27 @@ spec:
       type: object
       description: all debug switches and properties
       properties:
+        create-pr-disabled:
+          type: string
         set-github-status-pr-created-disabled:
+          type: string
+        fetch-pr-merge-branch-disabled:
           type: string
         # build-test-publish-artifacts-disabled:
         #   type: string
       default:
+        create-pr-disabled: "false"
         set-github-status-pr-created-disabled: "false"
+        fetch-pr-merge-branch-disabled: "false"
         # build-test-publish-artifacts-disabled: "false"
 
   tasks:
     - name: create-pr
+      when:
+        - input: "$(params.debug.create-pr-disabled)"
+          operator: in
+          values:
+            - "false"
       params:
         - name: GITHUB_HOST_URL
           value: "$(params.github-open-pr.github-host-url)"
@@ -152,6 +191,19 @@ spec:
             description: "$(params.github-set-status.description)"
             context: "$(params.github-set-status.context)"
 
+        # For fetch-pr-merge-branch
+        - name: fetch-pr-merge-branch
+          value:
+            base-image: "$(params.fetch-pr-merge-branch.base-image)"
+            git-user-name: "$(params.fetch-pr-merge-branch.git-user-name)"
+            git-user-email: "$(params.fetch-pr-merge-branch.git-user-email)"
+            git-script: "$(params.fetch-pr-merge-branch.git-script)"
+            user-home: "$(params.fetch-pr-merge-branch.user-home)"
+            verbose: "$(params.fetch-pr-merge-branch.verbose)"
+        - name: fetch-pr-merge-branch-script-arguments
+          value: ["$(params.fetch-pr-merge-branch-script-arguments)"]
+            # - "pull_number=115"
+
         # Pipeline commons
         - name: common
           value:
@@ -164,6 +216,7 @@ spec:
         - name: debug
           value:
             set-github-status-pr-created-disabled: "$(params.debug.set-github-status-pr-created-disabled)"
+            fetch-pr-merge-branch-disabled: "$(params.debug.fetch-pr-merge-branch-disabled)"
 
       taskRef:
         apiVersion: tekton.dev/v1beta1

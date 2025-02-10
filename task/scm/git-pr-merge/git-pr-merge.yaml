@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: git-pr-merge
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/createdby: "indranil"
+    tekton.dev/phase: "developing"
+spec:
+  description: >-
+    This task can be used to fetch the merge branch after a PR is created in github.
+
+    Git command that needs to be run can be passed as a script to
+    the task. This task needs authentication to git in order to push
+    after the git operation.
+  # params:
+  steps:
+    - name: build-sources
+      image: ubuntu
+      command:
+        - /bin/bash
+      args: ['-c', 'echo hello world']

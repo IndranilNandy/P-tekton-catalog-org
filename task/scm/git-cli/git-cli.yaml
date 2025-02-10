@@ -70,7 +70,10 @@ spec:
       default: ""
 
     - name: GIT_SCRIPT
-      description: The git script to run.
+      description: |
+        The git script to run.
+        Ensure that the arguments to the scripts are passed using E_SCRIPT_ARGUMENTS
+        REMEMBER that any argument not passed using E_SCRIPT_ARGUMENTS should NOT be used in GIT_SCRIPT
       type: string
       default: |
         git help
