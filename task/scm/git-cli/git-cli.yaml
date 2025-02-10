@@ -87,6 +87,13 @@ spec:
       type: string
       default: "true"
 
+    - name: E_SCRIPT_ARGUMENTS
+      description: |
+        List of String variable names and corresponding values to be passed to GIT_SCRIPT
+        Format: varname1=value1 varname2=value2 ...
+      type: array
+      # default:
+
   results:
     - name: commit
       description: The precise commit SHA after the git operation.
@@ -110,6 +117,8 @@ spec:
         value: $(workspaces.basic-auth.bound)
       - name: WORKSPACE_BASIC_AUTH_DIRECTORY_PATH
         value: $(workspaces.basic-auth.path)
+      args:
+        - "$(params.E_SCRIPT_ARGUMENTS)"
       script: |
         #!/usr/bin/env sh
         set -eu
@@ -134,6 +143,14 @@ spec:
         # Setting up the config for the git.
         git config --global user.email "$(params.GIT_USER_EMAIL)"
         git config --global user.name "$(params.GIT_USER_NAME)"
+
+        for x in $@; do
+            echo -e $x
+            eval $x || {
+                echo -e $x: Invalid command
+                exit 1
+            }
+        done
 
         eval '$(params.GIT_SCRIPT)'
 
