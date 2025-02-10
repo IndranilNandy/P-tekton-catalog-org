@@ -92,7 +92,15 @@ spec:
         fetch-pr-merge-branch-disabled: "false"
 
   workspaces:
-    - name: shared-workspace
+    # - name: shared-workspace
+    #   volumeClaimTemplate:
+    #     spec:
+    #       storageClassName: k8-default-sc-with-clustered-nfs-server
+    #       resources:
+    #         requests:
+    #           storage: 1024Mi
+    #       accessModes:
+    #         - ReadWriteOnce
       persistentVolumeClaim:
         claimName: test-catalog-pipeline-pr-pipeline-pvc
       subPath: pr-pipeline/

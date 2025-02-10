@@ -194,3 +194,6 @@ spec:
         - name: source
           workspace: shared-workspace
           subPath: source-code/pr-merge-branch/
+
+      runAfter:
+        - set-github-status-pr-created
