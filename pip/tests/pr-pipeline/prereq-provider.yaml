@@ -135,6 +135,12 @@ spec:
         fetch-pr-merge-branch-disabled: "false"
         # build-test-publish-artifacts-disabled: "false"
 
+  workspaces:
+    - name: shared-workspace
+
+      # workspace: shared-workspace
+      # subPath: source-code/
+
   tasks:
     - name: create-pr
       when:
@@ -222,6 +228,11 @@ spec:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
         name: pr-pipeline
+
+      workspaces:
+        - name: shared-workspace
+          workspace: shared-workspace
+          # subPath: source-code/
 
       runAfter:
         - create-pr

@@ -58,7 +58,7 @@ spec:
         # verbose: "true"
     - name: fetch-pr-merge-branch-script-arguments
       value:
-        - "pull_number=115"
+        - "pull_number=117"
 
     # For gradle task
     # - name: gradle
