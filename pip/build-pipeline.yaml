@@ -226,7 +226,7 @@ spec:
       workspaces:
         - name: output
           workspace: shared-workspace
-          subPath: "$(params.ws-path.source-code)"
+          subPath: "$(params.ws-subpath.source-code)"
           # subPath: source-code/
 
       runAfter:
@@ -262,7 +262,7 @@ spec:
       workspaces:
         - name: source
           workspace: shared-workspace
-          subPath: "$(params.ws-path.source-code)"
+          subPath: "$(params.ws-subpath.source-code)"
           # subPath: source-code/
         - name: e-gradle-user-home-cache
           workspace: shared-workspace
