@@ -189,8 +189,6 @@ spec:
             echo -e "Current dir: $(pwd)"
             git init
             git remote add upstream git@github.com:IndranilNandy/demo-app-to-test-pipeline.git
-            # pull_number="$x"
-            echo pull_number="$pull_number"
             git fetch upstream refs/pull/"$pull_number"/merge:merge-"$pull_number"
             git checkout merge-"$pull_number"
             git branch

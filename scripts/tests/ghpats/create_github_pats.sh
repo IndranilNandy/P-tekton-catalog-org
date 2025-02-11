@@ -10,7 +10,7 @@ while IFS= read -u 4 -r line; do
     pat_name=gh-"$repo_name_sanitized"-"$perm"-pat
     echo pat_name $pat_name
 
-    kubectl get secret "$pat_name" && exit 0
+    kubectl get secret "$pat_name" && continue
 
     echo -e Repo=$repo
     echo -e Required permission=$perm
