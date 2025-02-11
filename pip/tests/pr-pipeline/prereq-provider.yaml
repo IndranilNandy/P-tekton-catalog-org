@@ -239,6 +239,7 @@ spec:
             fetch-pr-merge-branch-disabled: "$(params.debug.fetch-pr-merge-branch-disabled)"
 
       taskRef:
+        # apiVersion: tekton.dev/v1
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
         name: pr-pipeline
