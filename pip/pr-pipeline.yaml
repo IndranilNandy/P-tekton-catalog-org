@@ -189,8 +189,10 @@ spec:
           value: "$(params.fetch-pr-merge-branch.git-user-email)"
         - name: GIT_SCRIPT
           value: |
-            [[ -d pr-"$pull_number" ]] && rm -rf pr-"$pull_number"
-            mkdir -p pr-"$pull_number"
+            # [[ -d pr-"$pull_number" ]] && rm -rf pr-"$pull_number"
+            # mkdir -p pr-"$pull_number"
+            [[ -d "$pr_source" ]] && rm -rf "$pr_source"
+            mkdir -p "$pr_source"
             cd pr-"$pull_number"
             echo -e "Current dir: $(pwd)"
             git init
@@ -205,7 +207,7 @@ spec:
           value: "$(params.fetch-pr-merge-branch.verbose)"
         - name: E_SCRIPT_ARGUMENTS
           # value: ["$(params.fetch-pr-merge-branch-script-arguments)"]
-          value: ["pull_number=$(params.common.pull-number)"]
+          value: ["pull_number=$(params.common.pull-number)", "pr_source=$(params.common.pr-source)"]
 
       workspaces:
         - name: source
