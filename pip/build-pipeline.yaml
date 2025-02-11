@@ -146,6 +146,7 @@ spec:
         clone-source-repo-disabled: "false"
         build-test-publish-artifacts-disabled: "false"
 
+    # Configurable sub-paths of workspaces
     - name: ws-subpath
       type: object
       description: configurable sub-paths of workspaces

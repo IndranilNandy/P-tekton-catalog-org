@@ -261,7 +261,7 @@ spec:
           value:
             # project-dir: "$(params.common.pr-source)"
             gradle-image: "$(params.pr-build-pipeline.gradle-image)"
-            project-dir: "pr-merge-branch/$(params.common.pr-source)"
+            project-dir: "$(params.common.pr-source)"
         - name: gradle-params-tasks
           value: ["$(params.pr-build-pipeline-gradle-params-tasks)"]
             # - build
@@ -300,6 +300,11 @@ spec:
             # build-test-publish-artifacts-disabled: "false"
             clone-source-repo-disabled: "true"
             build-test-publish-artifacts-disabled: "false"
+
+        # Configurable sub-paths of workspaces
+        - name: ws-subpath
+          value:
+            source-code: "source-code/pr-merge-branch/"
 
       workspaces:
         - name: shared-workspace

@@ -58,6 +58,11 @@ spec:
         clone-source-repo-disabled: "false"
         build-test-publish-artifacts-disabled: "false"
 
+    # Configurable sub-paths of workspaces
+    - name: ws-subpath
+      value:
+        source-code: "codebase/"
+
   workspaces:
     - name: shared-workspace
       persistentVolumeClaim:
