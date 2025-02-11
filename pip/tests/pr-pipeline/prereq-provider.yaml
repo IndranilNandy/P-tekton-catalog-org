@@ -111,10 +111,13 @@ spec:
       properties:
         tekton-dashboard:
           type: string
+        pull-number:
+          type: string
         # create-pr:
         #   type: string
       default:
         tekton-dashboard: "http://localhost:8090"
+        pull-number: "$(tasks.create-pr.results.NUMBER)"
 
     # Debugging purpose
     - name: debug
@@ -206,10 +209,10 @@ spec:
             git-script: "$(params.fetch-pr-merge-branch.git-script)"
             user-home: "$(params.fetch-pr-merge-branch.user-home)"
             verbose: "$(params.fetch-pr-merge-branch.verbose)"
-        - name: fetch-pr-merge-branch-script-arguments
-          # value: ["$(params.fetch-pr-merge-branch-script-arguments)"]
-          value: ["pull_number=$(tasks.create-pr.results.NUMBER)"]
-            # - "pull_number=115"
+        # - name: fetch-pr-merge-branch-script-arguments
+        #   # value: ["$(params.fetch-pr-merge-branch-script-arguments)"]
+        #   value: ["pull_number=$(tasks.create-pr.results.NUMBER)"]
+        #     # - "pull_number=115"
 
         # Pipeline commons
         - name: common

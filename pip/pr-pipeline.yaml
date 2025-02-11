@@ -81,10 +81,13 @@ spec:
       properties:
         tekton-dashboard:
           type: string
+        pull-number:
+          type: string
         # create-pr:
         #   type: string
       default:
         tekton-dashboard: "http://localhost:8090"
+        # pull-number: "$(tasks.create-pr.results.NUMBER)"
         # create-pr: "false"
 
     # Debugging purpose
@@ -198,7 +201,8 @@ spec:
         - name: VERBOSE
           value: "$(params.fetch-pr-merge-branch.verbose)"
         - name: E_SCRIPT_ARGUMENTS
-          value: ["$(params.fetch-pr-merge-branch-script-arguments)"]
+          # value: ["$(params.fetch-pr-merge-branch-script-arguments)"]
+          value: ["pull_number=$(params.common.pull-number)"]
 
       workspaces:
         - name: source
