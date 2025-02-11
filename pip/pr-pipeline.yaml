@@ -73,7 +73,9 @@ spec:
     - name: fetch-pr-merge-branch-script-arguments
       type: array
       default:
-        - "sample_param=sample_value"
+        - "pull_number=$(params.common.pull-number)"
+        - "pr_source=$(params.common.pr-source)"
+        # - "sample_param=sample_value"
 
     # Pipeline commons
     - name: common
@@ -90,7 +92,6 @@ spec:
       default:
         tekton-dashboard: "http://localhost:8090"
         pr-source: "pr-$(params.common.pull-number)"
-        # pull-number: "$(tasks.create-pr.results.NUMBER)"
         # create-pr: "false"
 
     # Debugging purpose
@@ -189,8 +190,6 @@ spec:
           value: "$(params.fetch-pr-merge-branch.git-user-email)"
         - name: GIT_SCRIPT
           value: |
-            # [[ -d pr-"$pull_number" ]] && rm -rf pr-"$pull_number"
-            # mkdir -p pr-"$pull_number"
             [[ -d "$pr_source" ]] && rm -rf "$pr_source"
             mkdir -p "$pr_source"
             cd pr-"$pull_number"
@@ -206,8 +205,8 @@ spec:
         - name: VERBOSE
           value: "$(params.fetch-pr-merge-branch.verbose)"
         - name: E_SCRIPT_ARGUMENTS
-          # value: ["$(params.fetch-pr-merge-branch-script-arguments)"]
-          value: ["pull_number=$(params.common.pull-number)", "pr_source=$(params.common.pr-source)"]
+          value: ["$(params.fetch-pr-merge-branch-script-arguments)"]
+          # value: ["pull_number=$(params.common.pull-number)", "pr_source=$(params.common.pr-source)"]
 
       workspaces:
         - name: source
