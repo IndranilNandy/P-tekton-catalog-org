@@ -241,7 +241,13 @@ spec:
       taskRef:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
-        name: pr-pipeline
+        # name: pr-pipeline
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: pip/pr-pipeline.yaml
 
       workspaces:
         - name: shared-workspace
