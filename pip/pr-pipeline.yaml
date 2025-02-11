@@ -67,7 +67,16 @@ spec:
         base-image: cgr.dev/chainguard/git:root-2.39@sha256:7759f87050dd8bacabe61354d75ccd7f864d6b6f8ec42697db7159eccd491139
         git-user-name: ""
         git-user-email: ""
-        git-script: "git help"
+        git-script: |
+          [[ -d "$pr_source" ]] && rm -rf "$pr_source"
+          mkdir -p "$pr_source"
+          cd pr-"$pull_number"
+          echo -e "Current dir: $(pwd)"
+          git init
+          git remote add upstream git@github.com:IndranilNandy/demo-app-to-test-pipeline.git
+          git fetch upstream refs/pull/"$pull_number"/merge:merge-"$pull_number"
+          git checkout merge-"$pull_number"
+          echo -e "Current branch: $(git branch)"
         user-home: "/root"
         verbose: "true"
     - name: fetch-pr-merge-branch-script-arguments
@@ -189,17 +198,17 @@ spec:
         - name: GIT_USER_EMAIL
           value: "$(params.fetch-pr-merge-branch.git-user-email)"
         - name: GIT_SCRIPT
-          value: |
-            [[ -d "$pr_source" ]] && rm -rf "$pr_source"
-            mkdir -p "$pr_source"
-            cd pr-"$pull_number"
-            echo -e "Current dir: $(pwd)"
-            git init
-            git remote add upstream git@github.com:IndranilNandy/demo-app-to-test-pipeline.git
-            git fetch upstream refs/pull/"$pull_number"/merge:merge-"$pull_number"
-            git checkout merge-"$pull_number"
-            git branch
-            ls
+          value: "$(params.fetch-pr-merge-branch.git-script)"
+            # [[ -d "$pr_source" ]] && rm -rf "$pr_source"
+            # mkdir -p "$pr_source"
+            # cd pr-"$pull_number"
+            # echo -e "Current dir: $(pwd)"
+            # git init
+            # git remote add upstream git@github.com:IndranilNandy/demo-app-to-test-pipeline.git
+            # git fetch upstream refs/pull/"$pull_number"/merge:merge-"$pull_number"
+            # git checkout merge-"$pull_number"
+            # git branch
+            # ls
         - name: USER_HOME
           value: "$(params.fetch-pr-merge-branch.user-home)"
         - name: VERBOSE
