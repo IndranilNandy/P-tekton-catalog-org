@@ -17,6 +17,7 @@ kubectl apply -f resources.yaml
 # kubectl create -f run1.yaml
 
 kubectl apply -f serviceaccount.yaml
+kubectl apply -f ../../build-pipeline.yaml
 kubectl apply -f ../../pr-pipeline.yaml
 kubectl apply -f prereq-provider.yaml
 kubectl create -f run.yaml

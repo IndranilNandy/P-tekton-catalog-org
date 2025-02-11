@@ -119,6 +119,29 @@ spec:
         fetch-pr-merge-branch-disabled: "false"
         # build-test-publish-artifacts-disabled: "false"
 
+    # For pr-build-pipeline
+    - name: pr-build-pipeline
+      type: object
+      properties:
+        gradle-image:
+          type: string
+        common-build-artifacts-root:
+          type: string
+        common-project-build-dir-name:
+          type: string
+      default:
+        gradle-image: "gradle:8.7.0-jdk17"
+        common-build-artifacts-root: "/tmp/myproject/build-artifacts"
+        common-project-build-dir-name: "build"
+
+    - name: pr-build-pipeline-gradle-params-tasks
+      type: array
+      default:
+        - build
+        - publish
+        - -PbuildDir=$(params.pr-build-pipeline.common-build-artifacts-root)/$(params.pr-build-pipeline.common-project-build-dir-name)
+        - --console=verbose
+
   workspaces:
     - name: shared-workspace
 
@@ -224,3 +247,74 @@ spec:
 
       runAfter:
         - set-github-status-pr-created
+
+    - name: pr-build-pipeline
+      params:
+        # For git-clone task
+        - name: git-clone
+          value:
+            url: "NA"
+            revision: "NA"
+
+        # For gradle task
+        - name: gradle
+          value:
+            # project-dir: "$(params.common.pr-source)"
+            gradle-image: "$(params.pr-build-pipeline.gradle-image)"
+            project-dir: "pr-merge-branch/$(params.common.pr-source)"
+        - name: gradle-params-tasks
+          value: ["$(params.pr-build-pipeline-gradle-params-tasks)"]
+            # - build
+            # - publish
+            # - -PbuildDir=$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)
+            # - --console=verbose
+            # # - --status
+            # # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
+            # # - --no-daemon
+
+        # For github-open-pr task
+        - name: github-open-pr
+          value:
+            github-host-url: "NA"
+            repo-full-name: "NA"
+            github-token-secret-name: "NA"
+            github-token-secret-key: "NA"
+            head: "NA"
+            base: "NA"
+            title: "NA"
+            body: "NA"
+
+        # Pipeline commons
+        - name: common
+          value:
+            # build-artifacts-root: "/tmp/myproject/build-artifacts"
+            # project-build-dir-name: "build"
+            build-artifacts-root: "$(params.pr-build-pipeline.common-build-artifacts-root)"
+            project-build-dir-name: "$(params.pr-build-pipeline.common-project-build-dir-name)"
+            create-pr: "false"
+
+        # Debugging purpose
+        - name: debug
+          value:
+            # clone-source-repo-disabled: "false"
+            # build-test-publish-artifacts-disabled: "false"
+            clone-source-repo-disabled: "true"
+            build-test-publish-artifacts-disabled: "false"
+
+      workspaces:
+        - name: shared-workspace
+          workspace: shared-workspace
+          # subPath: source-code/pr-merge-branch/
+
+      taskRef:
+        apiVersion: tekton.dev/v1beta1
+        kind: Pipeline
+        name: build-pipeline
+        # resolver: git
+        # params:
+        #   - name: repo
+        #     value: P-tekton-catalog-org
+        #   - name: pathInRepo
+        #     value: pip/build-pipeline.yaml
+
+
