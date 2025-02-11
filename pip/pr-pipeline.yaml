@@ -314,12 +314,12 @@ spec:
       taskRef:
         apiVersion: tekton.dev/v1beta1
         kind: Pipeline
-        name: build-pipeline
-        # resolver: git
-        # params:
-        #   - name: repo
-        #     value: P-tekton-catalog-org
-        #   - name: pathInRepo
-        #     value: pip/build-pipeline.yaml
+        # name: build-pipeline
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: pip/build-pipeline.yaml
 
 
