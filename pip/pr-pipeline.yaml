@@ -182,7 +182,19 @@ spec:
         - name: GIT_USER_EMAIL
           value: "$(params.fetch-pr-merge-branch.git-user-email)"
         - name: GIT_SCRIPT
-          value: "$(params.fetch-pr-merge-branch.git-script)"
+          value: |
+            [[ -d pr-"$pull_number" ]] && rm -rf pr-"$pull_number"
+            mkdir -p pr-"$pull_number"
+            cd pr-"$pull_number"
+            echo -e "Current dir: $(pwd)"
+            git init
+            git remote add upstream git@github.com:IndranilNandy/demo-app-to-test-pipeline.git
+            # pull_number="$x"
+            echo pull_number="$pull_number"
+            git fetch upstream refs/pull/"$pull_number"/merge:merge-"$pull_number"
+            git checkout merge-"$pull_number"
+            git branch
+            ls
         - name: USER_HOME
           value: "$(params.fetch-pr-merge-branch.user-home)"
         - name: VERBOSE

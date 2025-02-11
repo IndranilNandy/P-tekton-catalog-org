@@ -45,17 +45,9 @@ spec:
         # base-image: cgr.dev/chainguard/git:root-2.39@sha256:7759f87050dd8bacabe61354d75ccd7f864d6b6f8ec42697db7159eccd491139
         git-user-name: "test-user"
         git-user-email: "test-email@gmail.com"
-        git-script: |
-            git init
-            git remote add upstream git@github.com:IndranilNandy/demo-app-to-test-pipeline.git
-            # pull_number="$x"
-            echo pull_number="$pull_number"
-            git fetch upstream refs/pull/"$pull_number"/merge:merge-"$pull_number"
-            git checkout merge-"$pull_number"
-            git branch
-            ls
+        # git-script: "git help"
         # user-home: "/root"
-        # verbose: "true"
+        verbose: "false"
     - name: fetch-pr-merge-branch-script-arguments
       value:
         - "pull_number=117"
@@ -92,7 +84,7 @@ spec:
         fetch-pr-merge-branch-disabled: "false"
 
   workspaces:
-    # - name: shared-workspace
+    - name: shared-workspace
     #   volumeClaimTemplate:
     #     spec:
     #       storageClassName: k8-default-sc-with-clustered-nfs-server

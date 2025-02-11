@@ -147,13 +147,15 @@ spec:
         git config --global user.email "$(params.GIT_USER_EMAIL)"
         git config --global user.name "$(params.GIT_USER_NAME)"
 
+        echo -e "Script parameters:"
         for x in $@; do
-            echo -e $x
+            echo -e "\t$x"
             eval $x || {
                 echo -e $x: Invalid command
                 exit 1
             }
         done
+        echo -e
 
         eval '$(params.GIT_SCRIPT)'
 
