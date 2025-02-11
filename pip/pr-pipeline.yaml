@@ -83,10 +83,13 @@ spec:
           type: string
         pull-number:
           type: string
+        pr-source:
+          type: string
         # create-pr:
         #   type: string
       default:
         tekton-dashboard: "http://localhost:8090"
+        pr-source: "pr-$(params.common.pull-number)"
         # pull-number: "$(tasks.create-pr.results.NUMBER)"
         # create-pr: "false"
 
