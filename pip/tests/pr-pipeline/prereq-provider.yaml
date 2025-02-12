@@ -154,9 +154,9 @@ spec:
       # subPath: source-code/
 
   results:
-    - name: test-result
-      # value: "$(tasks.create-pr.results.NUMBER)"
-      value: "$(tasks.pr-pipeline.results.test-result)"
+    - name: gradle-tasks-status
+      description: Gradle tasks' result; can be either 'succeeded' or 'failed'.
+      value: "$(tasks.pr-pipeline.results.gradle-tasks-status)"
 
   tasks:
     - name: create-pr
@@ -265,15 +265,12 @@ spec:
 
     - name: dummy-task1
       params:
-        - name: dummy-param1
-          value: "$(tasks.pr-pipeline.results.test-result)"
         - name: dummy-param2
           value: "locally defined"
         - name: dummy-param3
           value: "$(tasks.pr-pipeline.results.gradle-tasks-status)"
       taskSpec:
         params:
-          - name: dummy-param1
           - name: dummy-param2
           - name: dummy-param3
             # value: "$(tasks.pr-pipeline.results.placeholder)"
@@ -283,7 +280,6 @@ spec:
             script: |
               echo -e dummy script
               echo -e "p2: $(params.dummy-param2)"
-              echo -e "p1: $(params.dummy-param1)"
               echo -e "p3: $(params.dummy-param3)"
 
       runAfter:

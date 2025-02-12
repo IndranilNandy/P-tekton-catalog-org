@@ -149,9 +149,6 @@ spec:
     - name: shared-workspace
 
   results:
-    - name: test-result
-      # value: "$(tasks.create-pr.results.NUMBER)"
-      value: "$(tasks.pr-build-pipeline.results.test-result1)"
     - name: gradle-tasks-status
       description: Gradle tasks' result; can be either 'succeeded' or 'failed'.
       value: "$(tasks.pr-build-pipeline.results.gradle-tasks-status)"

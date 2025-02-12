@@ -105,8 +105,6 @@ spec:
       default: stopAndFail
 
   results:
-      - name: placeholder
-        description: The precise commit SHA that was fetched by this Task.
       - name: tasks-result
         description: Gradle tasks' result; can be either 'succeeded' or 'failed'.
 
@@ -150,8 +148,6 @@ spec:
         echo "Running gradle task with command below"
         echo "$cmd"
         eval "$cmd"
-
-        printf "%s" "dummy value" > "$(results.placeholder.path)"
     - name: write-tasks-result
       image: mirror.gcr.io/ubuntu
       script: |
