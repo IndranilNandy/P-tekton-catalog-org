@@ -99,6 +99,10 @@ spec:
     #   type: string
     #   default: "false"
 
+  results:
+      - name: placeholder
+        description: The precise commit SHA that was fetched by this Task.
+
   steps:
     - name: ctx
       ref:
@@ -138,3 +142,5 @@ spec:
         echo "Running gradle task with command below"
         echo "$cmd"
         eval "$cmd"
+
+        printf "%s" "dummy value" > "$(results.placeholder.path)"

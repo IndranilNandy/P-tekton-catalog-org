@@ -191,6 +191,10 @@ spec:
       value: "$(tasks.create-pr.results.E_HEAD_SHA)"
       # value: "$(finally.results-create-pr.results.pr-details.head-sha)"
 
+    - name: test-result1
+      # value: "$(tasks.create-pr.results.NUMBER)"
+      value: "$(tasks.build-test-publish-artifacts.results.placeholder)"
+
   tasks:
     - name: pipeline-ctx
       taskSpec:
