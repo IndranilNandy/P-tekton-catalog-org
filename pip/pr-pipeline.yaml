@@ -125,12 +125,15 @@ spec:
       properties:
         gradle-image:
           type: string
+        gradle-task-onerror:
+          type: string
         common-build-artifacts-root:
           type: string
         common-project-build-dir-name:
           type: string
       default:
         gradle-image: "gradle:8.7.0-jdk17"
+        gradle-task-onerror: "continue"
         common-build-artifacts-root: "/tmp/myproject/build-artifacts"
         common-project-build-dir-name: "build"
 
@@ -149,6 +152,9 @@ spec:
     - name: test-result
       # value: "$(tasks.create-pr.results.NUMBER)"
       value: "$(tasks.pr-build-pipeline.results.test-result1)"
+    - name: gradle-tasks-status
+      description: Gradle tasks' result; can be either 'succeeded' or 'failed'.
+      value: "$(tasks.pr-build-pipeline.results.gradle-tasks-status)"
 
   tasks:
     - name: pipeline-ctx
@@ -267,6 +273,7 @@ spec:
             # project-dir: "$(params.common.pr-source)"
             gradle-image: "$(params.pr-build-pipeline.gradle-image)"
             project-dir: "$(params.common.pr-source)"
+            task-onerror: "$(params.pr-build-pipeline.gradle-task-onerror)"
         - name: gradle-params-tasks
           value: ["$(params.pr-build-pipeline-gradle-params-tasks)"]
             # - build

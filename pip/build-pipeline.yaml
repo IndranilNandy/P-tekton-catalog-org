@@ -76,6 +76,8 @@ spec:
           type: string
         project-build-dir:
           type: string
+        task-onerror:
+          type: string
       default:
         gradle-image: "gradle:8.7.0-jdk17"
         project-dir: "."
@@ -83,6 +85,7 @@ spec:
         #   - "build"
         gradle-user-home: "/home/gradle"
         project-build-dir: "$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)"
+        task-onerror: "stopAndFail"
     - name: gradle-params-tasks
       type: array
       default:
@@ -172,28 +175,37 @@ spec:
 
     # 'pipelines-in-pipelines' feature doesn't support 'object' results. Hence, declaring 'string' results also
     - name: repo-url
+      description: Source repo's URL for git clone
       value: "$(tasks.clone-source-repo.results.url)"
       # value: "$(finally.results-clone-source-repo.results.repo-details.url)"
     - name: repo-commit
+      description: The precise commit SHA that was fetched by the git clone Task.
       value: "$(tasks.clone-source-repo.results.commit)"
       # value: "$(finally.results-clone-source-repo.results.repo-details.commit)"
     - name: repo-committer-date
+      description: The epoch timestamp of the commit that was fetched by the git clone Task.
       value: "$(tasks.clone-source-repo.results.committer-date)"
       # value: "$(finally.results-clone-source-repo.results.repo-details.committer-date)"
 
     - name: pr-number
+      description: Number of the created pull request.
       value: "$(tasks.create-pr.results.NUMBER)"
       # value: "$(finally.results-create-pr.results.pr-details.number)"
     - name: pr-url
+      description: URL of the created pull request.
       value: "$(tasks.create-pr.results.URL)"
       # value: "$(finally.results-create-pr.results.pr-details.url)"
     - name: pr-head-sha
+      description: SHA of the merge commit created by the pull request.
       value: "$(tasks.create-pr.results.E_HEAD_SHA)"
       # value: "$(finally.results-create-pr.results.pr-details.head-sha)"
 
     - name: test-result1
       # value: "$(tasks.create-pr.results.NUMBER)"
       value: "$(tasks.build-test-publish-artifacts.results.placeholder)"
+    - name: gradle-tasks-status
+      description: Gradle tasks' result; can be either 'succeeded' or 'failed'.
+      value: "$(tasks.build-test-publish-artifacts.results.tasks-result)"
 
   tasks:
     - name: pipeline-ctx
@@ -263,6 +275,8 @@ spec:
           # value: "$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)"
         - name: E_GRADLE_USER_HOME
           value: "$(params.gradle.gradle-user-home)"
+        - name: E_GRADLE_TASK_ONERROR
+          value: "$(params.gradle.task-onerror)"
 
       workspaces:
         - name: source

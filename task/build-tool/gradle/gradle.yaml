@@ -98,10 +98,17 @@ spec:
     #         - e-gradle-project-local-cache
     #   type: string
     #   default: "false"
+    - name: E_GRADLE_TASK_ONERROR
+      description: |
+        - If a gradle task faile should it continue or stopAndFail?
+        - Valid values: continue/stopAndFail
+      default: stopAndFail
 
   results:
       - name: placeholder
         description: The precise commit SHA that was fetched by this Task.
+      - name: tasks-result
+        description: Gradle tasks' result; can be either 'succeeded' or 'failed'.
 
   steps:
     - name: ctx
@@ -113,6 +120,7 @@ spec:
           - name: pathInRepo
             value: stepaction/context/task-context/task-context.yaml
     - name: gradle-tasks
+      onError: "$(params.E_GRADLE_TASK_ONERROR)"
       image: $(params.GRADLE_IMAGE)
       env:
         - name: GRADLE_USER_HOME
@@ -144,3 +152,13 @@ spec:
         eval "$cmd"
 
         printf "%s" "dummy value" > "$(results.placeholder.path)"
+    - name: write-tasks-result
+      image: mirror.gcr.io/ubuntu
+      script: |
+        #!/usr/bin/env bash
+
+        echo -e
+        gradle_task_exitcode="$(cat $(steps.gradle-tasks.exitCode.path))"
+        [[ "$gradle_task_exitcode" == "0" ]] && RESULT=success || RESULT=failure
+
+        echo -n "$RESULT" | tee "$(results.tasks-result.path)"

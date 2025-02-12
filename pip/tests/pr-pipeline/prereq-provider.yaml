@@ -269,10 +269,13 @@ spec:
           value: "$(tasks.pr-pipeline.results.test-result)"
         - name: dummy-param2
           value: "locally defined"
+        - name: dummy-param3
+          value: "$(tasks.pr-pipeline.results.gradle-tasks-status)"
       taskSpec:
         params:
           - name: dummy-param1
           - name: dummy-param2
+          - name: dummy-param3
             # value: "$(tasks.pr-pipeline.results.placeholder)"
         steps:
           - name: dummy-step
@@ -281,3 +284,7 @@ spec:
               echo -e dummy script
               echo -e "p2: $(params.dummy-param2)"
               echo -e "p1: $(params.dummy-param1)"
+              echo -e "p3: $(params.dummy-param3)"
+
+      runAfter:
+        - pr-pipeline
