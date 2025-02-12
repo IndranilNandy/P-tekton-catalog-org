@@ -302,7 +302,6 @@ spec:
       workspaces:
         - name: shared-workspace
           workspace: shared-workspace
-          # subPath: source-code/pr-merge-branch/
 
       taskRef:
         apiVersion: tekton.dev/v1beta1
