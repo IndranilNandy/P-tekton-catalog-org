@@ -51,7 +51,7 @@ spec:
     # Debugging purpose
     - name: debug
       value:
-        set-github-status-pr-created-disabled: "false"
+        set-pr-status-disabled: "false"
 
   workspaces:
     # - name: shared-workspace

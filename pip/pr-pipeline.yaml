@@ -108,15 +108,18 @@ spec:
       type: object
       description: all debug switches and properties
       properties:
-        set-github-status-pr-created-disabled:
+        set-pr-status-disabled:
           type: string
         fetch-pr-merge-branch-disabled:
+          type: string
+        set-build-status-disabled:
           type: string
         # build-test-publish-artifacts-disabled:
         #   type: string
       default:
-        set-github-status-pr-created-disabled: "false"
+        set-pr-status-disabled: "false"
         fetch-pr-merge-branch-disabled: "false"
+        set-build-status-disabled: "false"
         # build-test-publish-artifacts-disabled: "false"
 
     # For pr-build-pipeline
@@ -165,9 +168,9 @@ spec:
                 echo "PipelineRun uid: $(context.pipelineRun.uid)"
                 echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
 
-    - name: set-github-status-pr-created
+    - name: set-pr-status
       when:
-        - input: "$(params.debug.set-github-status-pr-created-disabled)"
+        - input: "$(params.debug.set-pr-status-disabled)"
           operator: in
           values:
             - "false"
@@ -254,7 +257,7 @@ spec:
           subPath: source-code/pr-merge-branch/
 
       runAfter:
-        - set-github-status-pr-created
+        - set-pr-status
 
     - name: pr-build-pipeline
       params:
@@ -334,4 +337,48 @@ spec:
       runAfter:
         - fetch-pr-merge-branch
 
+    - name: set-build-status
+      when:
+        - input: "$(params.debug.set-build-status-disabled)"
+          operator: in
+          values:
+            - "false"
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/scm/github-set-status/github-set-status.yaml
+
+      params:
+      - name: GITHUB_HOST_URL
+        value: "$(params.github-set-status.github-host-url)"
+      - name: API_PATH_PREFIX
+        value: "$(params.github-set-status.api-path-prefix)"
+      - name: REPO_FULL_NAME
+        value: "$(params.github-set-status.repo-full-name)"
+      - name: GITHUB_TOKEN_SECRET_NAME
+        value: "$(params.github-set-status.github-token-secret-name)"
+      - name: GITHUB_TOKEN_SECRET_KEY
+        value: "$(params.github-set-status.github-token-secret-key)"
+      - name: SHA
+        value: "$(params.github-set-status.sha)"
+      - name: TARGET_URL
+        value: "$(params.github-set-status.target-url)"
+      - name: DESCRIPTION
+        value: "Build status: $(tasks.pr-build-pipeline.results.gradle-tasks-status)"
+      - name: CONTEXT
+        value: "$(params.github-set-status.context)"
+      - name: STATE
+        value: "$(tasks.pr-build-pipeline.results.gradle-tasks-status)"
+      - name: AUTH_TYPE
+        value: "$(params.github-set-status.auth-type)"
+      - name: IMAGE
+        value: "$(params.github-set-status.image)"
+      - name: SHEBANG
+        value: "$(params.github-set-status.shebang)"
+
+      runAfter:
+        - pr-build-pipeline
 

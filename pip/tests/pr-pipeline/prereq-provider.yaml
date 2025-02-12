@@ -135,16 +135,19 @@ spec:
       properties:
         create-pr-disabled:
           type: string
-        set-github-status-pr-created-disabled:
+        set-pr-status-disabled:
           type: string
         fetch-pr-merge-branch-disabled:
+          type: string
+        set-build-status-disabled:
           type: string
         # build-test-publish-artifacts-disabled:
         #   type: string
       default:
         create-pr-disabled: "false"
-        set-github-status-pr-created-disabled: "false"
+        set-pr-status-disabled: "false"
         fetch-pr-merge-branch-disabled: "false"
+        set-build-status-disabled: "false"
         # build-test-publish-artifacts-disabled: "false"
 
   workspaces:
@@ -240,8 +243,9 @@ spec:
         # Debugging purpose
         - name: debug
           value:
-            set-github-status-pr-created-disabled: "$(params.debug.set-github-status-pr-created-disabled)"
+            set-pr-status-disabled: "$(params.debug.set-pr-status-disabled)"
             fetch-pr-merge-branch-disabled: "$(params.debug.fetch-pr-merge-branch-disabled)"
+            set-build-status-disabled: "$(params.debug.set-build-status-disabled)"
 
       taskRef:
         # apiVersion: tekton.dev/v1

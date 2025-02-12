@@ -80,8 +80,9 @@ spec:
     - name: debug
       value:
         create-pr-disabled: "false"
-        set-github-status-pr-created-disabled: "false"
+        set-pr-status-disabled: "false"
         fetch-pr-merge-branch-disabled: "false"
+        set-build-status-disabled: "false"
 
   workspaces:
     - name: shared-workspace
