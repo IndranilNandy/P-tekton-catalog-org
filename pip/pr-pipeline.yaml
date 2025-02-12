@@ -84,43 +84,6 @@ spec:
       default:
         - "pull_number=$(params.common.pull-number)"
         - "pr_source=$(params.common.pr-source)"
-        # - "sample_param=sample_value"
-
-    # Pipeline commons
-    - name: common
-      type: object
-      properties:
-        tekton-dashboard:
-          type: string
-        pull-number:
-          type: string
-        pr-source:
-          type: string
-        # create-pr:
-        #   type: string
-      default:
-        tekton-dashboard: "http://localhost:8090"
-        pr-source: "pr-$(params.common.pull-number)"
-        # create-pr: "false"
-
-    # Debugging purpose
-    - name: debug
-      type: object
-      description: all debug switches and properties
-      properties:
-        set-pr-status-disabled:
-          type: string
-        fetch-pr-merge-branch-disabled:
-          type: string
-        set-build-status-disabled:
-          type: string
-        # build-test-publish-artifacts-disabled:
-        #   type: string
-      default:
-        set-pr-status-disabled: "false"
-        fetch-pr-merge-branch-disabled: "false"
-        set-build-status-disabled: "false"
-        # build-test-publish-artifacts-disabled: "false"
 
     # For pr-build-pipeline
     - name: pr-build-pipeline
@@ -139,7 +102,6 @@ spec:
         gradle-task-onerror: "continue"
         common-build-artifacts-root: "/tmp/myproject/build-artifacts"
         common-project-build-dir-name: "build"
-
     - name: pr-build-pipeline-gradle-params-tasks
       type: array
       default:
@@ -147,6 +109,42 @@ spec:
         - publish
         - -PbuildDir=$(params.pr-build-pipeline.common-build-artifacts-root)/$(params.pr-build-pipeline.common-project-build-dir-name)
         - --console=verbose
+        # - --status
+        # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
+        # - --no-daemon
+
+    # Pipeline commons
+    - name: common
+      type: object
+      properties:
+        tekton-dashboard:
+          type: string
+        pull-number:
+          type: string
+        pr-source:
+          type: string
+      default:
+        tekton-dashboard: "http://localhost:8090"
+        pr-source: "pr-$(params.common.pull-number)"
+
+    # Debugging purpose
+    - name: debug
+      type: object
+      description: all debug switches and properties
+      properties:
+        set-pr-status-disabled:
+          type: string
+        fetch-pr-merge-branch-disabled:
+          type: string
+        pr-build-pipeline-disabled:
+          type: string
+        set-build-status-disabled:
+          type: string
+      default:
+        set-pr-status-disabled: "false"
+        fetch-pr-merge-branch-disabled: "false"
+        pr-build-pipeline-disabled: "false"
+        set-build-status-disabled: "false"
 
   workspaces:
     - name: shared-workspace
@@ -233,23 +231,12 @@ spec:
           value: "$(params.fetch-pr-merge-branch.git-user-email)"
         - name: GIT_SCRIPT
           value: "$(params.fetch-pr-merge-branch.git-script)"
-            # [[ -d "$pr_source" ]] && rm -rf "$pr_source"
-            # mkdir -p "$pr_source"
-            # cd pr-"$pull_number"
-            # echo -e "Current dir: $(pwd)"
-            # git init
-            # git remote add upstream git@github.com:IndranilNandy/demo-app-to-test-pipeline.git
-            # git fetch upstream refs/pull/"$pull_number"/merge:merge-"$pull_number"
-            # git checkout merge-"$pull_number"
-            # git branch
-            # ls
         - name: USER_HOME
           value: "$(params.fetch-pr-merge-branch.user-home)"
         - name: VERBOSE
           value: "$(params.fetch-pr-merge-branch.verbose)"
         - name: E_SCRIPT_ARGUMENTS
           value: ["$(params.fetch-pr-merge-branch-script-arguments)"]
-          # value: ["pull_number=$(params.common.pull-number)", "pr_source=$(params.common.pr-source)"]
 
       workspaces:
         - name: source
@@ -260,6 +247,12 @@ spec:
         - set-pr-status
 
     - name: pr-build-pipeline
+      when:
+        - input: "$(params.debug.pr-build-pipeline-disabled)"
+          operator: in
+          values:
+            - "false"
+
       params:
         # For git-clone task
         - name: git-clone
@@ -270,19 +263,11 @@ spec:
         # For gradle task
         - name: gradle
           value:
-            # project-dir: "$(params.common.pr-source)"
             gradle-image: "$(params.pr-build-pipeline.gradle-image)"
             project-dir: "$(params.common.pr-source)"
             task-onerror: "$(params.pr-build-pipeline.gradle-task-onerror)"
         - name: gradle-params-tasks
           value: ["$(params.pr-build-pipeline-gradle-params-tasks)"]
-            # - build
-            # - publish
-            # - -PbuildDir=$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)
-            # - --console=verbose
-            # # - --status
-            # # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
-            # # - --no-daemon
 
         # For github-open-pr task
         - name: github-open-pr
@@ -299,8 +284,6 @@ spec:
         # Pipeline commons
         - name: common
           value:
-            # build-artifacts-root: "/tmp/myproject/build-artifacts"
-            # project-build-dir-name: "build"
             build-artifacts-root: "$(params.pr-build-pipeline.common-build-artifacts-root)"
             project-build-dir-name: "$(params.pr-build-pipeline.common-project-build-dir-name)"
             create-pr: "false"
@@ -308,8 +291,6 @@ spec:
         # Debugging purpose
         - name: debug
           value:
-            # clone-source-repo-disabled: "false"
-            # build-test-publish-artifacts-disabled: "false"
             clone-source-repo-disabled: "true"
             build-test-publish-artifacts-disabled: "false"
 
