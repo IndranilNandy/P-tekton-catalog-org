@@ -153,6 +153,11 @@ spec:
       # workspace: shared-workspace
       # subPath: source-code/
 
+  results:
+    - name: test-result
+      # value: "$(tasks.create-pr.results.NUMBER)"
+      value: "$(tasks.pr-pipeline.results.test-result)"
+
   tasks:
     - name: create-pr
       when:
@@ -257,3 +262,22 @@ spec:
 
       runAfter:
         - create-pr
+
+    - name: dummy-task1
+      params:
+        - name: dummy-param1
+          value: "$(tasks.pr-pipeline.results.test-result)"
+        - name: dummy-param2
+          value: "locally defined"
+      taskSpec:
+        params:
+          - name: dummy-param1
+          - name: dummy-param2
+            # value: "$(tasks.pr-pipeline.results.placeholder)"
+        steps:
+          - name: dummy-step
+            image: alpine
+            script: |
+              echo -e dummy script
+              echo -e "p2: $(params.dummy-param2)"
+              echo -e "p1: $(params.dummy-param1)"

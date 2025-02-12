@@ -145,6 +145,11 @@ spec:
   workspaces:
     - name: shared-workspace
 
+  results:
+    - name: test-result
+      # value: "$(tasks.create-pr.results.NUMBER)"
+      value: "$(tasks.pr-build-pipeline.results.test-result1)"
+
   tasks:
     - name: pipeline-ctx
       taskSpec:
