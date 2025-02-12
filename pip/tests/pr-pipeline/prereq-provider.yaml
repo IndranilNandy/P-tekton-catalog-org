@@ -139,6 +139,8 @@ spec:
           type: string
         fetch-pr-merge-branch-disabled:
           type: string
+        pr-build-pipeline-disabled:
+          type: string
         set-build-status-disabled:
           type: string
         # build-test-publish-artifacts-disabled:
@@ -147,6 +149,7 @@ spec:
         create-pr-disabled: "false"
         set-pr-status-disabled: "false"
         fetch-pr-merge-branch-disabled: "false"
+        pr-build-pipeline-disabled: "false"
         set-build-status-disabled: "false"
         # build-test-publish-artifacts-disabled: "false"
 
@@ -245,6 +248,7 @@ spec:
           value:
             set-pr-status-disabled: "$(params.debug.set-pr-status-disabled)"
             fetch-pr-merge-branch-disabled: "$(params.debug.fetch-pr-merge-branch-disabled)"
+            pr-build-pipeline-disabled: "$(params.debug.pr-build-pipeline-disabled)"
             set-build-status-disabled: "$(params.debug.set-build-status-disabled)"
 
       taskRef:
