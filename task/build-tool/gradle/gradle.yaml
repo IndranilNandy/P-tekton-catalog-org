@@ -158,7 +158,7 @@ spec:
         #!/usr/bin/env bash
 
         echo -e
-        gradle_task_exitcode="$(cat $(steps.gradle-tasks.exitCode.path))"
+        gradle_task_exitcode=`cat $(steps.step-gradle-tasks.exitCode.path)`
         [[ "$gradle_task_exitcode" == "0" ]] && RESULT=success || RESULT=failure
 
         echo -n "$RESULT" | tee "$(results.tasks-result.path)"
