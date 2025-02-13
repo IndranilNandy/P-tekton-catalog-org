@@ -302,7 +302,7 @@ spec:
         - input: "$(params.trigger-info.event-type)"
           operator: in
           values:
-            - "pull-request"
+            - "pull_request"
       params:
         - name: eventID
           value: "$(params.trigger-info.eventID)"
