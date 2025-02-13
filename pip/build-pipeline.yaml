@@ -5,6 +5,76 @@ metadata:
   name: build-pipeline
 spec:
   params:
+
+    # For trigger-information
+    - name: trigger-info
+      type: object
+      properties:
+        eventID:
+          type: string
+        message:
+          type: string
+        environment:
+          type: string
+        event-type:
+          type: string
+        event-contenttype:
+          type: string
+        event-github-delivery-id:
+          type: string
+        event-github-hook-id:
+          type: string
+        event-webhook-deliveries-url:
+          type: string
+        git-info-pusher:
+          type: string
+        git-info-compare-url:
+          type: string
+        git-head-revision:
+          type: string
+        git-head-committer:
+          type: string
+        git-repo-url:
+          type: string
+        git-repo-ssh-url:
+          type: string
+        git-repo-full-name:
+          type: string
+        git-repo-open-issues-count:
+          type: string
+        git-repo-default-branch:
+          type: string
+        git-info-branch:
+          type: string
+        changed-files:
+          type: string
+        short-sha:
+          type: string
+        commit-msg:
+          type: string
+      default:
+        eventID: "NA"
+        message: "NA"
+        environment: "NA"
+        event-type: "NA"
+        event-contenttype: "NA"
+        event-github-delivery-id: "NA"
+        event-github-hook-id: "NA"
+        event-webhook-deliveries-url: "NA"
+        git-info-pusher: "NA"
+        git-info-compare-url: "NA"
+        git-head-revision: "NA"
+        git-head-committer: "NA"
+        git-repo-url: "NA"
+        git-repo-ssh-url: "NA"
+        git-repo-full-name: "NA"
+        git-repo-open-issues-count: "NA"
+        git-repo-default-branch: "NA"
+        git-info-branch: "NA"
+        changed-files: "NA"
+        short-sha: "NA"
+        commit-msg: "NA"
+
     # For git-clone task
     - name: git-clone
       type: object
@@ -131,10 +201,13 @@ spec:
           type: string
         create-pr:
           type: string
+        webhook-triggered:
+          type: string
       default:
         build-artifacts-root: "/tmp/myproject/build-artifacts"
         project-build-dir-name: "build"
         create-pr: "false"
+        webhook-triggered: "false"
 
       # Debugging purpose
     - name: debug
@@ -215,6 +288,93 @@ spec:
               echo "PipelineRun: $(context.pipelineRun.name)"
               echo "PipelineRun uid: $(context.pipelineRun.uid)"
               echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
+
+    - name: trigger-information
+      when:
+        - input: "$(params.common.webhook-triggered)"
+          operator: in
+          values:
+            - "true"
+      params:
+        - name: eventID
+          value: "$(params.trigger-info.eventID)"
+        - name: message
+          value: "$(params.trigger-info.message)"
+        - name: environment
+          value: "$(params.trigger-info.environment)"
+
+        - name: event-type
+          value: "$(params.trigger-info.event-type)"
+        - name: event-contenttype
+          value: "$(params.trigger-info.event-contenttype)"
+        - name: event-github-delivery-id
+          value: "$(params.trigger-info.event-github-delivery-id)"
+        - name: event-github-hook-id
+          value: "$(params.trigger-info.event-github-hook-id)"
+        - name: event-webhook-deliveries-url
+          value: "$(params.trigger-info.event-webhook-deliveries-url)"
+
+        - name: git-info-pusher
+          value: "$(params.trigger-info.git-info-pusher)"
+        - name: git-info-compare-url
+          value: "$(params.trigger-info.git-info-compare-url)"
+        - name: git-head-revision
+          value: "$(params.trigger-info.git-head-revision)"
+        - name: git-head-committer
+          value: "$(params.trigger-info.git-head-committer)"
+
+        - name: git-repo-url
+          value: "$(params.trigger-info.git-repo-url)"
+        - name: git-repo-ssh-url
+          value: "$(params.trigger-info.git-repo-ssh-url)"
+        - name: git-repo-full-name
+          value: "$(params.trigger-info.git-repo-full-name)"
+        - name: git-repo-open-issues-count
+          value: "$(params.trigger-info.git-repo-open-issues-count)"
+        - name: git-repo-default-branch
+          value: "$(params.trigger-info.git-repo-default-branch)"
+
+        - name: git-info-branch
+          value: "$(params.trigger-info.git-info-branch)"
+
+        - name: changed-files
+          value: "$(params.trigger-info.changed-files)"
+        - name: short-sha
+          value: "$(params.trigger-info.short-sha)"
+        - name: commit-msg
+          value: "$(params.trigger-info.commit-msg)"
+
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/tekton-context/trigger-info/trigger-info-push.yaml
+
+      runAfter:
+        - "pipeline-ctx"
+
+    - name: additional-params
+      when:
+        - input: "$(params.common.webhook-triggered)"
+          operator: in
+          values:
+            - "true"
+      params:
+        - name: create-pr
+          value: "$(params.common.create-pr)"
+      taskSpec:
+        params:
+          - name: create-pr
+        steps:
+          - name: extra
+            image: ubuntu
+            script: |
+              echo "create-pr: $(params.create-pr)"
+
+      runAfter:
+        - "pipeline-ctx"
 
     - name: clone-source-repo
       when:
