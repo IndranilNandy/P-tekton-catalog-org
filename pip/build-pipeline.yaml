@@ -26,6 +26,8 @@ spec:
           type: string
         event-webhook-deliveries-url:
           type: string
+        # event-webhook-triggered:
+        #   type: string
         git-info-pusher:
           type: string
         git-info-compare-url:
@@ -61,6 +63,7 @@ spec:
         event-github-delivery-id: "NA"
         event-github-hook-id: "NA"
         event-webhook-deliveries-url: "NA"
+        # event-webhook-triggered: "false"
         git-info-pusher: "NA"
         git-info-compare-url: "NA"
         git-head-revision: "NA"
@@ -201,13 +204,13 @@ spec:
           type: string
         create-pr:
           type: string
-        webhook-triggered:
-          type: string
+        # webhook-triggered:
+        #   type: string
       default:
         build-artifacts-root: "/tmp/myproject/build-artifacts"
         project-build-dir-name: "build"
         create-pr: "false"
-        webhook-triggered: "false"
+        # webhook-triggered: "false"
 
       # Debugging purpose
     - name: debug
@@ -291,10 +294,12 @@ spec:
 
     - name: trigger-information
       when:
-        - input: "$(params.common.webhook-triggered)"
+        # - input: "$(params.trigger-info.event-webhook-triggered)"
+        - input: "$(params.trigger-info.event-type)"
           operator: in
           values:
-            - "true"
+            - "push"
+            # - "true"
       params:
         - name: eventID
           value: "$(params.trigger-info.eventID)"
@@ -357,10 +362,12 @@ spec:
 
     - name: additional-params
       when:
-        - input: "$(params.common.webhook-triggered)"
+        # - input: "$(params.trigger-info.event-webhook-triggered)"
+        - input: "$(params.trigger-info.event-type)"
           operator: in
           values:
-            - "true"
+            - "push"
+            # - "true"
       params:
         - name: create-pr
           value: "$(params.common.create-pr)"

@@ -5,6 +5,137 @@ metadata:
   name: pr-pipeline
 spec:
   params:
+
+    # For trigger-information
+    - name: trigger-info
+      type: object
+      properties:
+        eventID:
+          type: string
+        message:
+          type: string
+        environment:
+          type: string
+        event-type:
+          type: string
+        event-contenttype:
+          type: string
+        event-github-delivery-id:
+          type: string
+        event-github-hook-id:
+          type: string
+        event-webhook-deliveries-url:
+          type: string
+        git-event-action:
+          type: string
+        git-pr-number:
+          type: string
+        git-pr-url:
+          type: string
+        git-pr-diff-url:
+          type: string
+        git-pr-state:
+          type: string
+        git-pr-locked:
+          type: string
+        git-pr-title:
+          type: string
+        git-pr-body:
+          type: string
+        git-pr-user:
+          type: string
+        git-pr-author-association:
+          type: string
+        git-pr-assignees:
+          type: string
+        git-pr-head-branch:
+          type: string
+        git-pr-head-sha:
+          type: string
+        git-pr-head-repo-name:
+          type: string
+        git-pr-head-repo-full-name:
+          type: string
+        git-pr-head-repo-url:
+          type: string
+        git-pr-base-branch:
+          type: string
+        git-pr-base-sha:
+          type: string
+        git-pr-base-repo-name:
+          type: string
+        git-pr-base-repo-full-name:
+          type: string
+        git-pr-base-repo-url:
+          type: string
+        git-pr-links-self:
+          type: string
+        git-pr-links-issue:
+          type: string
+        git-pr-links-comments:
+          type: string
+        git-pr-links-review-comments:
+          type: string
+        git-pr-links-commits:
+          type: string
+        git-pr-links-statuses:
+          type: string
+        git-repo-url:
+          type: string
+        git-repo-ssh-url:
+          type: string
+        git-repo-full-name:
+          type: string
+        git-repo-open-issues-count:
+          type: string
+        git-repo-default-branch:
+          type: string
+        git-sender:
+          type: string
+      default:
+        eventID: "NA"
+        message: "NA"
+        environment: "NA"
+        event-type: "NA"
+        event-contenttype: "NA"
+        event-github-delivery-id: "NA"
+        event-github-hook-id: "NA"
+        event-webhook-deliveries-url: "NA"
+        event-webhook-triggered: "false"
+        git-event-action: "NA"
+        git-pr-number: "NA"
+        git-pr-url: "NA"
+        git-pr-diff-url: "NA"
+        git-pr-state: "NA"
+        git-pr-locked: "NA"
+        git-pr-title: "NA"
+        git-pr-body: "NA"
+        git-pr-user: "NA"
+        git-pr-author-association: "NA"
+        git-pr-assignees: "NA"
+        git-pr-head-branch: "NA"
+        git-pr-head-sha: "NA"
+        git-pr-head-repo-name: "NA"
+        git-pr-head-repo-full-name: "NA"
+        git-pr-head-repo-url: "NA"
+        git-pr-base-branch: "NA"
+        git-pr-base-sha: "NA"
+        git-pr-base-repo-name: "NA"
+        git-pr-base-repo-full-name: "NA"
+        git-pr-base-repo-url: "NA"
+        git-pr-links-self: "NA"
+        git-pr-links-issue: "NA"
+        git-pr-links-comments: "NA"
+        git-pr-links-review-comments: "NA"
+        git-pr-links-commits: "NA"
+        git-pr-links-statuses: "NA"
+        git-repo-url: "NA"
+        git-repo-ssh-url: "NA"
+        git-repo-full-name: "NA"
+        git-repo-open-issues-count: "NA"
+        git-repo-default-branch: "NA"
+        git-sender: "NA"
+
     # For github-set-status
     - name: github-set-status
       type: object
@@ -165,6 +296,115 @@ spec:
                 echo "PipelineRun: $(context.pipelineRun.name)"
                 echo "PipelineRun uid: $(context.pipelineRun.uid)"
                 echo "PipelineRun namespace: $(context.pipelineRun.namespace)"
+
+    - name: trigger-information
+      when:
+        - input: "$(params.trigger-info.event-type)"
+          operator: in
+          values:
+            - "pull-request"
+      params:
+        - name: eventID
+          value: "$(params.trigger-info.eventID)"
+        - name: message
+          value: "$(params.trigger-info.message)"
+        - name: environment
+          value: "$(params.trigger-info.environment)"
+
+        - name: event-type
+          value: "$(params.trigger-info.event-type)"
+        - name: event-contenttype
+          value: "$(params.trigger-info.event-contenttype)"
+        - name: event-github-delivery-id
+          value: "$(params.trigger-info.event-github-delivery-id)"
+        - name: event-github-hook-id
+          value: "$(params.trigger-info.event-github-hook-id)"
+        - name: event-webhook-deliveries-url
+          value: "$(params.trigger-info.event-webhook-deliveries-url)"
+
+        - name: git-event-action
+          value: "$(params.trigger-info.git-event-action)"
+
+        - name: git-pr-number
+          value: "$(params.trigger-info.git-pr-number)"
+        - name: git-pr-url
+          value: "$(params.trigger-info.git-pr-url)"
+        - name: git-pr-diff-url
+          value: "$(params.trigger-info.git-pr-diff-url)"
+        - name: git-pr-state
+          value: "$(params.trigger-info.git-pr-state)"
+        - name: git-pr-locked
+          value: "$(params.trigger-info.git-pr-locked)"
+        - name: git-pr-title
+          value: "$(params.trigger-info.git-pr-title)"
+        - name: git-pr-body
+          value: "$(params.trigger-info.git-pr-body)"
+        - name: git-pr-user
+          value: "$(params.trigger-info.git-pr-user)"
+        - name: git-pr-author-association
+          value: "$(params.trigger-info.git-pr-author-association)"
+        - name: git-pr-assignees
+          value: "$(params.trigger-info.git-pr-assignees)"
+
+        - name: git-pr-head-branch
+          value: "$(params.trigger-info.git-pr-head-branch)"
+        - name: git-pr-head-sha
+          value: "$(params.trigger-info.git-pr-head-sha)"
+        - name: git-pr-head-repo-name
+          value: "$(params.trigger-info.git-pr-head-repo-name)"
+        - name: git-pr-head-repo-full-name
+          value: "$(params.trigger-info.git-pr-head-repo-full-name)"
+        - name: git-pr-head-repo-url
+          value: "$(params.trigger-info.git-pr-head-repo-url)"
+
+        - name: git-pr-base-branch
+          value: "$(params.trigger-info.git-pr-base-branch)"
+        - name: git-pr-base-sha
+          value: "$(params.trigger-info.git-pr-base-sha)"
+        - name: git-pr-base-repo-name
+          value: "$(params.trigger-info.git-pr-base-repo-name)"
+        - name: git-pr-base-repo-full-name
+          value: "$(params.trigger-info.git-pr-base-repo-full-name)"
+        - name: git-pr-base-repo-url
+          value: "$(params.trigger-info.git-pr-base-repo-url)"
+
+        - name: git-pr-links-self
+          value: "$(params.trigger-info.git-pr-links-self)"
+        - name: git-pr-links-issue
+          value: "$(params.trigger-info.git-pr-links-issue)"
+        - name: git-pr-links-comments
+          value: "$(params.trigger-info.git-pr-links-comments)"
+        - name: git-pr-links-review-comments
+          value: "$(params.trigger-info.git-pr-links-review-comments)"
+        - name: git-pr-links-commits
+          value: "$(params.trigger-info.git-pr-links-commits)"
+        - name: git-pr-links-statuses
+          value: "$(params.trigger-info.git-pr-links-statuses)"
+
+        - name: git-repo-url
+          value: "$(params.trigger-info.git-repo-url)"
+        - name: git-repo-ssh-url
+          value: "$(params.trigger-info.git-repo-ssh-url)"
+        - name: git-repo-full-name
+          value: "$(params.trigger-info.git-repo-full-name)"
+        - name: git-repo-open-issues-count
+          value: "$(params.trigger-info.git-repo-open-issues-count)"
+        - name: git-repo-default-branch
+          value: "$(params.trigger-info.git-repo-default-branch)"
+
+        - name: git-sender
+          value: "$(params.trigger-info.git-sender)"
+
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/tekton-context/trigger-info/trigger-info-pr.yaml
+
+      runAfter:
+        - "pipeline-ctx"
 
     - name: set-pr-status
       when:
