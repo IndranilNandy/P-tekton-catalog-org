@@ -201,7 +201,7 @@ spec:
                 state=os.getenv("STATE"),
                 repo=os.getenv("REPO_FULL_NAME"),
                 sha=os.getenv("SHA")))
-    - name: e-fail-instantly
+    - name: e-fail-on-failure-state
       when:
         - input: "$(params.E_SHOULD_FAIL_ON_FAILURE_STATE)"
           operator: in

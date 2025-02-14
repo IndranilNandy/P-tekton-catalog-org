@@ -57,6 +57,8 @@ spec:
             value: tokenKey
           - name: CONTEXT
             value: "catalog-task-test-github-set-status"
+          - name: E_SHOULD_FAIL_ON_FAILURE_STATE
+            value: "true"
         taskRef:
           resolver: git
           params:
