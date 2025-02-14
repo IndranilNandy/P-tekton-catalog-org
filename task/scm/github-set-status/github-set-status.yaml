@@ -195,5 +195,8 @@ spec:
     - name: e-fail-instantly
       image: mirror.gcr.io/ubuntu
       script: |
+        #!/usr/bin/env bash
+
         echo "Status: $(params.STATE)"
-        [[ "$(params.STATE)" == "failure" ]] exit 1 || exit 0
+        res="$(params.STATE)"
+        [[ "$res" == "failure" ]] && exit 1 || exit 0

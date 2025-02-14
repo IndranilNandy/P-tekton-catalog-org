@@ -47,7 +47,8 @@ spec:
           - name: DESCRIPTION
             value: An update to GitHub about our pipeline status
           - name: STATE
-            value: success
+            # value: success
+            value: failure
           - name: GITHUB_TOKEN_SECRET_NAME
             # value: github-open-pr-secret
             value: gh-indranilnandy-demo-app-to-test-pipeline-commit-status-write-pat
