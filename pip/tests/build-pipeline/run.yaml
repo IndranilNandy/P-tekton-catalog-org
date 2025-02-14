@@ -12,11 +12,24 @@ spec:
         fsGroup: 65532
 
   params:
+    # For github-set-status task
+    - name: github-set-status
+      value:
+        github-host-url: "api.github.com"
+        repo-full-name: "IndranilNandy/demo-app-to-test-pipeline"
+        github-token-secret-name: gh-indranilnandy-demo-app-to-test-pipeline-commit-status-write-pat
+        github-token-secret-key: tokenKey
+        # sha: "$(tasks.create-pr.results.E_HEAD_SHA)"
+        # sha: dev
+        description: "Build pipeline: Tasks should set the description individually"
+        context: "non-ci/slfb"
+
     # For git-clone task
     - name: git-clone
       value:
         url: "git@github.com:IndranilNandy/demo-app-to-test-pipeline"
-        revision: "master"
+        # revision: "master"
+        revision: "dev"
 
     # For gradle task
     - name: gradle

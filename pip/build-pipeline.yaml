@@ -78,6 +78,49 @@ spec:
         short-sha: "NA"
         commit-msg: "NA"
 
+    # For github-set-status
+    - name: github-set-status
+      type: object
+      properties:
+        github-host-url:
+          type: string
+        api-path-prefix:
+          type: string
+        repo-full-name:
+          type: string
+        github-token-secret-name:
+          type: string
+        github-token-secret-key:
+          type: string
+        sha:
+          type: string
+        target-url:
+          type: string
+        description:
+          type: string
+        context:
+          type: string
+        state:
+          type: string
+        auth-type:
+          type: string
+        image:
+          type: string
+        shebang:
+          type: string
+      default:
+        github-host-url: "api.github.com"
+        api-path-prefix: ""
+        sha: "$(tasks.clone-source-repo.results.commit)"
+        description: "Build pipeline: Tasks should set the description individually"
+        context: "non-ci/slfb"
+        # Valid values for state: One of failure/pending/success
+        state: "pending"
+        auth-type: "Bearer"
+        image: "python:3.10.1-alpine3.15"
+        shebang: /usr/bin/env python
+        target-url: "$(params.common.tekton-dashboard)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
+
     # For git-clone task
     - name: git-clone
       type: object
@@ -158,7 +201,8 @@ spec:
         #   - "build"
         gradle-user-home: "/home/gradle"
         project-build-dir: "$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)"
-        task-onerror: "stopAndFail"
+        task-onerror: "continue"
+        # task-onerror: "stopAndFail"
     - name: gradle-params-tasks
       type: array
       default:
@@ -413,6 +457,51 @@ spec:
       runAfter:
         - "pipeline-ctx"
 
+    - name: set-pre-build-status
+      # when:
+      #   - input: "$(params.debug.set-pr-status-disabled)"
+      #     operator: in
+      #     values:
+      #       - "false"
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/scm/github-set-status/github-set-status.yaml
+
+      params:
+      - name: GITHUB_HOST_URL
+        value: "$(params.github-set-status.github-host-url)"
+      - name: API_PATH_PREFIX
+        value: "$(params.github-set-status.api-path-prefix)"
+      - name: REPO_FULL_NAME
+        value: "$(params.github-set-status.repo-full-name)"
+      - name: GITHUB_TOKEN_SECRET_NAME
+        value: "$(params.github-set-status.github-token-secret-name)"
+      - name: GITHUB_TOKEN_SECRET_KEY
+        value: "$(params.github-set-status.github-token-secret-key)"
+      - name: SHA
+        value: "$(params.github-set-status.sha)"
+      - name: TARGET_URL
+        value: "$(params.github-set-status.target-url)"
+      - name: DESCRIPTION
+        value: "Starting build"
+      - name: CONTEXT
+        value: "$(params.github-set-status.context)"
+      - name: STATE
+        value: "pending"
+      - name: AUTH_TYPE
+        value: "$(params.github-set-status.auth-type)"
+      - name: IMAGE
+        value: "$(params.github-set-status.image)"
+      - name: SHEBANG
+        value: "$(params.github-set-status.shebang)"
+
+      runAfter:
+        - "clone-source-repo"
+
     - name: build-test-publish-artifacts
       when:
         - input: "$(params.debug.build-test-publish-artifacts-disabled)"
@@ -458,7 +547,54 @@ spec:
           subPath: gradle-cache/project/local-cache/
 
       runAfter:
-        - "clone-source-repo"
+        - "set-pre-build-status"
+
+    - name: set-post-build-status
+      # when:
+      #   - input: "$(params.debug.set-pr-status-disabled)"
+      #     operator: in
+      #     values:
+      #       - "false"
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/scm/github-set-status/github-set-status.yaml
+
+      params:
+      - name: GITHUB_HOST_URL
+        value: "$(params.github-set-status.github-host-url)"
+      - name: API_PATH_PREFIX
+        value: "$(params.github-set-status.api-path-prefix)"
+      - name: REPO_FULL_NAME
+        value: "$(params.github-set-status.repo-full-name)"
+      - name: GITHUB_TOKEN_SECRET_NAME
+        value: "$(params.github-set-status.github-token-secret-name)"
+      - name: GITHUB_TOKEN_SECRET_KEY
+        value: "$(params.github-set-status.github-token-secret-key)"
+      - name: SHA
+        value: "$(params.github-set-status.sha)"
+      - name: TARGET_URL
+        value: "$(params.github-set-status.target-url)"
+      - name: DESCRIPTION
+        value: "Build status: $(tasks.build-test-publish-artifacts.results.gradle-tasks-status)"
+      - name: CONTEXT
+        value: "$(params.github-set-status.context)"
+      - name: STATE
+        value: "$(tasks.build-test-publish-artifacts.results.gradle-tasks-status)"
+      - name: AUTH_TYPE
+        value: "$(params.github-set-status.auth-type)"
+      - name: IMAGE
+        value: "$(params.github-set-status.image)"
+      - name: SHEBANG
+        value: "$(params.github-set-status.shebang)"
+      - name: E_SHOULD_FAIL_ON_FAILURE_STATE
+        value: "true"
+
+      runAfter:
+        - "build-test-publish-artifacts"
 
     - name: create-pr
       when:
@@ -493,7 +629,7 @@ spec:
             value: task/scm/github-open-pr/github-open-pr.yaml
 
       runAfter:
-        - "build-test-publish-artifacts"
+        - "set-post-build-status"
 
   finally:
     - name: all-tasks-status
