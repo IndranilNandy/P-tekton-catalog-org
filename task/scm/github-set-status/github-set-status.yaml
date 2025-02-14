@@ -101,6 +101,15 @@ spec:
     type: string
     default: /usr/bin/env python
 
+  - name: E_SHOULD_FAIL_ON_FAILURE_STATE
+    description: |
+      Should this task fail when the 'STATE' itself is failure?
+      This is useful when we do not fail the previous task on failure, and use this task to set github status.
+      In that case, we may want to just set the github status and fail the pipeline there itself.
+      E.g. if 'gradle build' fails we may just set the github status to 'failure', and then fail the pipeline.
+    type: string
+    default: "false"
+
   volumes:
     - name: githubtoken
       secret:
@@ -193,6 +202,12 @@ spec:
                 repo=os.getenv("REPO_FULL_NAME"),
                 sha=os.getenv("SHA")))
     - name: e-fail-instantly
+      when:
+        - input: "$(params.E_SHOULD_FAIL_ON_FAILURE_STATE)"
+          operator: in
+          values:
+            - "true"
+
       image: mirror.gcr.io/ubuntu
       script: |
         #!/usr/bin/env bash
