@@ -579,11 +579,11 @@ spec:
       - name: TARGET_URL
         value: "$(params.github-set-status.target-url)"
       - name: DESCRIPTION
-        value: "Build status: $(tasks.build-test-publish-artifacts.results.gradle-tasks-status)"
+        value: "Build status: $(tasks.build-test-publish-artifacts.results.tasks-status)"
       - name: CONTEXT
         value: "$(params.github-set-status.context)"
       - name: STATE
-        value: "$(tasks.build-test-publish-artifacts.results.gradle-tasks-status)"
+        value: "$(tasks.build-test-publish-artifacts.results.tasks-status)"
       - name: AUTH_TYPE
         value: "$(params.github-set-status.auth-type)"
       - name: IMAGE
