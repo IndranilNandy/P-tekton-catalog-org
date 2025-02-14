@@ -82,7 +82,7 @@ spec:
         create-pr-disabled: "false"
         set-pr-status-disabled: "false"
         fetch-pr-merge-branch-disabled: "false"
-        pr-build-pipeline-disabled: "true"
+        pr-build-pipeline-disabled: "false"
         set-build-status-disabled: "false"
 
   workspaces:
