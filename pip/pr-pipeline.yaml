@@ -277,6 +277,16 @@ spec:
         pr-build-pipeline-disabled: "false"
         set-build-status-disabled: "false"
 
+    # Configurable sub-paths of workspaces
+    - name: ws-subpath
+      type: object
+      description: configurable sub-paths of workspaces
+      properties:
+        source-code:
+          type: string
+      default:
+        source-code: "source-code/pr-merge-branch/"
+
   workspaces:
     - name: shared-workspace
 
@@ -481,7 +491,8 @@ spec:
       workspaces:
         - name: source
           workspace: shared-workspace
-          subPath: source-code/pr-merge-branch/
+          subPath: "$(params.ws-subpath.source-code)"
+          # subPath: source-code/pr-merge-branch/
 
       runAfter:
         - set-pr-status
@@ -537,7 +548,8 @@ spec:
         # Configurable sub-paths of workspaces
         - name: ws-subpath
           value:
-            source-code: "source-code/pr-merge-branch/"
+            source-code: "$(params.ws-subpath.source-code)"
+            # source-code: "source-code/pr-merge-branch/"
 
       workspaces:
         - name: shared-workspace
