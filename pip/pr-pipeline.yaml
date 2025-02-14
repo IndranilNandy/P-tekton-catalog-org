@@ -610,6 +610,8 @@ spec:
         value: "$(params.github-set-status.image)"
       - name: SHEBANG
         value: "$(params.github-set-status.shebang)"
+      - name: E_SHOULD_FAIL_ON_FAILURE_STATE
+        value: "true"
 
       runAfter:
         - pr-build-pipeline
