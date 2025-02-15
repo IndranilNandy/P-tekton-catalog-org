@@ -265,7 +265,6 @@ spec:
         # gh-set-status-github-host-url: "api.github.com"
         # gh-set-status-api-path-prefix: ""
         # # gh-set-status-sha: "$(tasks.clone-source-repo.results.commit)"
-        gh-set-status-description: "[Pipelines: PR --> Build]"
         # gh-set-status-context: "trunk/slfb"
         # # Valid values for state: One of failure/pending/success
         # gh-set-status-state: "pending"
@@ -273,6 +272,7 @@ spec:
         # gh-set-status-image: "python:3.10.1-alpine3.15"
         # gh-set-status-shebang: /usr/bin/env python
         gh-set-status-target-url: "$(params.common.tekton-dashboard)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
+        gh-set-status-description: "[Pipelines: PR --> Build]"
 
         gradle-image: "gradle:8.7.0-jdk17"
         gradle-user-home: "/home/gradle"
@@ -296,10 +296,6 @@ spec:
     - name: common
       type: object
       properties:
-        # build-artifacts-root:
-        #   type: string
-        # project-build-dir-name:
-        #   type: string
         tekton-dashboard:
           type: string
         pull-number:
@@ -309,8 +305,6 @@ spec:
         pr-head-sha:
           type: string
       default:
-        # build-artifacts-root: "/tmp/myproject/build-artifacts"
-        # project-build-dir-name: "build"
         tekton-dashboard: "http://localhost:8090"
         pr-source: "pr-$(params.common.pull-number)"
 
