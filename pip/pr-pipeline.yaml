@@ -252,8 +252,8 @@ spec:
           type: string
         gradle-user-home:
           type: string
-        gradle-project-build-dir:
-          type: string
+        # gradle-project-build-dir:
+        #   type: string
         gradle-task-onerror:
           type: string
 
