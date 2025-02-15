@@ -21,7 +21,7 @@ spec:
         github-token-secret-key: tokenKey
         # sha: "$(tasks.create-pr.results.E_HEAD_SHA)"
         # sha: dev
-        description: "Build pipeline: Tasks should set the description individually"
+        # description: "Build pipeline: Tasks should set the description individually"
         context: "trunk/slfb"
 
     # For git-clone task
