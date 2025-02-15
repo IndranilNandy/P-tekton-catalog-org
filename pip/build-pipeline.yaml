@@ -457,8 +457,34 @@ spec:
           value: "$(params.git-clone.url)"
         - name: revision
           value: "$(params.git-clone.revision)"
+        - name: refspec
+          value: "$(params.git-clone.refspec)"
+        - name: submodules
+          value: "$(params.git-clone.submodules)"
         - name: depth
           value: "$(params.git-clone.depth)"
+        - name: sslVerify
+          value: "$(params.git-clone.sslVerify)"
+        - name: crtFileName
+          value: "$(params.git-clone.crtFileName)"
+        - name: subdirectory
+          value: "$(params.git-clone.subdirectory)"
+        - name: sparseCheckoutDirectories
+          value: "$(params.git-clone.sparseCheckoutDirectories)"
+        - name: deleteExisting
+          value: "$(params.git-clone.deleteExisting)"
+        - name: httpProxy
+          value: "$(params.git-clone.httpProxy)"
+        - name: httpsProxy
+          value: "$(params.git-clone.httpsProxy)"
+        - name: noProxy
+          value: "$(params.git-clone.noProxy)"
+        - name: verbose
+          value: "$(params.git-clone.verbose)"
+        - name: gitInitImage
+          value: "$(params.git-clone.gitInitImage)"
+        - name: userHome
+          value: "$(params.git-clone.userHome)"
       workspaces:
         - name: output
           workspace: shared-workspace
