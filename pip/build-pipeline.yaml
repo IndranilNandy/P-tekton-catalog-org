@@ -112,8 +112,8 @@ spec:
         github-host-url: "api.github.com"
         api-path-prefix: ""
         sha: "$(tasks.clone-source-repo.results.commit)"
-        description: "Build pipeline: Tasks should set the description individually"
-        context: "non-ci/slfb"
+        description: "[Pipelines: Build]"
+        context: "trunk/slfb"
         # Valid values for state: One of failure/pending/success
         state: "pending"
         auth-type: "Bearer"

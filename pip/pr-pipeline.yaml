@@ -169,7 +169,7 @@ spec:
       default:
         github-host-url: "api.github.com"
         api-path-prefix: ""
-        description: "[Pipelines: PR ]"
+        description: "[Pipelines: PR]"
         context: "ci/pr"
         # Valid values for state: One of failure/pending/success
         state: "pending"
@@ -266,7 +266,7 @@ spec:
         # gh-set-status-api-path-prefix: ""
         # # gh-set-status-sha: "$(tasks.clone-source-repo.results.commit)"
         gh-set-status-description: "[Pipelines: PR --> Build]"
-        # gh-set-status-context: "non-ci/slfb"
+        # gh-set-status-context: "trunk/slfb"
         # # Valid values for state: One of failure/pending/success
         # gh-set-status-state: "pending"
         # gh-set-status-auth-type: "Bearer"

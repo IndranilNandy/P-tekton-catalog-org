@@ -22,7 +22,7 @@ spec:
         # sha: "$(tasks.create-pr.results.E_HEAD_SHA)"
         # sha: dev
         description: "Build pipeline: Tasks should set the description individually"
-        context: "non-ci/slfb"
+        context: "trunk/slfb"
 
     # For git-clone task
     - name: git-clone

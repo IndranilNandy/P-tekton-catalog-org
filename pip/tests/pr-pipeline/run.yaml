@@ -36,7 +36,7 @@ spec:
         github-token-secret-key: tokenKey
         # sha: dev
         sha: 559debcd6ff6ac6aa6e38e84377259d5642afca6
-        description: "PR pipeline"
+        # description: "PR pipeline"
         context: "ci/pr"
 
     # For fetch-pr-merge-branch

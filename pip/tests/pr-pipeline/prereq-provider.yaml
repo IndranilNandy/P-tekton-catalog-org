@@ -217,7 +217,7 @@ spec:
             github-token-secret-key: "$(params.github-set-status.github-token-secret-key)"
             # sha: 559debcd6ff6ac6aa6e38e84377259d5642afca6
             # sha: "$(tasks.create-pr.results.E_HEAD_SHA)"
-            description: "$(params.github-set-status.description)"
+            # description: "$(params.github-set-status.description)"
             context: "$(params.github-set-status.context)"
 
         # For fetch-pr-merge-branch
