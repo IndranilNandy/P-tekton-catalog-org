@@ -150,8 +150,8 @@ spec:
           type: string
         github-token-secret-key:
           type: string
-        sha:
-          type: string
+        # sha:
+        #   type: string
         target-url:
           type: string
         description:
@@ -169,7 +169,7 @@ spec:
       default:
         github-host-url: "api.github.com"
         api-path-prefix: ""
-        description: "PR pipeline: Tasks should set the description individually"
+        description: "[Pipelines: PR ]"
         context: "ci/pr"
         # Valid values for state: One of failure/pending/success
         state: "pending"
@@ -220,17 +220,65 @@ spec:
     - name: pr-build-pipeline
       type: object
       properties:
+
+        # gh-set-status-github-host-url:
+        #   type: string
+        # gh-set-status-api-path-prefix:
+        #   type: string
+        # gh-set-status-repo-full-name:
+        #   type: string
+        # gh-set-status-github-token-secret-name:
+        #   type: string
+        # gh-set-status-github-token-secret-key:
+        #   type: string
+        # # gh-set-status-sha:
+        # #   type: string
+        gh-set-status-target-url:
+          type: string
+        gh-set-status-description:
+          type: string
+        # gh-set-status-context:
+        #   type: string
+        # gh-set-status-state:
+        #   type: string
+        # gh-set-status-auth-type:
+        #   type: string
+        # gh-set-status-image:
+        #   type: string
+        # gh-set-status-shebang:
+        #   type: string
+
         gradle-image:
+          type: string
+        gradle-user-home:
+          type: string
+        gradle-project-build-dir:
           type: string
         gradle-task-onerror:
           type: string
+
         common-build-artifacts-root:
           type: string
         common-project-build-dir-name:
           type: string
       default:
+        # gh-set-status-github-host-url: "api.github.com"
+        # gh-set-status-api-path-prefix: ""
+        # # gh-set-status-sha: "$(tasks.clone-source-repo.results.commit)"
+        gh-set-status-description: "[Pipelines: PR --> Build]"
+        # gh-set-status-context: "non-ci/slfb"
+        # # Valid values for state: One of failure/pending/success
+        # gh-set-status-state: "pending"
+        # gh-set-status-auth-type: "Bearer"
+        # gh-set-status-image: "python:3.10.1-alpine3.15"
+        # gh-set-status-shebang: /usr/bin/env python
+        gh-set-status-target-url: "$(params.common.tekton-dashboard)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
+
         gradle-image: "gradle:8.7.0-jdk17"
+        gradle-user-home: "/home/gradle"
+        # gradle-project-build-dir: "$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)"
         gradle-task-onerror: "continue"
+
         common-build-artifacts-root: "/tmp/myproject/build-artifacts"
         common-project-build-dir-name: "build"
     - name: pr-build-pipeline-gradle-params-tasks
@@ -239,22 +287,30 @@ spec:
         - build
         - publish
         - -PbuildDir=$(params.pr-build-pipeline.common-build-artifacts-root)/$(params.pr-build-pipeline.common-project-build-dir-name)
-        - --console=verbose
         # - --status
         # no improvement with --no-daemon; also gradle now doesn't suggest to disable daemong in CI
         # - --no-daemon
+        - --console=verbose
 
     # Pipeline commons
     - name: common
       type: object
       properties:
+        # build-artifacts-root:
+        #   type: string
+        # project-build-dir-name:
+        #   type: string
         tekton-dashboard:
           type: string
         pull-number:
           type: string
         pr-source:
           type: string
+        pr-head-sha:
+          type: string
       default:
+        # build-artifacts-root: "/tmp/myproject/build-artifacts"
+        # project-build-dir-name: "build"
         tekton-dashboard: "http://localhost:8090"
         pr-source: "pr-$(params.common.pull-number)"
 
@@ -442,11 +498,11 @@ spec:
       - name: GITHUB_TOKEN_SECRET_KEY
         value: "$(params.github-set-status.github-token-secret-key)"
       - name: SHA
-        value: "$(params.github-set-status.sha)"
+        value: "$(params.common.pr-head-sha)"
       - name: TARGET_URL
         value: "$(params.github-set-status.target-url)"
       - name: DESCRIPTION
-        value: "PR raised. Pending: build/test"
+        value: "$(params.github-set-status.description) PR raised. Pending: build/test"
       - name: CONTEXT
         value: "$(params.github-set-status.context)"
       - name: STATE
@@ -492,7 +548,6 @@ spec:
         - name: source
           workspace: shared-workspace
           subPath: "$(params.ws-subpath.source-code)"
-          # subPath: source-code/pr-merge-branch/
 
       runAfter:
         - set-pr-status
@@ -505,6 +560,23 @@ spec:
             - "false"
 
       params:
+        # For github-set-status task
+        - name: github-set-status
+          value:
+            github-host-url: "$(params.github-set-status.github-host-url)"
+            api-path-prefix: "$(params.github-set-status.api-path-prefix)"
+            repo-full-name: "$(params.github-set-status.repo-full-name)"
+            github-token-secret-name: "$(params.github-set-status.github-token-secret-name)"
+            github-token-secret-key: "$(params.github-set-status.github-token-secret-key)"
+            sha: "$(params.common.pr-head-sha)"
+            # target-url: "$(params.pr-build-pipeline.gh-set-status-target-url)"
+            description: "$(params.pr-build-pipeline.gh-set-status-description)"
+            context: "$(params.github-set-status.context)"
+            # state: "$(params.pr-build-pipeline.gh-set-status-state)"
+            auth-type: "$(params.github-set-status.auth-type)"
+            image: "$(params.github-set-status.image)"
+            shebang: "$(params.github-set-status.shebang)"
+
         # For git-clone task
         - name: git-clone
           value:
@@ -516,6 +588,7 @@ spec:
           value:
             gradle-image: "$(params.pr-build-pipeline.gradle-image)"
             project-dir: "$(params.common.pr-source)"
+            gradle-user-home: "$(params.pr-build-pipeline.gradle-user-home)"
             task-onerror: "$(params.pr-build-pipeline.gradle-task-onerror)"
         - name: gradle-params-tasks
           value: ["$(params.pr-build-pipeline-gradle-params-tasks)"]
@@ -538,18 +611,21 @@ spec:
             build-artifacts-root: "$(params.pr-build-pipeline.common-build-artifacts-root)"
             project-build-dir-name: "$(params.pr-build-pipeline.common-project-build-dir-name)"
             create-pr: "false"
+            tekton-dashboard: "$(params.common.tekton-dashboard)"
 
         # Debugging purpose
         - name: debug
           value:
             clone-source-repo-disabled: "true"
+            set-pre-build-status-disabled: "false"
             build-test-publish-artifacts-disabled: "false"
+            set-post-build-status-disabled: "false"
+            create-pr-disabled: "true"
 
         # Configurable sub-paths of workspaces
         - name: ws-subpath
           value:
             source-code: "$(params.ws-subpath.source-code)"
-            # source-code: "source-code/pr-merge-branch/"
 
       workspaces:
         - name: shared-workspace
@@ -595,11 +671,11 @@ spec:
       - name: GITHUB_TOKEN_SECRET_KEY
         value: "$(params.github-set-status.github-token-secret-key)"
       - name: SHA
-        value: "$(params.github-set-status.sha)"
+        value: "$(params.common.pr-head-sha)"
       - name: TARGET_URL
         value: "$(params.github-set-status.target-url)"
       - name: DESCRIPTION
-        value: "Build status: $(tasks.pr-build-pipeline.results.gradle-tasks-status)"
+        value: "$(params.github-set-status.description) Build status: $(tasks.pr-build-pipeline.results.gradle-tasks-status)"
       - name: CONTEXT
         value: "$(params.github-set-status.context)"
       - name: STATE

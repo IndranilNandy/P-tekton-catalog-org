@@ -498,7 +498,7 @@ spec:
       - name: TARGET_URL
         value: "$(params.github-set-status.target-url)"
       - name: DESCRIPTION
-        value: "Starting build"
+        value: "$(params.github-set-status.description) Starting build"
       - name: CONTEXT
         value: "$(params.github-set-status.context)"
       - name: STATE
@@ -588,7 +588,7 @@ spec:
       - name: TARGET_URL
         value: "$(params.github-set-status.target-url)"
       - name: DESCRIPTION
-        value: "Build status: $(tasks.build-test-publish-artifacts.results.tasks-result)"
+        value: "$(params.github-set-status.description) Build status> $(tasks.build-test-publish-artifacts.results.tasks-result)"
       - name: CONTEXT
         value: "$(params.github-set-status.context)"
       - name: STATE

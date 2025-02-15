@@ -216,7 +216,7 @@ spec:
             github-token-secret-name: "$(params.github-set-status.github-token-secret-name)"
             github-token-secret-key: "$(params.github-set-status.github-token-secret-key)"
             # sha: 559debcd6ff6ac6aa6e38e84377259d5642afca6
-            sha: "$(tasks.create-pr.results.E_HEAD_SHA)"
+            # sha: "$(tasks.create-pr.results.E_HEAD_SHA)"
             description: "$(params.github-set-status.description)"
             context: "$(params.github-set-status.context)"
 
@@ -239,6 +239,7 @@ spec:
           value:
             tekton-dashboard: "$(params.common.tekton-dashboard)"
             pull-number: "$(params.common.pull-number)"
+            pr-head-sha: "$(tasks.create-pr.results.E_HEAD_SHA)"
             # build-artifacts-root: "/tmp/myproject/build-artifacts"
             # project-build-dir-name: "build"
             # create-pr: "false"
