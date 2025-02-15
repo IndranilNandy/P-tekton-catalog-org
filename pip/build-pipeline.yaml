@@ -207,6 +207,8 @@ spec:
       type: array
       default:
         - build
+        - -PbuildDir=$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)
+        - --console=verbose
 
     # For github-open-pr
     - name: github-open-pr
@@ -233,7 +235,7 @@ spec:
         # repo-full-name:
         # github-token-secret-name:
         # github-token-secret-key:
-        head: "NA"
+        # head: "NA"
         base: "master"
         title: "Pull request default title"
         body: "Pull request default body"
@@ -250,14 +252,11 @@ spec:
           type: string
         tekton-dashboard:
           type: string
-        # webhook-triggered:
-        #   type: string
       default:
         build-artifacts-root: "/tmp/myproject/build-artifacts"
         project-build-dir-name: "build"
         create-pr: "false"
         tekton-dashboard: "http://localhost:8090"
-        # webhook-triggered: "false"
 
       # Debugging purpose
     - name: debug
@@ -266,11 +265,20 @@ spec:
       properties:
         clone-source-repo-disabled:
           type: string
+        set-pre-build-status-disabled:
+          type: string
         build-test-publish-artifacts-disabled:
+          type: string
+        set-post-build-status-disabled:
+          type: string
+        create-pr-disabled:
           type: string
       default:
         clone-source-repo-disabled: "false"
+        set-pre-build-status-disabled: "false"
         build-test-publish-artifacts-disabled: "false"
+        set-post-build-status-disabled: "false"
+        create-pr-disabled: "false"
 
     # Configurable sub-paths of workspaces
     - name: ws-subpath
@@ -461,11 +469,11 @@ spec:
         - "pipeline-ctx"
 
     - name: set-pre-build-status
-      # when:
-      #   - input: "$(params.debug.set-pr-status-disabled)"
-      #     operator: in
-      #     values:
-      #       - "false"
+      when:
+        - input: "$(params.debug.set-pre-build-status-disabled)"
+          operator: in
+          values:
+            - "false"
       taskRef:
         resolver: git
         params:
@@ -528,7 +536,6 @@ spec:
           value: ["$(params.gradle-params-tasks)"]
         - name: E_PROJECT_BUILD_DIR_CUSTOM
           value: "$(params.gradle.project-build-dir)"
-          # value: "$(params.common.build-artifacts-root)/$(params.common.project-build-dir-name)"
         - name: E_GRADLE_USER_HOME
           value: "$(params.gradle.gradle-user-home)"
         - name: E_GRADLE_TASK_ONERROR
@@ -538,7 +545,6 @@ spec:
         - name: source
           workspace: shared-workspace
           subPath: "$(params.ws-subpath.source-code)"
-          # subPath: source-code/
         - name: e-gradle-user-home-cache
           workspace: shared-workspace
           subPath: gradle-cache/user-home/
@@ -553,11 +559,11 @@ spec:
         - "set-pre-build-status"
 
     - name: set-post-build-status
-      # when:
-      #   - input: "$(params.debug.set-pr-status-disabled)"
-      #     operator: in
-      #     values:
-      #       - "false"
+      when:
+        - input: "$(params.debug.set-post-build-status-disabled)"
+          operator: in
+          values:
+            - "false"
       taskRef:
         resolver: git
         params:
@@ -605,6 +611,10 @@ spec:
           operator: in
           values:
             - "true"
+        - input: "$(params.debug.create-pr-disabled)"
+          operator: in
+          values:
+            - "false"
       params:
         - name: GITHUB_HOST_URL
           value: "$(params.github-open-pr.github-host-url)"
