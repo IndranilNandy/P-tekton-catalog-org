@@ -1,0 +1,8 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: pr--cel-ext-binding
+spec:
+  params:
+    - name: short-sha
+      value: $(extensions.truncated_sha)
