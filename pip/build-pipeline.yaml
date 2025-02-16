@@ -26,8 +26,6 @@ spec:
           type: string
         event-webhook-deliveries-url:
           type: string
-        # event-webhook-triggered:
-        #   type: string
         git-info-pusher:
           type: string
         git-info-compare-url:
@@ -63,7 +61,6 @@ spec:
         event-github-delivery-id: "NA"
         event-github-hook-id: "NA"
         event-webhook-deliveries-url: "NA"
-        # event-webhook-triggered: "false"
         git-info-pusher: "NA"
         git-info-compare-url: "NA"
         git-head-revision: "NA"
@@ -232,10 +229,6 @@ spec:
           type: string
       default:
         github-host-url: "api.github.com"
-        # repo-full-name:
-        # github-token-secret-name:
-        # github-token-secret-key:
-        # head: "NA"
         base: "master"
         title: "Pull request default title"
         body: "Pull request default body"
@@ -489,7 +482,6 @@ spec:
         - name: output
           workspace: shared-workspace
           subPath: "$(params.ws-subpath.source-code)"
-          # subPath: source-code/
 
       runAfter:
         - "pipeline-ctx"

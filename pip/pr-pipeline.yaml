@@ -220,33 +220,10 @@ spec:
     - name: pr-build-pipeline
       type: object
       properties:
-
-        # gh-set-status-github-host-url:
-        #   type: string
-        # gh-set-status-api-path-prefix:
-        #   type: string
-        # gh-set-status-repo-full-name:
-        #   type: string
-        # gh-set-status-github-token-secret-name:
-        #   type: string
-        # gh-set-status-github-token-secret-key:
-        #   type: string
-        # # gh-set-status-sha:
-        # #   type: string
         gh-set-status-target-url:
           type: string
         gh-set-status-description:
           type: string
-        # gh-set-status-context:
-        #   type: string
-        # gh-set-status-state:
-        #   type: string
-        # gh-set-status-auth-type:
-        #   type: string
-        # gh-set-status-image:
-        #   type: string
-        # gh-set-status-shebang:
-        #   type: string
 
         gradle-image:
           type: string
@@ -262,15 +239,6 @@ spec:
         common-project-build-dir-name:
           type: string
       default:
-        # gh-set-status-github-host-url: "api.github.com"
-        # gh-set-status-api-path-prefix: ""
-        # # gh-set-status-sha: "$(tasks.clone-source-repo.results.commit)"
-        # gh-set-status-context: "trunk/slfb"
-        # # Valid values for state: One of failure/pending/success
-        # gh-set-status-state: "pending"
-        # gh-set-status-auth-type: "Bearer"
-        # gh-set-status-image: "python:3.10.1-alpine3.15"
-        # gh-set-status-shebang: /usr/bin/env python
         gh-set-status-target-url: "$(params.common.tekton-dashboard)/#/namespaces/$(context.pipelineRun.namespace)/pipelineruns/$(context.pipelineRun.name)"
         gh-set-status-description: "[Pipelines: PR --> Build]"
 
