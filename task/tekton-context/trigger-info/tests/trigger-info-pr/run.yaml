@@ -94,8 +94,8 @@ spec:
 
     - name: git-pr-merged
       value: git-pr-merged
-    - name: git-pr-merged-by
-      value: git-pr-merged-by
+    # - name: git-pr-merged-by
+    #   value: git-pr-merged-by
 
     - name: git-sender
       value: git-sender
