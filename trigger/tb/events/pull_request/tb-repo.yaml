@@ -63,6 +63,11 @@ spec:
     - name: git-pr-links-statuses
       value: $(body.pull_request._links.statuses.href)
 
+    - name: git-pr-merged
+      value: $(body.pull_request.merged)
+    - name: git-pr-merged-by
+      value: $(body.pull_request.merged_by.login)
+
     - name: git-sender
       value: $(body.sender.login)
 
