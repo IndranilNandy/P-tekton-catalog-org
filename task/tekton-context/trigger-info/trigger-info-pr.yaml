@@ -92,6 +92,11 @@ spec:
     - name: git-repo-default-branch
       default: "NA"
 
+    - name: git-pr-merged
+      default: "NA"
+    - name: git-pr-merged-by
+      default: "NA"
+
     - name: git-sender
       default: "NA"
 
@@ -155,6 +160,11 @@ spec:
         echo "\t\t\tReview comments:\t$(params.git-pr-links-review-comments)"
         echo "\t\t\tCommits:\t$(params.git-pr-links-commits)"
         echo "\t\t\tStatuses:\t$(params.git-pr-links-statuses)"
+
+        echo
+        echo "\Merge Status:"
+        echo "\t\t\tMerged?\t$(params.git-pr-merged)"
+        echo "\t\t\tMerged by:\t$(params.git-pr-merged-by)"
 
         echo
         echo "Additional:"
