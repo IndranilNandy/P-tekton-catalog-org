@@ -163,7 +163,7 @@ spec:
 
         echo
         echo "\tMerge Status:"
-        echo "\t\t\tMerged?\t\t$(params.git-pr-merged)"
+        echo "\t\t\tMerged:\t\t$(params.git-pr-merged)"
 
         echo
         echo "Additional:"
