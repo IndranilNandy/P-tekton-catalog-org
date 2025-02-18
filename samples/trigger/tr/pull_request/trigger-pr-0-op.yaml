@@ -5,6 +5,7 @@ metadata:
   labels:
     event-type: pull_request
     event-action: opened
+    trigger.type: event
 spec:
   interceptors:
     - name: "CEL filter: only when PRs are opened"

@@ -5,6 +5,7 @@ metadata:
   labels:
     event-type: pull_request_review
     event-action: submitted
+    trigger.type: event
 spec:
   interceptors:
     - name: "CEL filter: only when pull request reviews are submitted"

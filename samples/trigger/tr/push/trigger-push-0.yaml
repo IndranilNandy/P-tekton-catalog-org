@@ -5,6 +5,7 @@ metadata:
   name: trigger-push-0
   labels:
     event-type: push
+    trigger.type: event
 
 spec:
   interceptors:
