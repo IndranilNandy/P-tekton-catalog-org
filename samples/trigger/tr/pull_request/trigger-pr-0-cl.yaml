@@ -23,7 +23,7 @@ spec:
           value: "header.match('X-GitHub-Event', 'pull_request')"
         - name: "overlays"
           value:
-            - key: extensions.truncated_sha
+            - key: truncated_sha
               expression: "body.pull_request.head.sha.truncate(7)"
   bindings:
   - ref: common--event-binding

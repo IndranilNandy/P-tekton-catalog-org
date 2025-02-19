@@ -94,6 +94,8 @@ spec:
 
     - name: git-pr-merged
       default: "NA"
+    - name: git-pr-merged-sha
+      default: "NA"
     # - name: git-pr-merged-by
     #   default: "NA"
 
@@ -164,6 +166,7 @@ spec:
         echo
         echo "\tMerge Status:"
         echo "\t\t\tMerged:\t\t$(params.git-pr-merged)"
+        echo "\t\t\tMerged SHA:\t\t$(params.git-pr-merged-sha)"
 
         echo
         echo "Additional:"

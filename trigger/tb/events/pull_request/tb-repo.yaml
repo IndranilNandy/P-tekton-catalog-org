@@ -65,6 +65,8 @@ spec:
 
     - name: git-pr-merged
       value: $(body.pull_request.merged)
+    - name: git-pr-merged-sha
+      value: $(body.pull_request.merge_commit_sha)
     # - name: git-pr-merged-by
     #   value: $(body.pull_request.merged_by.login)
 
