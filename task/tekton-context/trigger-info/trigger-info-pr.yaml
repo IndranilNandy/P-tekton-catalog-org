@@ -166,7 +166,7 @@ spec:
         echo
         echo "\tMerge Status:"
         echo "\t\t\tMerged:\t\t$(params.git-pr-merged)"
-        echo "\t\t\tMerged SHA:\t\t$(params.git-pr-merged-sha)"
+        echo "\t\t\tMerged SHA:\t$(params.git-pr-merged-sha)"
 
         echo
         echo "Additional:"
