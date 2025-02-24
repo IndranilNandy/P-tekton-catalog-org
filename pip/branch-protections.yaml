@@ -47,7 +47,7 @@ spec:
           # sha="acd3bdf8b07b792652cbdf1739b9e1739caabace"
           # timeoutInMin=2
 
-          threshold=$((timeoutInMin * 2))
+          threshold="$((timeoutInMin * 2))"
           response="pending"
           retry=1
 

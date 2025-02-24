@@ -26,7 +26,8 @@ spec:
         repo: "demo-app-to-test-pipeline"
         sha: "63a8800266a152b5ceb900eddf75d709ead169cf"
         context: "ci/pr-merged/master"
-        description: "'[Pipelines: PR-merged] Build status: success'"
+        description: "abcd"
+        # description: "'[Pipelines: PR-merged] Build status: success'"
         status: "success"
         timeout: "2"
 
