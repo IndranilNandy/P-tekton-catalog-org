@@ -127,7 +127,7 @@ spec:
         - "repo=$(params.no-direct-commit-script-vars.repo)"
         - "sha=$(params.no-direct-commit-script-vars.sha)"
         - "context=$(params.no-direct-commit-script-vars.context)"
-        - "description='$(params.no-direct-commit-script-vars.description)'"
+        - "description=$(params.no-direct-commit-script-vars.description)"
         - "targetStatus=$(params.no-direct-commit-script-vars.status)"
         - "timeoutInMin=$(params.no-direct-commit-script-vars.timeout)"
 
