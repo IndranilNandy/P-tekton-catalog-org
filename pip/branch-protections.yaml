@@ -179,6 +179,9 @@ spec:
           value: "$(params.no-direct-commit.additional-secret-key)"
 
       workspaces:
+        - name: source
+          workspace: shared-workspace
+          subPath: "source-code/"
         - name: e-additional-secret
           workspace: shared-workspace
-          # subPath: "additional-secrets/"
+          subPath: "additional-secrets/"

@@ -3,6 +3,6 @@
 kubectl delete -f serviceaccount.yaml
 
 (
-    cd ../../../../scripts/tests
+    cd ../../../scripts/tests
     ./tear_test.sh
 )
