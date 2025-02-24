@@ -49,6 +49,11 @@ spec:
         other files in this Workspace are ignored. It is strongly recommended
         to use ssh-directory over basic-auth whenever possible and to bind a
         Secret to this Workspace over other volume types.
+
+    - name: e-additional-secret
+      optional: true
+      description: |
+        A Workspace containing additional secrets if needed (e.g. gh authentication etc).
   params:
     - name: BASE_IMAGE
       description: |
@@ -97,6 +102,12 @@ spec:
       type: array
       # default:
 
+    - name: E_ADDITIONAL_SECRET_KEY
+      description: |
+        Key for the additional secret
+      type: string
+      default: "tokenKey"
+
   results:
     - name: commit
       description: The precise commit SHA after the git operation.
@@ -120,6 +131,12 @@ spec:
         value: $(workspaces.basic-auth.bound)
       - name: WORKSPACE_BASIC_AUTH_DIRECTORY_PATH
         value: $(workspaces.basic-auth.path)
+      - name: WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_BOUND
+        value: $(workspaces.e-additional-secret.bound)
+      - name: WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_PATH
+        value: $(workspaces.e-additional-secret.path)
+      - name: ADDITIONAL_SECRET_KEY
+        value: $(params.E_ADDITIONAL_SECRET_KEY)
       args:
         - "$(params.E_SCRIPT_ARGUMENTS)"
       script: |
