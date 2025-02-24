@@ -275,6 +275,7 @@ spec:
       default:
         tekton-dashboard: "http://localhost:8090"
         pr-source: "pr-$(params.common.pull-number)"
+        pr-head-sha: "$(params.git-pr-head-sha)"
 
     # Debugging purpose
     - name: debug

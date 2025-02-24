@@ -486,7 +486,7 @@ spec:
       - name: GITHUB_TOKEN_SECRET_KEY
         value: "$(params.github-set-status.github-token-secret-key)"
       - name: SHA
-        value: "$(params.trigger-info.git-pr-base-sha)"
+        value: "$(params.trigger-info.git-pr-merged-sha)"
       - name: TARGET_URL
         value: "$(params.github-set-status.target-url)"
       - name: DESCRIPTION
@@ -556,7 +556,7 @@ spec:
             repo-full-name: "$(params.github-set-status.repo-full-name)"
             github-token-secret-name: "$(params.github-set-status.github-token-secret-name)"
             github-token-secret-key: "$(params.github-set-status.github-token-secret-key)"
-            sha: "$(params.trigger-info.git-pr-base-sha)"
+            sha: "$(params.trigger-info.git-pr-merged-sha)"
             # target-url: "$(params.build-pipeline.gh-set-status-target-url)"
             description: "$(params.build-pipeline.gh-set-status-description)"
             context: "$(params.github-set-status.context)"
@@ -674,7 +674,7 @@ spec:
       - name: GITHUB_TOKEN_SECRET_KEY
         value: "$(params.github-set-status.github-token-secret-key)"
       - name: SHA
-        value: "$(params.trigger-info.git-pr-base-sha)"
+        value: "$(params.trigger-info.git-pr-merged-sha)"
       - name: TARGET_URL
         value: "$(params.github-set-status.target-url)"
       - name: DESCRIPTION
