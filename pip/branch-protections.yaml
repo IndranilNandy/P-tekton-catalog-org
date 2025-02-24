@@ -181,4 +181,4 @@ spec:
       workspaces:
         - name: e-additional-secret
           workspace: shared-workspace
-          subPath: "additional-secrets/"
+          # subPath: "additional-secrets/"
