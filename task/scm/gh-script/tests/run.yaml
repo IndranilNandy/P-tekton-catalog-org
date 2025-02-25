@@ -1,0 +1,69 @@
+apiVersion: tekton.dev/v1
+kind: TaskRun
+metadata:
+  generateName: gh-script-r-
+spec:
+
+  taskRunTemplate:
+    serviceAccountName: test-service-account
+    podTemplate:
+      securityContext:
+        fsGroup: 65532
+
+  params:
+    # For no-direct-commit
+    - name: no-direct-commit
+      value:
+        base-image: maniator/gh
+        git-user-name: ""
+        git-user-email: ""
+        user-home: "/root"
+        verbose: "true"
+        additional-secret-key: "tokenKey"
+    - name: no-direct-commit-script-vars
+      value:
+        owner: "indranilnandy"
+        repo: "demo-app-to-test-pipeline"
+        sha: "63a8800266a152b5ceb900eddf75d709ead169cf"
+        context: "ci/pr-merged/master"
+        description: "abcd"
+        # description: "'[Pipelines: PR-merged] Build status: success'"
+        status: "success"
+        timeout: "2"
+
+    # Debugging purpose
+    - name: debug
+      value:
+        no-direct-commit-disabled: "false"
+
+    # - name: secrets
+
+    # Configurable sub-paths of workspaces
+    # - name: ws-subpath
+    #   value:
+    #     source-code: "codebase/"
+
+  # workspaces:
+  #   - name: shared-workspace
+  #     persistentVolumeClaim:
+  #       claimName: test-catalog-pipeline-build-pipeline-pvc
+  #     subPath: kaniko-pipeline/
+
+    # - name: ssh-directory
+    #   secret:
+    #     secretName: git-creds-ssh-secret-3
+
+  workspaces:
+    - name: shared-workspace
+      secret:
+        secretName: gh-indranilnandy-demo-app-to-test-pipeline-gh-auth-classic-pat
+      # subPath: br-protections/
+
+  # pipelineRef:
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: scm/gh-script/gh-script.yaml
