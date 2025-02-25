@@ -1,0 +1,175 @@
+apiVersion: tekton.dev/v1
+# apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: test-catalog-task-gh-script
+spec:
+  params:
+    # For no-direct-commit
+    - name: no-direct-commit
+      type: object
+      properties:
+        base-image:
+          type: string
+        git-user-name:
+          type: string
+        git-user-email:
+          type: string
+        git-script:
+          type: string
+        user-home:
+          type: string
+        verbose:
+          type: string
+        additional-secret-key:
+          type: string
+      default:
+        base-image: maniator/gh
+        git-user-name: ""
+        git-user-email: ""
+        git-script: |
+          #!/usr/bin/env bash
+
+          if [ "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_BOUND}" = "true" ]; then
+              export GITHUB_TOKEN=$(cat "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_PATH}/${ADDITIONAL_SECRET_KEY}" | tr -d '\n')
+          fi
+
+          echo -e github_token="$GITHUB_TOKEN"
+
+          # # context="slfb/master"
+          # context="ci/pr-merged/master"
+          # # description="[Pipelines: Build] Build status: success"
+          # description="[Pipelines: PR-merged] Build status: success1"
+          # targetStatus="success"
+          # # sha="63a8800266a152b5ceb900eddf75d709ead169cf"
+          # owner="indranilnandy"
+          # repo="demo-app-to-test-pipeline"
+          # sha="acd3bdf8b07b792652cbdf1739b9e1739caabace"
+          # timeoutInMin=2
+
+          threshold=4
+          response="pending"
+          retry=1
+          gh
+          # while [[ "$response" != "success" ]]; do
+          #     echo -e "Querying GitHub repo $owner/$repo for the following commit status @ $sha"
+          #     echo -e "\tcontext=$context"
+          #     echo -e "\tdescription=$description"
+          #     echo -e "\tstatus=$targetStatus"
+
+          #     response=$(gh api \
+          #         -H "Accept: application/vnd.github+json" \
+          #         -H "X-GitHub-Api-Version: 2022-11-28" \
+          #         /repos/"$owner"/"$repo"/commits/"$sha"/statuses |
+          #         _context="$context" _description="$description" \
+          #             yq '(.[] | select (.context == strenv(_context) and .description == strenv(_description)))' |
+          #         jq .state | yq | head -n1)
+
+          #     [[ "$response" == "$targetStatus" ]] && exit 0
+          #     [[ "$response" == "failure" ]] && exit 1
+          #     [[ "$retry" -gt "$threshold" ]] && break
+
+          #     echo -e "Will retry after 30s"
+          #     sleep 5
+
+          #     echo -e
+          #     echo -e "Retry no. $retry"
+          #     retry=$((retry + 1))
+          # done
+
+          # echo -e
+          # echo -e "Timed out. Exiting with status code 1"
+          # exit 1
+        user-home: "/root"
+        verbose: "true"
+        additional-secret-key: "tokenKey"
+    - name: no-direct-commit-script-vars
+      type: object
+      properties:
+        owner:
+          type: string
+        repo:
+          type: string
+        sha:
+          type: string
+        context:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        timeout:
+          type: string
+      default:
+        # owner:
+        # repo:
+        # sha:
+        # context:
+        # description:
+        status: "success"
+        timeout: "2"
+    - name: no-direct-commit-script-arguments
+      type: array
+      default:
+        - "owner=$(params.no-direct-commit-script-vars.owner)"
+        - "repo=$(params.no-direct-commit-script-vars.repo)"
+        - "sha=$(params.no-direct-commit-script-vars.sha)"
+        - "context=$(params.no-direct-commit-script-vars.context)"
+        - "description=$(params.no-direct-commit-script-vars.description)"
+        - "targetStatus=$(params.no-direct-commit-script-vars.status)"
+        - "timeoutInMin=$(params.no-direct-commit-script-vars.timeout)"
+
+    # Debugging purpose
+    - name: debug
+      type: object
+      description: all debug switches and properties
+      properties:
+        no-direct-commit-disabled:
+          type: string
+      default:
+        no-direct-commit-disabled: "false"
+
+  workspaces:
+    - name: gh-auth
+
+  tasks:
+    # Only through PRs
+    - name: no-direct-commit
+      when:
+        - input: "$(params.debug.no-direct-commit-disabled)"
+          operator: in
+          values:
+            - "false"
+      taskRef:
+        resolver: git
+        params:
+          - name: repo
+            value: P-tekton-catalog-org
+          - name: pathInRepo
+            value: task/scm/gh-script/gh-script.yaml
+
+      params:
+        - name: BASE_IMAGE
+          value: "$(params.no-direct-commit.base-image)"
+        - name: GIT_USER_NAME
+          value: "$(params.no-direct-commit.git-user-name)"
+        - name: GIT_USER_EMAIL
+          value: "$(params.no-direct-commit.git-user-email)"
+        - name: GIT_SCRIPT
+          value: "$(params.no-direct-commit.git-script)"
+        - name: USER_HOME
+          value: "$(params.no-direct-commit.user-home)"
+        - name: VERBOSE
+          value: "$(params.no-direct-commit.verbose)"
+        - name: E_SCRIPT_ARGUMENTS
+          value: ["$(params.no-direct-commit-script-arguments)"]
+        - name: E_ADDITIONAL_SECRET_KEY
+          value: "$(params.no-direct-commit.additional-secret-key)"
+
+      workspaces:
+        # - name: source
+        #   workspace: shared-workspace
+        #   subPath: "source-code/"
+        - name: e-additional-secret
+          workspace: gh-auth
+          # subPath: "additional-secrets/"

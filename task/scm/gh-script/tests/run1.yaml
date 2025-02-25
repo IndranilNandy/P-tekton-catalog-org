@@ -1,14 +1,14 @@
 apiVersion: tekton.dev/v1
-kind: PipelineRun
+kind: TaskRun
 metadata:
   generateName: gh-script-r-
 spec:
 
-  taskRunTemplate:
-    serviceAccountName: test-service-account
-    podTemplate:
-      securityContext:
-        fsGroup: 65532
+  # taskRunTemplate:
+  serviceAccountName: test-service-account
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
 
   params:
     # For no-direct-commit
@@ -54,16 +54,17 @@ spec:
     #     secretName: git-creds-ssh-secret-3
 
   workspaces:
-    - name: gh-auth
+    - name: shared-workspace
       secret:
         secretName: gh-indranilnandy-demo-app-to-test-pipeline-gh-auth-classic-pat
       # subPath: br-protections/
 
-  pipelineRef:
-    name: test-catalog-task-gh-script
-    # resolver: git
-    # params:
-    #   - name: repo
-    #     value: P-tekton-catalog-org
-    #   - name: pathInRepo
-    #     value: pip/branch-protections.yaml
+  # pipelineRef:
+  taskRef:
+    resolver: git
+    params:
+      - name: repo
+        value: P-tekton-catalog-org
+      - name: pathInRepo
+        value: task/scm/gh-script/gh-script.yaml
+        # value: task/scm/git-cli/git-cli.yaml

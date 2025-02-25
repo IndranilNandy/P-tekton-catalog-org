@@ -173,7 +173,7 @@ spec:
         done
         echo -e
 
-        eval '$(params.GIT_SCRIPT)'
+        eval $(params.GIT_SCRIPT)
 
         # RESULT_SHA="$(git rev-parse HEAD | tr -d '\n')"
         EXIT_CODE="$?"
