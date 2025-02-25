@@ -51,35 +51,35 @@ spec:
           response="pending"
           retry=1
           gh
-          # while [[ "$response" != "success" ]]; do
-          #     echo -e "Querying GitHub repo $owner/$repo for the following commit status @ $sha"
-          #     echo -e "\tcontext=$context"
-          #     echo -e "\tdescription=$description"
-          #     echo -e "\tstatus=$targetStatus"
+          while [[ "$response" != "success" ]]; do
+              echo -e "Querying GitHub repo $owner/$repo for the following commit status @ $sha"
+              echo -e "\tcontext=$context"
+              echo -e "\tdescription=$description"
+              echo -e "\tstatus=$targetStatus"
 
-          #     response=$(gh api \
-          #         -H "Accept: application/vnd.github+json" \
-          #         -H "X-GitHub-Api-Version: 2022-11-28" \
-          #         /repos/"$owner"/"$repo"/commits/"$sha"/statuses |
-          #         _context="$context" _description="$description" \
-          #             yq '(.[] | select (.context == strenv(_context) and .description == strenv(_description)))' |
-          #         jq .state | yq | head -n1)
+              response=$(gh api \
+                  -H "Accept: application/vnd.github+json" \
+                  -H "X-GitHub-Api-Version: 2022-11-28" \
+                  /repos/"$owner"/"$repo"/commits/"$sha"/statuses |
+                  _context="$context" _description="$description" \
+                      yq '(.[] | select (.context == strenv(_context) and .description == strenv(_description)))' |
+                  jq .state | yq | head -n1)
 
-          #     [[ "$response" == "$targetStatus" ]] && exit 0
-          #     [[ "$response" == "failure" ]] && exit 1
-          #     [[ "$retry" -gt "$threshold" ]] && break
+              [[ "$response" == "$targetStatus" ]] && exit 0
+              [[ "$response" == "failure" ]] && exit 1
+              [[ "$retry" -gt "$threshold" ]] && break
 
-          #     echo -e "Will retry after 30s"
-          #     sleep 5
+              echo -e "Will retry after 30s"
+              sleep 5
 
-          #     echo -e
-          #     echo -e "Retry no. $retry"
-          #     retry=$((retry + 1))
-          # done
+              echo -e
+              echo -e "Retry no. $retry"
+              retry=$((retry + 1))
+          done
 
-          # echo -e
-          # echo -e "Timed out. Exiting with status code 1"
-          # exit 1
+          echo -e
+          echo -e "Timed out. Exiting with status code 1"
+          exit 1
         user-home: "/root"
         verbose: "true"
         additional-secret-key: "tokenKey"
