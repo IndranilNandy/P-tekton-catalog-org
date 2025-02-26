@@ -48,7 +48,7 @@ spec:
         to use ssh-directory over basic-auth whenever possible and to bind a
         Secret to this Workspace over other volume types.
 
-    - name: e-additional-secret
+    - name: additional-secret
       optional: true
       description: |
         A Workspace containing additional secrets if needed (e.g. gh authentication etc).
@@ -76,8 +76,8 @@ spec:
     - name: GIT_SCRIPT
       description: |
         The git script to run.
-        Ensure that the arguments to the scripts are passed using E_SCRIPT_ARGUMENTS
-        REMEMBER that any argument not passed using E_SCRIPT_ARGUMENTS should NOT be used in GIT_SCRIPT
+        Ensure that the arguments to the scripts are passed using SCRIPT_NAMED_ARGUMENTS
+        REMEMBER that any argument not passed using SCRIPT_NAMED_ARGUMENTS should NOT be used in GIT_SCRIPT
       type: string
       default: |
         gh help
@@ -94,22 +94,46 @@ spec:
       type: string
       default: "true"
 
-    - name: E_SCRIPT_ARGUMENTS
+    - name: SCRIPT_NAMED_ARGUMENTS
       description: |
         List of String variable names and corresponding values to be passed to GIT_SCRIPT
         Format: varname1=value1 varname2=value2 ...
+        Usage: You should refer to the variables names in your script to use.
       type: array
-      # default:
 
-    - name: E_ADDITIONAL_SECRET_KEY
+    - name: SCRIPT_POSITIONAL_ARGUMENTS
       description: |
-        Key for the additional secret
+        List of values in positional arguments to be passed to GIT_SCRIPT
+        Format: value1 value2 ...
+        Usage: You should declare local variables in your script, assigned to passed values, e.g. var1="${1}"
+      type: array
+
+    - name: GH_TOKEN_SECRET_NAME
+      description: |
+        The name of the kubernetes secret that contains the GH auth token for cli, default: github
+      type: string
+      default: github
+
+    - name: GH_TOKEN_SECRET_KEY
+      description: |
+        The key within the kubernetes secret that contains the GH auth token for cli, default: tokenKey
+      type: string
+      default: tokenKey
+
+    - name: ADDITIONAL_SECRET_KEY
+      description: |
+        Key for the additional secret. No need to pass if you're not using additional-secret workspace.
       type: string
       default: "tokenKey"
 
   # results:
   #   - name: commit
   #     description: The precise commit SHA after the git operation.
+
+  volumes:
+  - name: ghauthtoken
+    secret:
+      secretName: $(params.GH_TOKEN_SECRET_NAME)
 
   steps:
     - name: execute-script
@@ -131,13 +155,13 @@ spec:
       - name: WORKSPACE_BASIC_AUTH_DIRECTORY_PATH
         value: $(workspaces.basic-auth.path)
       - name: WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_BOUND
-        value: $(workspaces.e-additional-secret.bound)
+        value: $(workspaces.additional-secret.bound)
       - name: WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_PATH
-        value: $(workspaces.e-additional-secret.path)
+        value: $(workspaces.additional-secret.path)
       - name: ADDITIONAL_SECRET_KEY
-        value: $(params.E_ADDITIONAL_SECRET_KEY)
+        value: $(params.ADDITIONAL_SECRET_KEY)
       args:
-        - "$(params.E_SCRIPT_ARGUMENTS)"
+        - "$(params.SCRIPT_NAMED_ARGUMENTS)"
       script: |
         #!/usr/bin/env bash
         set -eu
@@ -165,10 +189,13 @@ spec:
 
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-        # GITHUB_TOKEN is used for 'gh' apis
+        # You may use the additional secrets using ADDITIONAL_TOKEN env variable
         if [ "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_BOUND}" = "true" ]; then
-              export GITHUB_TOKEN=$(cat "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_PATH}/${ADDITIONAL_SECRET_KEY}" | tr -d '\n')
+              export ADDITIONAL_TOKEN=$(cat "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_PATH}/${ADDITIONAL_SECRET_KEY}" | tr -d '\n')
         fi
+
+        # GITHUB_TOKEN is used for 'gh' apis
+        export GITHUB_TOKEN=$(cat /etc/gh-auth/${GH_TOKEN_SECRET_KEY}" | tr -d '\n')
 
         echo -e "Script parameters:"
         # for i in "$@"; do echo $i ; done
@@ -190,3 +217,7 @@ spec:
           exit $EXIT_CODE
         fi
         # Make sure we don't add a trailing newline to the result!
+      volumeMounts:
+        - name: ghauthtoken
+          readOnly: true
+          mountPath: /etc/gh-auth

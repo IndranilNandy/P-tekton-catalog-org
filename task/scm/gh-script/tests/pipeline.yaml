@@ -21,6 +21,10 @@ spec:
           type: string
         verbose:
           type: string
+        gh-token-secret-name:
+          type: string
+        gh-token-secret-key:
+          type: string
         additional-secret-key:
           type: string
       default:
@@ -47,7 +51,7 @@ spec:
           # sha="acd3bdf8b07b792652cbdf1739b9e1739caabace"
           # timeoutInMin=2
 
-          sleeptime=5
+          sleeptime=7
           threshold=$((timeoutInMin * 60 / sleeptime))
           echo -e "threshold=$threshold"
           # threshold=$((timeoutInMin * 2))
@@ -72,7 +76,7 @@ spec:
               [[ "$response" == "failure" ]] && exit 1
               [[ "$retry" -gt "$threshold" ]] && break
 
-              echo -e "Will retry after $sleeptime sec"
+              echo -e "Status ($targetStatus) match NOT found. Will retry after $sleeptime sec"
               sleep "$sleeptime"
 
               echo -e
@@ -85,6 +89,7 @@ spec:
           exit 1
         user-home: "/root"
         verbose: "true"
+        gh-token-secret-key: "tokenKey"
         additional-secret-key: "tokenKey"
     - name: no-direct-commit-script-vars
       type: object
@@ -132,8 +137,8 @@ spec:
       default:
         no-direct-commit-disabled: "false"
 
-  workspaces:
-    - name: gh-auth
+  # workspaces:
+  #   - name: gh-auth
 
   tasks:
     # Only through PRs
@@ -164,15 +169,15 @@ spec:
           value: "$(params.no-direct-commit.user-home)"
         - name: VERBOSE
           value: "$(params.no-direct-commit.verbose)"
-        - name: E_SCRIPT_ARGUMENTS
+        - name: SCRIPT_NAMED_ARGUMENTS
           value: ["$(params.no-direct-commit-script-arguments)"]
-        - name: E_ADDITIONAL_SECRET_KEY
-          value: "$(params.no-direct-commit.additional-secret-key)"
+        - name: GH_TOKEN_SECRET_NAME
+          value: "$(params.no-direct-commit.gh-token-secret-name)"
+        - name: GH_TOKEN_SECRET_KEY
+          value: "$(params.no-direct-commit.gh-token-secret-key)"
+        # - name: ADDITIONAL_SECRET_KEY
+        #   value: "$(params.no-direct-commit.additional-secret-key)"
 
-      workspaces:
-        # - name: source
-        #   workspace: shared-workspace
-        #   subPath: "source-code/"
-        - name: e-additional-secret
-          workspace: gh-auth
-          # subPath: "additional-secrets/"
+      # workspaces:
+      #   - name: e-additional-secret
+      #     workspace: gh-auth
