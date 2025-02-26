@@ -160,6 +160,8 @@ spec:
         value: $(workspaces.additional-secret.bound)
       - name: WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_PATH
         value: $(workspaces.additional-secret.path)
+      - name: GH_TOKEN_SECRET_KEY
+        value: $(params.GH_TOKEN_SECRET_KEY)
       - name: ADDITIONAL_SECRET_KEY
         value: $(params.ADDITIONAL_SECRET_KEY)
       args:
