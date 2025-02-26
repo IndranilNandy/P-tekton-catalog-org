@@ -166,6 +166,11 @@ spec:
 
         eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
+        # GITHUB_TOKEN is used for 'gh' apis
+        if [ "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_BOUND}" = "true" ]; then
+              export GITHUB_TOKEN=$(cat "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_PATH}/${ADDITIONAL_SECRET_KEY}" | tr -d '\n')
+        fi
+
         echo -e "Script parameters:"
         # for i in "$@"; do echo $i ; done
         for x in "$@"; do

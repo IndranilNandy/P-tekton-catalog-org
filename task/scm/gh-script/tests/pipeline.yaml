@@ -30,11 +30,11 @@ spec:
         git-script: |
           #!/usr/bin/env bash
 
-          if [ "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_BOUND}" = "true" ]; then
-              export GITHUB_TOKEN=$(cat "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_PATH}/${ADDITIONAL_SECRET_KEY}" | tr -d '\n')
-          fi
+          # if [ "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_BOUND}" = "true" ]; then
+          #     export GITHUB_TOKEN=$(cat "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_PATH}/${ADDITIONAL_SECRET_KEY}" | tr -d '\n')
+          # fi
 
-          echo -e github_token="$GITHUB_TOKEN"
+          # echo -e github_token="$GITHUB_TOKEN"
 
           # # context="slfb/master"
           # context="ci/pr-merged/master"
