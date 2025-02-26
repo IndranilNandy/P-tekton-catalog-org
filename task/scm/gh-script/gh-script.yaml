@@ -165,10 +165,11 @@ spec:
         git config --global user.name "$(params.GIT_USER_NAME)"
 
         echo -e "Script parameters:"
-        for x in $@; do
+        # for i in "$@"; do echo $i ; done
+        for x in "$@"; do
             echo -e "\t$x"
-            eval $x || {
-                echo -e $x: Invalid command
+            eval "$x" || {
+                echo -e "$x": Invalid command
                 exit 1
             }
         done
