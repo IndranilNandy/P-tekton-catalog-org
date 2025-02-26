@@ -15,7 +15,8 @@ spec:
     # For no-direct-commit
     - name: no-direct-commit
       value:
-        base-image: indranilnandy/testgh:v1
+        base-image: indranilnandy/alpine-git-gh-yq-jq:v1
+        # base-image: indranilnandy/testgh:v1
         git-user-name: ""
         git-user-email: ""
         user-home: "/root"
@@ -31,7 +32,7 @@ spec:
         sha: "acd3bdf8b07b792652cbdf1739b9e1739caabace"
         context: "ci/pr-merged/master"
         # description: "abcd"
-        description: "\"[Pipelines: PR-merged] Build status: success1\""
+        description: "\"[Pipelines: PR-merged] Build status: success\""
         status: "success"
         timeout: "2"
 
