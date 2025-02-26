@@ -28,7 +28,7 @@ spec:
         git-user-name: ""
         git-user-email: ""
         git-script: |
-          #!/usr/bin/env bash
+          # !/usr/bin/env bash
 
           # if [ "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_BOUND}" = "true" ]; then
           #     export GITHUB_TOKEN=$(cat "${WORKSPACE_ADDITIONAL_SECRET_DIRECTORY_PATH}/${ADDITIONAL_SECRET_KEY}" | tr -d '\n')
@@ -65,7 +65,7 @@ spec:
                       yq '(.[] | select (.context == strenv(_context) and .description == strenv(_description)))' |
                   jq .state | yq | head -n1)
 
-              [[ "$response" == "$targetStatus" ]] && exit 0
+              [[ "$response" == "$targetStatus" ]] && echo -e "Status ($targetStatus) match found." && exit 0
               [[ "$response" == "failure" ]] && exit 1
               [[ "$retry" -gt "$threshold" ]] && break
 
