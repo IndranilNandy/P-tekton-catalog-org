@@ -100,6 +100,7 @@ spec:
         Format: varname1=value1 varname2=value2 ...
         Usage: You should refer to the variables names in your script to use.
       type: array
+      default: []
 
     - name: SCRIPT_POSITIONAL_ARGUMENTS
       description: |
@@ -107,6 +108,7 @@ spec:
         Format: value1 value2 ...
         Usage: You should declare local variables in your script, assigned to passed values, e.g. var1="${1}"
       type: array
+      default: []
 
     - name: GH_TOKEN_SECRET_NAME
       description: |
