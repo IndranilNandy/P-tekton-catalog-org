@@ -28,7 +28,7 @@ spec:
         sha: "acd3bdf8b07b792652cbdf1739b9e1739caabace"
         context: "ci/pr-merged/master"
         # description: "abcd"
-        description: "\"[Pipelines: PR-merged] Build status: success\""
+        description: "\"[Pipelines: PR-merged] Build status: success1\""
         status: "success"
         timeout: "2"
 

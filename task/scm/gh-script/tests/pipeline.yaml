@@ -24,7 +24,7 @@ spec:
         additional-secret-key:
           type: string
       default:
-        base-image: maniator/gh
+        base-image: indranilnandy/testgh:v1
         git-user-name: ""
         git-user-email: ""
         git-script: |
@@ -47,7 +47,10 @@ spec:
           # sha="acd3bdf8b07b792652cbdf1739b9e1739caabace"
           # timeoutInMin=2
 
-          threshold=4
+          sleeptime=5
+          threshold=$((timeoutInMin * 60 / sleeptime))
+          echo -e "threshold=$threshold"
+          # threshold=$((timeoutInMin * 2))
           response="pending"
           retry=1
 
@@ -69,8 +72,8 @@ spec:
               [[ "$response" == "failure" ]] && exit 1
               [[ "$retry" -gt "$threshold" ]] && break
 
-              echo -e "Will retry after 30s"
-              sleep 5
+              echo -e "Will retry after $sleeptime sec"
+              sleep "$sleeptime"
 
               echo -e
               echo -e "Retry no. $retry"
