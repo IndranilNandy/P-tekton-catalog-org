@@ -58,8 +58,9 @@ spec:
         The base image for the task.
       type: string
       # TODO: Deprecate use of root image.
-      default: indranilnandy/testgh:v1
-      # default: cgr.dev/chainguard/git:root-2.39@sha256:7759f87050dd8bacabe61354d75ccd7f864d6b6f8ec42697db7159eccd491139
+      default: indranilnandy/alpine-git-gh-yq-jq:v1
+      # default: indranilnandy/debian-git-gh-yq-jq:v1
+      # default: indranilnandy/debian-git-gh-yq-jq-brew:v1
 
     - name: GIT_USER_NAME
       type: string

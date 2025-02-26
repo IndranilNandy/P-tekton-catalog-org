@@ -16,7 +16,8 @@ spec:
     - name: no-direct-commit
       value:
         base-image: indranilnandy/alpine-git-gh-yq-jq:v1
-        # base-image: indranilnandy/testgh:v1
+        # base-image: indranilnandy/debian-git-gh-yq-jq:v1
+        # base-image: indranilnandy/debian-git-gh-yq-jq-brew:v1
         git-user-name: ""
         git-user-email: ""
         user-home: "/root"

@@ -28,7 +28,7 @@ spec:
         additional-secret-key:
           type: string
       default:
-        base-image: indranilnandy/testgh:v1
+        base-image: indranilnandy/alpine-git-gh-yq-jq:v1
         git-user-name: ""
         git-user-email: ""
         git-script: |
