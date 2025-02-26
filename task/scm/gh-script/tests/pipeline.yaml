@@ -50,8 +50,7 @@ spec:
           threshold=4
           response="pending"
           retry=1
-          whoami
-          gh
+
           while [[ "$response" != "success" ]]; do
               echo -e "Querying GitHub repo $owner/$repo for the following commit status @ $sha"
               echo -e "\tcontext=$context"

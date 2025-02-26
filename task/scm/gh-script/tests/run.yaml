@@ -24,7 +24,8 @@ spec:
       value:
         owner: "indranilnandy"
         repo: "demo-app-to-test-pipeline"
-        sha: "63a8800266a152b5ceb900eddf75d709ead169cf"
+        # sha: "63a8800266a152b5ceb900eddf75d709ead169cf"
+        sha: "acd3bdf8b07b792652cbdf1739b9e1739caabace"
         context: "ci/pr-merged/master"
         # description: "abcd"
         description: "\"[Pipelines: PR-merged] Build status: success\""
