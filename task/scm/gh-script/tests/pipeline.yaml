@@ -36,16 +36,16 @@ spec:
 
           echo -e github_token="$GITHUB_TOKEN"
 
-          # # context="slfb/master"
-          # context="ci/pr-merged/master"
-          # # description="[Pipelines: Build] Build status: success"
-          # description="[Pipelines: PR-merged] Build status: success1"
-          # targetStatus="success"
-          # # sha="63a8800266a152b5ceb900eddf75d709ead169cf"
-          # owner="indranilnandy"
-          # repo="demo-app-to-test-pipeline"
-          # sha="acd3bdf8b07b792652cbdf1739b9e1739caabace"
-          # timeoutInMin=2
+          # context="slfb/master"
+          context="ci/pr-merged/master"
+          # description="[Pipelines: Build] Build status: success"
+          description="[Pipelines: PR-merged] Build status: success1"
+          targetStatus="success"
+          # sha="63a8800266a152b5ceb900eddf75d709ead169cf"
+          owner="indranilnandy"
+          repo="demo-app-to-test-pipeline"
+          sha="acd3bdf8b07b792652cbdf1739b9e1739caabace"
+          timeoutInMin=2
 
           threshold=4
           response="pending"

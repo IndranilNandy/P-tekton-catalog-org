@@ -14,7 +14,7 @@ spec:
     # For no-direct-commit
     - name: no-direct-commit
       value:
-        base-image: maniator/gh
+        base-image: indranilnandy/testgh:v1
         git-user-name: ""
         git-user-email: ""
         user-home: "/root"
