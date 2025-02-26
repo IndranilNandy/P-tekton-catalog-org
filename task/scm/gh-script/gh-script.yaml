@@ -198,6 +198,8 @@ spec:
 
         # GITHUB_TOKEN is used for 'gh' apis
         export GITHUB_TOKEN=$(cat /etc/gh-auth/"${GH_TOKEN_SECRET_KEY}" | tr -d '\n')
+        echo -e GH_TOKEN_SECRET_KEY="${GH_TOKEN_SECRET_KEY}"
+        echo -e GITHUB_TOKEN="${GITHUB_TOKEN}"
 
         echo -e "Script parameters:"
         # for i in "$@"; do echo $i ; done
