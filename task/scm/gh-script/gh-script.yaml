@@ -164,6 +164,8 @@ spec:
         git config --global user.email "$(params.GIT_USER_EMAIL)"
         git config --global user.name "$(params.GIT_USER_NAME)"
 
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
         echo -e "Script parameters:"
         # for i in "$@"; do echo $i ; done
         for x in "$@"; do
