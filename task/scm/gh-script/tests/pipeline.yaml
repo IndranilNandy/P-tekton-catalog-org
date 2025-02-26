@@ -38,8 +38,8 @@ spec:
 
           # context="slfb/master"
           context="ci/pr-merged/master"
-          # description="[Pipelines: Build] Build status: success"
-          description="[Pipelines: PR-merged] Build status: success1"
+          description="[Pipelines: Build] Build status: success"
+          # description="[Pipelines: PR-merged] Build status: success1"
           targetStatus="success"
           # sha="63a8800266a152b5ceb900eddf75d709ead169cf"
           owner="indranilnandy"
